@@ -1,0 +1,12 @@
+{
+  "name": "xdg-claude",
+  "owner": {
+    "name": "David Golden",
+    "email": "xdg@xdg.me"
+  },
+  "metadata": {
+    "description": "Community marketplace for Claude Code plugins",
+    "version": "0.1.0"
+  },
+  "plugins": []
+}
