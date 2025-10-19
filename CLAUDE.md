@@ -289,15 +289,29 @@ mkdir -p skills/scripts skills/references skills/assets
 Create `hooks/hooks.json`:
 ```json
 {
-  "PreToolUse": {
-    "matcher": "Edit|Write",
-    "type": "command",
-    "command": "python -c \"import sys; paths = sys.argv[1].split(','); sys.exit(2 if any('.env' in p or 'package-lock.json' in p for p in paths) else 0)\" \"$PATHS\""
-  },
-  "PostToolUse": {
-    "matcher": "Edit|Write",
-    "type": "command",
-    "command": "prettier --write \"$PATHS\""
+  "hooks": {
+    "PreToolUse": [
+      {
+        "hooks": [
+          {
+            "matcher": "Edit|Write",
+            "type": "command",
+            "command": "python -c \"import sys; paths = sys.argv[1].split(','); sys.exit(2 if any('.env' in p or 'package-lock.json' in p for p in paths) else 0)\" \"$PATHS\""
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "hooks": [
+          {
+            "matcher": "Edit|Write",
+            "type": "command",
+            "command": "prettier --write \"$PATHS\""
+          }
+        ]
+      }
+    ]
   }
 }
 ```
@@ -323,9 +337,17 @@ hooks/
 **hooks/hooks.json:**
 ```json
 {
-  "SessionStart": {
-    "type": "command",
-    "command": "./hooks/session-start.sh"
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "${CLAUDE_PLUGIN_ROOT}/hooks/session-start.sh"
+          }
+        ]
+      }
+    ]
   }
 }
 ```
@@ -502,15 +524,29 @@ Perform security analysis on code and configurations.
 **hooks/hooks.json:**
 ```json
 {
-  "PreToolUse": {
-    "matcher": "Edit|MultiEdit|Write",
-    "type": "command",
-    "command": "if echo \"$PATHS\" | grep -qE '\\.(env|lock)$'; then echo 'Blocked: Cannot modify protected files' >&2; exit 2; fi"
-  },
-  "PostToolUse": {
-    "matcher": "Edit|Write",
-    "type": "command",
-    "command": "if echo \"$PATHS\" | grep -q '\\.ts$'; then prettier --write \"$PATHS\" && eslint --fix \"$PATHS\"; fi"
+  "hooks": {
+    "PreToolUse": [
+      {
+        "hooks": [
+          {
+            "matcher": "Edit|MultiEdit|Write",
+            "type": "command",
+            "command": "if echo \"$PATHS\" | grep -qE '\\.(env|lock)$'; then echo 'Blocked: Cannot modify protected files' >&2; exit 2; fi"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "hooks": [
+          {
+            "matcher": "Edit|Write",
+            "type": "command",
+            "command": "if echo \"$PATHS\" | grep -q '\\.ts$'; then prettier --write \"$PATHS\" && eslint --fix \"$PATHS\"; fi"
+          }
+        ]
+      }
+    ]
   }
 }
 ```
