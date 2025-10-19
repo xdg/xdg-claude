@@ -10,6 +10,14 @@
   },
   "plugins": [
     {
+      "name": "coding-best-practices",
+      "source": "./coding-best-practices",
+      "description": "Injects coding best practices from Philosophy of Software Design, The Art of Readable Code, and other tips at session start",
+      "version": "0.1.0",
+      "category": "development",
+      "tags": ["coding", "best-practices", "software-design", "readability"]
+    },
+    {
       "name": "context-efficient-tools",
       "source": "./context-efficient-tools",
       "description": "CLI tools that minimize context usage through targeted extraction instead of reading entire files",

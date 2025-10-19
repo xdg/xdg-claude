@@ -1,0 +1,12 @@
+{
+  "name": "coding-best-practices",
+  "version": "0.1.0",
+  "description": "Injects coding best practices from Philosophy of Software Design and The Art of Readable Code at session start",
+  "author": {
+    "name": "David Golden",
+    "email": "xdg@xdg.me"
+  },
+  "hooks": [
+    "./hooks/hooks.json"
+  ]
+}
