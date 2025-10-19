@@ -36,9 +36,10 @@ Claude Code plugins are custom collections of commands, agents, skills, hooks, a
 - Best for: Domain expertise, complex workflows, specialized knowledge
 
 **Hooks** - Event handlers that run shell commands at lifecycle points
-- Defined in `hooks/hooks.json` files
+- Defined in `hooks/hooks.json` files with optional `hooks/references/` for content
 - Can validate, block, or enhance tool usage
-- Best for: Automation, validation, code formatting
+- SessionStart hooks can inject context from reference files
+- Best for: Automation, validation, code formatting, injecting session context
 
 **MCP Servers** - Model Context Protocol integrations
 - Defined in `.mcp.json` file
@@ -62,7 +63,9 @@ plugin-name/
 │   ├── references/         # Documentation loaded as needed
 │   └── assets/             # Files used in output
 ├── hooks/                   # Hook configurations
-│   └── hooks.json
+│   ├── hooks.json
+│   ├── session-start.sh    # Hook scripts
+│   └── references/         # Content files for hooks to load
 └── .mcp.json               # MCP server definitions
 ```
 
@@ -303,6 +306,51 @@ Create `hooks/hooks.json`:
 - `0` = Success, allow operation
 - `2` = Block operation (PreToolUse only, message via stderr)
 - Other non-zero = Non-blocking error shown to user
+
+### SessionStart Hooks with References
+
+SessionStart hooks can inject content into Claude's context at the start of every session. Use `hooks/references/` to store content files that the hook script reads and injects.
+
+**Example structure:**
+```
+hooks/
+├── hooks.json
+├── session-start.sh
+└── references/
+    └── content.md
+```
+
+**hooks/hooks.json:**
+```json
+{
+  "SessionStart": {
+    "type": "command",
+    "command": "./hooks/session-start.sh"
+  }
+}
+```
+
+**hooks/session-start.sh:**
+```bash
+#!/usr/bin/env bash
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+CONTENT=$(cat "$SCRIPT_DIR/references/content.md")
+
+cat <<EOF
+{
+  "hookSpecificOutput": {
+    "hookEventName": "SessionStart",
+    "additionalContext": $(jq -Rs . <<< "$CONTENT")
+  }
+}
+EOF
+```
+
+This pattern allows you to:
+- Keep reference content separate from hook logic
+- Share common structure with skills (both use `references/`)
+- Inject documentation, style guides, or policies at session start
+- Avoid embedding large content in CLAUDE.md files
 
 ---
 
