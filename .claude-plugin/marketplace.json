@@ -8,5 +8,22 @@
     "description": "Community marketplace for Claude Code plugins",
     "version": "0.1.0"
   },
-  "plugins": []
+  "plugins": [
+    {
+      "name": "context-efficient-tools",
+      "source": "./context-efficient-tools",
+      "description": "CLI tools that minimize context usage through targeted extraction instead of reading entire files",
+      "version": "0.1.0",
+      "category": "development",
+      "tags": ["productivity", "context-efficiency", "search", "extraction"]
+    },
+    {
+      "name": "elements-of-style",
+      "source": "./elements-of-style",
+      "description": "Injects writing style guidance from The Elements of Style at session start",
+      "version": "0.1.0",
+      "category": "writing",
+      "tags": ["writing", "style", "documentation"]
+    }
+  ]
 }
