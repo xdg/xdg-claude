@@ -1,0 +1,9 @@
+{
+  "name": "context-efficient-tools",
+  "version": "0.1.0",
+  "description": "CLI tools that minimize context usage through targeted extraction instead of reading entire files",
+  "author": {
+    "name": "David Golden",
+    "email": "xdg@xdg.me"
+  }
+}
