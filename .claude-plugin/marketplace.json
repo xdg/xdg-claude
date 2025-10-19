@@ -24,6 +24,14 @@
       "version": "0.1.0",
       "category": "writing",
       "tags": ["writing", "style", "documentation"]
+    },
+    {
+      "name": "pithy-communication",
+      "source": "./pithy-communication",
+      "description": "Injects pithy, detailed communication style guidance at session start for high signal-to-noise ratio",
+      "version": "0.1.0",
+      "category": "communication",
+      "tags": ["communication", "style", "productivity"]
     }
   ]
 }

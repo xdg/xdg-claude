@@ -333,8 +333,8 @@ hooks/
 **hooks/session-start.sh:**
 ```bash
 #!/usr/bin/env bash
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-CONTENT=$(cat "$SCRIPT_DIR/references/content.md")
+# Use CLAUDE_PLUGIN_ROOT for correct paths regardless of installation location
+CONTENT=$(cat "${CLAUDE_PLUGIN_ROOT}/hooks/references/content.md")
 
 cat <<EOF
 {
@@ -346,11 +346,15 @@ cat <<EOF
 EOF
 ```
 
+**Environment variables available in hooks:**
+- `${CLAUDE_PLUGIN_ROOT}` - Absolute path to your plugin directory (use for all file paths)
+
 This pattern allows you to:
 - Keep reference content separate from hook logic
 - Share common structure with skills (both use `references/`)
 - Inject documentation, style guides, or policies at session start
 - Avoid embedding large content in CLAUDE.md files
+- Use portable paths via `${CLAUDE_PLUGIN_ROOT}`
 
 ---
 

@@ -1,9 +1,8 @@
 #!/usr/bin/env bash
 # SessionStart hook to inject Elements of Style writing guidance
 
-# Read the writing style content from hooks/references/
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-CONTENT_FILE="$SCRIPT_DIR/references/writing-style.md"
+# Use CLAUDE_PLUGIN_ROOT for correct paths regardless of installation location
+CONTENT_FILE="${CLAUDE_PLUGIN_ROOT}/hooks/references/writing-style.md"
 
 # Read the content
 if [[ ! -f "$CONTENT_FILE" ]]; then
