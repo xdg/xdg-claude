@@ -466,7 +466,7 @@ Perform security analysis on code and configurations.
 # Resources
 
 - **Official Docs:** https://docs.claude.com/en/docs/claude-code/plugins
-- **Skills Engineering:** https://www.anthropic.com/engineering/equipping-agents-for-the-real-world-with-agent-skills
+- **Skills**: https://docs.claude.com/en/docs/claude-code/skills
 - **Plugin Announcement:** https://www.anthropic.com/news/claude-code-plugins
 - **Marketplace Guide:** https://docs.claude.com/en/docs/claude-code/plugin-marketplaces
 - **Example Plugins:** https://github.com/anthropics/claude-code
