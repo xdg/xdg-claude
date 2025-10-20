@@ -1,0 +1,12 @@
+{
+  "name": "memento",
+  "version": "1.0.0",
+  "description": "Metacognitive compensation tool to address context rot",
+  "author": {
+    "name": "David",
+    "email": "xdg"
+  },
+  "hooks": [
+    "./hooks/hooks.json"
+  ]
+}
