@@ -36,6 +36,7 @@ Give Claude new [skills](https://docs.claude.com/en/docs/claude-code/skills).
 | Plugin | Description |
 |--------|-------------|
 | **context-efficient-tools** | CLI tools that minimize context usage through targeted extraction instead of reading entire files (ripgrep, ast-grep, jq, yq) |
+| **jira-cli** | Command-line Jira management skill using jira-cli with efficient querying and issue workflows |
 
 ## License
 

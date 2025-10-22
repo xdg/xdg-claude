@@ -34,6 +34,14 @@
       "tags": ["writing", "style", "documentation"]
     },
     {
+      "name": "jira-cli",
+      "source": "./jira-cli",
+      "description": "Command-line Jira management skill using jira-cli with efficient querying and issue workflows",
+      "version": "0.1.0",
+      "category": "development",
+      "tags": ["jira", "project-management", "cli", "productivity"]
+    },
+    {
       "name": "pithy-communication",
       "source": "./pithy-communication",
       "description": "Injects pithy, detailed communication style guidance at session start for high signal-to-noise ratio",
