@@ -1,6 +1,6 @@
 {
   "name": "jira-cli",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Command-line Jira management skill using jira-cli with efficient querying and issue workflows",
   "author": {
     "name": "David Golden",

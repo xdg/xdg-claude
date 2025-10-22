@@ -514,8 +514,8 @@ Perform security analysis on code and configurations.
 
 ## Process
 1. Run automated scan: `python skills/scripts/scan.py`
-2. Reference OWASP Top 10 guidance in `references/owasp-top-10.md`
-3. Check crypto practices against `references/crypto-best-practices.md`
+2. Reference [OWASP Top 10 guidance](./references/owasp-top-10.md)
+3. Check [crypto best practices](./references/crypto-best-practices.md)
 4. Document findings with severity ratings
 ```
 

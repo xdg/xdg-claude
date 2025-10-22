@@ -48,7 +48,7 @@ Extract exactly what is needed in one command - massive context savings compared
 
 ## Detailed Reference
 
-For comprehensive jq patterns, syntax, and examples, see `references/jq-guide.md`:
+For comprehensive jq patterns, syntax, and examples, load [jq guide](./references/jq-guide.md):
 - Core patterns (80% of use cases)
 - Real-world workflows
 - Advanced patterns
