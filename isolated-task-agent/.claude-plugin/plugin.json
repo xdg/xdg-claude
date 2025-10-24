@@ -1,0 +1,15 @@
+{
+  "name": "isolated-task-executor",
+  "version": "0.1.0",
+  "description": "Execute focused work in clean, isolated contexts without polluting the main conversation history. Ideal for exploratory analysis, parallel work streams, and context-heavy operations.",
+  "author": {
+    "name": "David Golden",
+    "email": "xdg@xdg.me"
+  },
+  "agents": [
+    "./agents/isolated-task-executor.md"
+  ],
+  "commands": [
+    "./commands/isolated.md"
+  ]
+}

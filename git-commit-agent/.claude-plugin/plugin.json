@@ -1,0 +1,15 @@
+{
+  "name": "git-commit",
+  "version": "0.1.0",
+  "description": "Enhanced Git commit workflow with intelligent change analysis and conventional commit message formatting",
+  "author": {
+    "name": "David Golden",
+    "email": "xdg@xdg.me"
+  },
+  "commands": [
+    "./commands/commit.md"
+  ],
+  "agents": [
+    "./agents/git-commit-agent.md"
+  ]
+}

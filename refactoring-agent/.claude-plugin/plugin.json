@@ -1,0 +1,15 @@
+{
+  "name": "surgical-refactoring",
+  "version": "0.1.0",
+  "description": "Surgical code refactoring agent for improving code quality without changing behavior",
+  "author": {
+    "name": "David Golden",
+    "email": "xdg@xdg.me"
+  },
+  "commands": [
+    "./commands/refactor.md"
+  ],
+  "agents": [
+    "./agents/surgical-refactoring.md"
+  ]
+}
