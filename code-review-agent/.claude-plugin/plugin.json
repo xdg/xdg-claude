@@ -1,7 +1,7 @@
 {
   "name": "code-review",
   "version": "0.1.0",
-  "description": "Expert code review agent for analyzing code quality, security, performance, and maintainability",
+  "description": "Code review agent for analyzing code quality, security, performance, and maintainability",
   "author": {
     "name": "David Golden",
     "email": "xdg@xdg.me"
@@ -10,6 +10,6 @@
     "./agents/code-review.md"
   ],
   "commands": [
-    "./commands/review-code.md"
+    "./commands/code-review.md"
   ]
 }

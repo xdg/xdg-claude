@@ -1,6 +1,6 @@
 ---
-name: code-review
-description: Use this agent when the user asks for code review or wants feedback on code quality, performance, security, or maintainability. Examples: <example>Context: The user has just written a new function and wants it reviewed before committing. user: 'I just wrote this authentication function, can you review it?' assistant: 'I'll use the code-reviewer agent to analyze your authentication function for best practices, security considerations, and code quality.' <commentary>Since the user is requesting code review, use the code-reviewer agent to provide expert analysis of the code.</commentary></example> <example>Context: The user has completed a feature implementation and wants a thorough review. user: 'I finished implementing the user registration flow. Here's the code...' assistant: 'Let me use the code-reviewer agent to conduct a comprehensive review of your user registration implementation.' <commentary>The user has completed code that needs expert review for best practices and potential issues.</commentary></example> <example>Context: The user requests a review of AI agent written code, such as dirty files in the repository assistant: "I'll use the code-reviewer agent to analyze uncommitted changes in the repository" <commentary>The user needs expert review of AI edited code before committing it to the repository</commentary></example>
+name: code-review-agent
+description: Use this agent when the user asks for code review or wants feedback on code quality, performance, security, or maintainability.
 tools: Task, Glob, Grep, LS, ExitPlanMode, Read, NotebookRead, WebFetch, TodoWrite, WebSearch, Bash
 color: red
 ---

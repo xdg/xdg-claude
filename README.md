@@ -29,6 +29,14 @@ Inject instructions at session start as if they were in your CLAUDE.md.
 | **elements-of-style** | Injects writing style guidance from *The Elements of Style* |
 | **pithy-communication** | Injects pithy communication style guidance for high signal-to-noise ratio output |
 
+### Agents
+
+Specialized sub-agents for focused tasks.
+
+| Plugin | Description |
+|--------|-------------|
+| **code-review** | Code review agent for analyzing code quality, security, performance, and maintainability |
+
 ### Skills
 
 Give Claude new [skills](https://docs.claude.com/en/docs/claude-code/skills).
