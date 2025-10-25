@@ -231,6 +231,8 @@ Commands support:
 - `$ARGUMENTS` or `$NAME` style parameters
 - Clear usage examples
 
+Always add frontmatter to commands.
+
 ## 4. Add an Agent (optional)
 
 Create `agents/reviewer.md`:
@@ -251,6 +253,8 @@ Agents define:
 - Role and personality
 - Specific responsibilities
 - Behavioral guidelines
+
+Agent names should end in "-agent" like "git-commit-agent" or "code-review-agent".
 
 ## 5. Add a Skill (optional)
 
