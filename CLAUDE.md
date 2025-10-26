@@ -237,22 +237,88 @@ Always add frontmatter to commands.
 
 Create `agents/reviewer.md`:
 ```markdown
-# Code Review Agent
+---
+name: code-review-agent
+description: Perform thorough code review checking for quality, bugs, and best practices
+tools: Read, Grep, Glob
+color: blue
+---
 
-You are a senior code reviewer. Your job is to:
+# Role
 
-1. Check for code quality issues
-2. Identify potential bugs
-3. Suggest improvements
-4. Verify best practices
+You are a senior code reviewer specializing in identifying code quality issues, potential bugs, and adherence to best practices. Your reviews are thorough, constructive, and specific.
 
-Always be constructive and specific in your feedback.
+# Primary Responsibilities
+
+**Code Quality Analysis:**
+- Check for readability and maintainability issues
+- Identify overly complex code that should be simplified
+- Verify consistent code style and formatting
+- Flag technical debt and suggest improvements
+
+**Bug Detection:**
+- Identify potential runtime errors
+- Check for edge cases and error handling
+- Verify proper null/undefined handling
+- Look for race conditions and concurrency issues
+
+**Best Practices Verification:**
+- Ensure proper separation of concerns
+- Check for security vulnerabilities
+- Verify appropriate use of language features
+- Validate test coverage for new code
+
+# Reporting Back
+
+Provide a structured review report:
+
+**Summary:** Brief overview (1-2 sentences) of overall code quality
+
+**Issues Found:** List only specific, actionable items with:
+- Severity (critical, major, minor)
+- File and line number reference
+- Brief explanation of the issue
+- Suggested fix when appropriate
+
+Do NOT include full code blocks or diffs in your report unless absolutely necessary. Keep feedback concise and actionable.
 ```
 
-Agents define:
-- Role and personality
-- Specific responsibilities
-- Behavioral guidelines
+### Agent Writing Guidelines
+
+**Structure:**
+- **Frontmatter**: Required metadata (name, description, tools, optional color)
+- **Role**: Establish expertise and purpose using second-person ("You are...")
+- **Responsibilities**: Detailed behavioral expectations (mix of second-person framing with imperative instructions)
+- **Reporting Back**: Specify return format, emphasizing brevity
+
+**Voice and Tone:**
+- Use **second-person** to establish role identity ("You are an expert...")
+- Use **second-person** for ongoing responsibilities ("Your job is to...")
+- Embed **imperatives** within that frame for specific actions ("Analyze X", "Check Y", "Verify Z")
+- This hybrid approach is more effective than pure imperative for establishing agent persona
+
+**Tool Permissions:**
+- Only include tools the agent actually needs
+- Common minimal set: `Bash, Read, Grep, Glob`
+- Avoid: `Task` (prevents subagent recursion), `WebFetch`, `WebSearch` (unless truly needed)
+- Avoid: `TodoWrite` (subagents shouldn't manage parent's todo list)
+
+**Output Specifications:**
+- Default to **brevity** - subagent output pollutes main agent's context
+- Return only: outcomes, decisions, actionable findings
+- Do NOT return: full content, detailed diffs, file lists (these are in git/filesystem)
+- Explicitly state what NOT to include and why
+- For multi-item results (e.g., multiple commits), specify format for each
+
+**When to Ask vs. Act:**
+- Include explicit section on when to request clarification rather than proceeding
+- List specific failure conditions (no data, ambiguous input, detected risks)
+- Guide subagent to explain situation and specify what's needed
+
+**Scope Interpretation:**
+- Provide clear guidance on how to interpret different types of instructions from main agent
+- Handle: specific requests, general requests, edge cases
+- Reduce ambiguity in execution
 
 Agent names should end in "-agent" like "git-commit-agent" or "code-review-agent".
 
@@ -422,6 +488,14 @@ Create `.claude-plugin/marketplace.json`:
 3. **Descriptive names** - Use clear, searchable plugin and command names
 4. **Semantic versioning** - Follow semver for version numbers
 5. **Minimal dependencies** - Keep plugins lightweight and focused
+
+## Agent Development
+
+1. **Minimal tool permissions** - Only grant tools the agent actually needs; avoid Task, WebFetch, WebSearch, TodoWrite unless essential
+2. **Brevity in output** - Specify return format that minimizes context pollution; return outcomes and decisions, not full content
+3. **Clear failure modes** - Include "When to Ask" section listing conditions that require clarification
+4. **Scope interpretation** - Provide guidance on how to interpret different instruction types from main agent
+5. **Hybrid voice** - Use second-person for role/responsibilities, embed imperatives for specific actions
 
 ## Skills Development
 
