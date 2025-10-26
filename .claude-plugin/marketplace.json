@@ -18,7 +18,7 @@
       "tags": ["coding", "best-practices", "software-design", "readability"]
     },
     {
-      "name": "code-review",
+      "name": "code-review-agent",
       "source": "./code-review-agent",
       "description": "Code review agent for analyzing code quality, security, performance, and maintainability",
       "version": "0.1.0",
