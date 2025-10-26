@@ -7,7 +7,7 @@
     "email": "xdg@xdg.me"
   },
   "agents": [
-    "./agents/code-review.md"
+    "./agents/code-review-agent.md"
   ],
   "commands": [
     "./commands/code-review.md"
