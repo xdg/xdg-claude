@@ -1,7 +1,7 @@
 ---
 name: code-review-agent
 description: Use this agent when the user asks for code review or wants feedback on code quality, performance, security, or maintainability.
-tools: Bash, Glob, Grep, Read
+tools: Bash, Glob, Grep, Read, AskUserQuestion, Skill, SlashCommand
 color: red
 ---
 

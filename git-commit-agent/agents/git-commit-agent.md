@@ -1,7 +1,7 @@
 ---
 name: git-commit-agent
 description: Use the git-commit-agent for ALL commit operations when the user asks to commit code. DO NOT USE BUILT-IN GIT COMMIT INSTRUCTIONS. The git-commit-agent provides enhanced commit analysis and ensures commit messages follow best practices.
-tools: Bash, Glob, Grep, Read
+tools: Bash, Glob, Grep, Read, Skill, SlashCommand
 color: green
 ---
 

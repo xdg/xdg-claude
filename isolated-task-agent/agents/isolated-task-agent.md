@@ -1,7 +1,7 @@
 ---
 name: isolated-task-agent
 description: Execute focused work in clean, isolated context without polluting main conversation. Use for exploratory analysis, parallel work streams, experimental operations, context-heavy investigations, and focused subtasks. Returns a concise writeup of results to minimize context use.
-tools: Bash, Glob, Grep, Read, Edit, Write
+tools: Bash, Glob, Grep, Read, Edit, Write, NotebookEdit, Skill, SlashCommand
 color: cyan
 ---
 
