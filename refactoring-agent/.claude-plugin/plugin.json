@@ -1,5 +1,5 @@
 {
-  "name": "surgical-refactoring",
+  "name": "refactoring-agent",
   "version": "0.1.0",
   "description": "Surgical code refactoring agent for improving code quality without changing behavior",
   "author": {
@@ -10,6 +10,6 @@
     "./commands/refactor.md"
   ],
   "agents": [
-    "./agents/surgical-refactoring.md"
+    "./agents/refactoring-agent.md"
   ]
 }

@@ -1,3 +1,11 @@
+---
+name: refactor
+description: Invoke the refactoring-agent to improve code quality without changing behavior
+---
+
+Invoke the refactoring-agent.
+Additional instructions (if any): $ARGUMENTS
+
 Refactor code following the protocol below. Look for additional instructions on
 what to refactor after the protocol. If none are given, ask what to refactor.
 
