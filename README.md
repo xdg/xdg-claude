@@ -36,6 +36,7 @@ Specialized sub-agents for focused tasks.
 | Plugin | Description |
 |--------|-------------|
 | **code-review** | Code review agent for analyzing code quality, security, performance, and maintainability |
+| **git-commit-agent** | Git commit agent with intelligent change analysis and commit message conventions |
 
 ### Skills
 

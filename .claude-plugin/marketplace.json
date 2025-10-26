@@ -42,6 +42,14 @@
       "tags": ["writing", "style", "documentation"]
     },
     {
+      "name": "git-commit-agent",
+      "source": "./git-commit-agent",
+      "description": "Git commit agent with intelligent change analysis and commit message conventions",
+      "version": "0.1.0",
+      "category": "development",
+      "tags": ["git", "commit", "agent", "version-control"]
+    },
+    {
       "name": "jira-cli",
       "source": "./jira-cli",
       "description": "Command-line Jira management skill using jira-cli with efficient querying and issue workflows",
