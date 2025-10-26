@@ -50,6 +50,14 @@
       "tags": ["git", "commit", "agent", "version-control"]
     },
     {
+      "name": "isolated-task-agent",
+      "source": "./isolated-task-agent",
+      "description": "Execute focused work in clean, isolated context without polluting main conversation",
+      "version": "0.1.0",
+      "category": "development",
+      "tags": ["agent", "productivity", "context-efficiency", "analysis"]
+    },
+    {
       "name": "jira-cli",
       "source": "./jira-cli",
       "description": "Command-line Jira management skill using jira-cli with efficient querying and issue workflows",

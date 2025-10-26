@@ -37,6 +37,7 @@ Specialized sub-agents for focused tasks.
 |--------|-------------|
 | **code-review** | Code review agent for analyzing code quality, security, performance, and maintainability |
 | **git-commit-agent** | Git commit agent with intelligent change analysis and commit message conventions |
+| **isolated-task-agent** | Execute focused work in clean, isolated context without polluting main conversation |
 
 ### Skills
 
