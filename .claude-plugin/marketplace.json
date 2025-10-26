@@ -72,6 +72,14 @@
       "version": "0.1.0",
       "category": "communication",
       "tags": ["communication", "style", "productivity"]
+    },
+    {
+      "name": "refactoring-agent",
+      "source": "./refactoring-agent",
+      "description": "Surgical code refactoring agents for analyzing and improving code quality without changing behavior",
+      "version": "0.1.0",
+      "category": "development",
+      "tags": ["refactoring", "code-quality", "agent", "analysis"]
     }
   ]
 }
