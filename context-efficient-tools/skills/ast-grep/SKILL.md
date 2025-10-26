@@ -30,7 +30,7 @@ ast-grep's primary value: **Solves the "old_string not unique" problem by matchi
 
 ## Detailed Reference
 
-For comprehensive patterns, syntax, metavariables, common use cases, language-specific tips, and best practices, load [ast-grep guide](./references/ast-grep-guide.md).
+For comprehensive patterns, syntax, metavariables, common use cases, language-specific tips, and best practices, load [ast-grep guide](./reference/ast-grep-guide.md).
 
 The reference includes:
 - Pattern syntax and metavariables (`$VAR`, `$$$ARGS`, `$$STMT`)

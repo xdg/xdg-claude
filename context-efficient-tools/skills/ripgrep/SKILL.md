@@ -33,7 +33,7 @@ Always prefer getting line numbers and surrounding context over multiple search 
 
 ## When to Load Detailed Reference
 
-Load [ripgrep guide](./references/ripgrep-guide.md) when needing:
+Load [ripgrep guide](./reference/ripgrep-guide.md) when needing:
 - One-shot search pattern templates
 - Effective flag combinations for complex searches
 - Pipe composition patterns

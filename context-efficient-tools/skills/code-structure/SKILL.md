@@ -58,7 +58,7 @@ These are STRUCTURE queries, not SEARCH queries.
 
 1. **ast-grep with known patterns** - Fast, targeted
    - Extract exports, functions, classes with specific patterns
-   - See [code structure guide](./references/code-structure-guide.md) for patterns
+   - See [code structure guide](./reference/code-structure-guide.md) for patterns
 
 2. **Toolchain-specific approaches** - When available
    - **Go:** `go doc -all <package>` for all methods/functions with signatures
@@ -66,7 +66,7 @@ These are STRUCTURE queries, not SEARCH queries.
      - Example: "method signatures" → `go doc -all ./internal/pkg`
    - **Python:** Language-specific indexers
    - **ctags/universal-ctags:** Symbol index across languages
-   - See [code structure guide](./references/code-structure-guide.md) for examples
+   - See [code structure guide](./reference/code-structure-guide.md) for examples
 
 3. **Read file** - Last resort for exploration
    - Sometimes necessary to understand structure
@@ -79,4 +79,4 @@ Don't read 1000-line files blind. Get an outline first, then read the 50 lines y
 
 ## Detailed Patterns
 
-For language-specific extraction patterns, ast-grep examples, ctags usage, and integration strategies, load [code structure guide](./references/code-structure-guide.md).
+For language-specific extraction patterns, ast-grep examples, ctags usage, and integration strategies, load [code structure guide](./reference/code-structure-guide.md).

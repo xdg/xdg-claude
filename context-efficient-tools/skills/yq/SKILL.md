@@ -43,7 +43,7 @@ yq '.services.*.ports' docker-compose.yml
 
 ## Detailed Reference
 
-For comprehensive yq patterns, syntax, and examples, load [yq guide](./references/yq-guide.md):
+For comprehensive yq patterns, syntax, and examples, load [yq guide](./reference/yq-guide.md):
 - Core patterns (80% of use cases)
 - Real-world workflows (Docker Compose, GitHub Actions, Kubernetes)
 - Advanced patterns and edge case handling

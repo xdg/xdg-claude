@@ -31,7 +31,8 @@ Claude Code plugins are custom collections of commands, agents, skills, hooks, a
 - Best for: Intelligent analysis requiring reasoning and adaptation
 
 **Skills** - Model-invoked expertise that Claude autonomously uses when relevant
-- Defined in `skills/SKILL.md` files with supporting resources
+- Defined in `skills/skill-name/SKILL.md` files with supporting resources
+- Each skill isolated in its own directory
 - Lazily loaded only when Claude determines they're needed
 - Best for: Domain expertise, complex workflows, specialized knowledge
 
@@ -58,10 +59,11 @@ plugin-name/
 ├── agents/                  # Specialized sub-agents
 │   └── helper.md
 ├── skills/                  # Model-invoked expertise
-│   ├── SKILL.md
-│   ├── scripts/            # Executable code
-│   ├── references/         # Documentation loaded as needed
-│   └── assets/             # Files used in output
+│   └── skill-name/         # Each skill in its own directory
+│       ├── SKILL.md
+│       ├── scripts/        # Executable code
+│       ├── reference/      # Documentation loaded as needed
+│       └── assets/         # Files used in output
 ├── hooks/                   # Hook configurations
 │   ├── hooks.json
 │   ├── session-start.sh    # Hook scripts
@@ -91,7 +93,7 @@ Skills transform Claude from general-purpose to specialized agent through **prog
 
 **Level 3: Bundled resources (loaded on-demand, unlimited)**
 - `scripts/` - Executed without reading into context
-- `references/` - Documentation loaded only when needed
+- `reference/` - Documentation loaded only when needed
 - `assets/` - Files used in output, never pollute context
 
 ## Skills vs Traditional Approaches
@@ -129,7 +131,7 @@ description: Complete description of what skill does and when to use it (third-p
 
 **Resource types:**
 - **scripts/** - Code rewritten repeatedly or requiring deterministic reliability
-- **references/** - Documentation Claude should reference while working (schemas, API docs, policies)
+- **reference/** - Documentation Claude should reference while working (schemas, API docs, policies)
 - **assets/** - Files used in final output, not loaded into context
 
 ### Writing Guidelines
@@ -359,7 +361,7 @@ Agent names should end in "-agent" like "git-commit-agent" or "code-review-agent
 
 ## 5. Add a Skill (optional)
 
-Create `skills/SKILL.md`:
+Create `skills/security-analysis/SKILL.md`:
 ```markdown
 ---
 name: security-analysis
@@ -384,9 +386,9 @@ Use when analyzing code for security vulnerabilities.
 4. Verify cryptographic practices
 ```
 
-Optional skill resources:
+Optional skill resources (each skill in its own directory):
 ```bash
-mkdir -p skills/scripts skills/references skills/assets
+mkdir -p skills/security-analysis/{scripts,reference,assets}
 ```
 
 ## 6. Add Hooks (optional)
@@ -478,7 +480,7 @@ EOF
 
 This pattern allows you to:
 - Keep reference content separate from hook logic
-- Share common structure with skills (both use `references/`)
+- Use similar structure pattern as skills (hooks use `references/`, skills use `reference/`)
 - Inject documentation, style guides, or policies at session start
 - Avoid embedding large content in CLAUDE.md files
 - Use portable paths via `${CLAUDE_PLUGIN_ROOT}`
@@ -598,17 +600,18 @@ security-plugin/
 ├── .claude-plugin/
 │   └── plugin.json
 ├── skills/
-│   ├── SKILL.md
-│   ├── references/
-│   │   ├── owasp-top-10.md
-│   │   └── crypto-best-practices.md
-│   └── scripts/
-│       └── scan.py
+│   └── security-audit/
+│       ├── SKILL.md
+│       ├── reference/
+│       │   ├── owasp-top-10.md
+│       │   └── crypto-best-practices.md
+│       └── scripts/
+│           └── scan.py
 └── hooks/
     └── hooks.json
 ```
 
-**skills/SKILL.md:**
+**skills/security-audit/SKILL.md:**
 ```markdown
 ---
 name: security-audit
@@ -626,9 +629,9 @@ Perform security analysis on code and configurations.
 - Validating input handling
 
 ## Process
-1. Run automated scan: `python skills/scripts/scan.py`
-2. Reference [OWASP Top 10 guidance](./references/owasp-top-10.md)
-3. Check [crypto best practices](./references/crypto-best-practices.md)
+1. Run automated scan: `python scripts/scan.py` (relative to skill directory)
+2. Reference [OWASP Top 10 guidance](./reference/owasp-top-10.md)
+3. Check [crypto best practices](./reference/crypto-best-practices.md)
 4. Document findings with severity ratings
 ```
 

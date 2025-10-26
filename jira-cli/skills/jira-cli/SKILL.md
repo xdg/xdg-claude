@@ -39,7 +39,7 @@ jira issue list -p PROJ --plain --no-headers --columns KEY
 
 ## When to Load Detailed Guide
 
-Load [jira-cli reference guide](./references/jira-cli-reference.md) for:
+Load [jira-cli reference guide](./reference/jira-cli-reference.md) for:
 - Command syntax and flags
 - Query patterns and JQL filtering
 - Output format options
