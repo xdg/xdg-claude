@@ -298,10 +298,45 @@ Do NOT include full code blocks or diffs in your report unless absolutely necess
 - This hybrid approach is more effective than pure imperative for establishing agent persona
 
 **Tool Permissions:**
-- Only include tools the agent actually needs
-- Common minimal set: `Bash, Read, Grep, Glob`
-- Avoid: `Task` (prevents subagent recursion), `WebFetch`, `WebSearch` (unless truly needed)
-- Avoid: `TodoWrite` (subagents shouldn't manage parent's todo list)
+
+Choose tool access based on the agent's purpose:
+
+*Read-Only Tools (safe for information gathering):*
+- **Glob** - File pattern matching
+- **Grep** - Code search
+- **Read** - Read files (text, images, PDFs, notebooks)
+- **WebFetch** - Fetch and analyze web content
+- **WebSearch** - Search the web
+- **Bash** - Execute commands (run specialized cli tools like ast-grep, rg, jq)
+
+*Write Tools (for agents making changes):*
+- **Edit** - Modify existing files
+- **Write** - Create/overwrite files
+- **NotebookEdit** - Edit Jupyter notebook cells
+- **Bash** - Execute commands (can modify filesystem, run builds, etc.)
+
+*Task Management & Communication:*
+- **TodoWrite** - Track progress in multi-step tasks
+- **AskUserQuestion** - Clarify ambiguous decisions
+- **Task** - Launch nested subagents for delegation
+
+*Background Process Management:*
+- **BashOutput** - Monitor long-running processes
+- **KillShell** - Terminate background shells
+
+*Prompt Expansion:*
+- **Skill** - Load specialized skill instructions
+- **SlashCommand** - Execute custom command prompts
+
+*Restricted Tools:*
+- **ExitPlanMode** - Controls parent conversation flow; should NOT be available to subagents
+
+*Common Tool Patterns:*
+- **All agents**: Skill and SlashCommand to enhance capabilities
+- **Exploration agents:** Read-only tools + TodoWrite
+- **Implementation agents:** Full tool access (read + write + bash)
+- **Analysis agents:** Read-only + TodoWrite + AskUserQuestion
+- **Specialized agents:** Minimal toolset for focused purpose
 
 **Output Specifications:**
 - Default to **brevity** - subagent output pollutes main agent's context
