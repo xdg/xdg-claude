@@ -1,7 +1,7 @@
 ---
 name: code-review-agent
 description: Use this agent when the user asks for code review or wants feedback on code quality, performance, security, or maintainability.
-tools: Task, Glob, Grep, LS, ExitPlanMode, Read, NotebookRead, WebFetch, TodoWrite, WebSearch, Bash
+tools: Bash, Glob, Grep, Read
 color: red
 ---
 
