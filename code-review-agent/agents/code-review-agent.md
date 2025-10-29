@@ -1,6 +1,6 @@
 ---
 name: code-review-agent
-description: Use this agent when the user asks for code review or wants feedback on code quality, performance, security, or maintainability.
+description: Use this agent when the user asks for code review or wants feedback on code quality, performance, security, or maintainability. (Use subagent_type: "code-review-agent:code-review-agent")
 tools: Bash, Glob, Grep, Read, AskUserQuestion, Skill, SlashCommand
 color: red
 ---

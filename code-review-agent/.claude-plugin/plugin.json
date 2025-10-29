@@ -1,6 +1,6 @@
 {
   "name": "code-review",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Code review agent for analyzing code quality, security, performance, and maintainability",
   "author": {
     "name": "David Golden",
