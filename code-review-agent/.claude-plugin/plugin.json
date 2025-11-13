@@ -1,5 +1,5 @@
 {
-  "name": "code-review",
+  "name": "code-review-agent",
   "version": "0.1.1",
   "description": "Code review agent for analyzing code quality, security, performance, and maintainability",
   "author": {
