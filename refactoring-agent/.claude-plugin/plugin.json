@@ -1,6 +1,6 @@
 {
   "name": "refactoring-agent",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Surgical code refactoring agents for analyzing and improving code quality without changing behavior",
   "author": {
     "name": "David Golden",

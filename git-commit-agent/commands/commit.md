@@ -2,6 +2,7 @@
 name: commit
 description: Commit current changes using the git-commit-agent
 ---
-Use the git-commit-agent to commit the current changes.
+
+Invoke the git-commit-agent using the Task tool with subagent_type='git-commit-agent:git-commit-agent' to commit the current changes.
 
 $ARGUMENTS
