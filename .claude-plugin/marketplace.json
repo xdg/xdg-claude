@@ -69,7 +69,7 @@
       "name": "pithy-communication",
       "source": "./pithy-communication",
       "description": "Injects pithy, detailed communication style guidance at session start for high signal-to-noise ratio",
-      "version": "0.1.0",
+      "version": "0.2.0",
       "category": "communication",
       "tags": ["communication", "style", "productivity"]
     },

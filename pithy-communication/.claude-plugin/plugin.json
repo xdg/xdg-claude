@@ -1,6 +1,6 @@
 {
   "name": "pithy-communication",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Injects pithy, detailed communication style guidance at session start for high signal-to-noise ratio",
   "author": {
     "name": "David Golden",
