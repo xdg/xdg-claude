@@ -1,12 +1,9 @@
 {
   "name": "elements-of-style",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Injects writing style guidance from The Elements of Style at session start",
   "author": {
     "name": "David Golden",
     "email": "xdg@xdg.me"
-  },
-  "hooks": [
-    "./hooks/hooks.json"
-  ]
+  }
 }
