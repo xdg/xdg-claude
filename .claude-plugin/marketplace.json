@@ -37,7 +37,7 @@
       "name": "elements-of-style",
       "source": "./elements-of-style",
       "description": "Injects writing style guidance from The Elements of Style at session start",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "category": "writing",
       "tags": ["writing", "style", "documentation"]
     },
@@ -69,7 +69,7 @@
       "name": "pithy-communication",
       "source": "./pithy-communication",
       "description": "Injects pithy, detailed communication style guidance at session start for high signal-to-noise ratio",
-      "version": "0.2.0",
+      "version": "0.3.0",
       "category": "communication",
       "tags": ["communication", "style", "productivity"]
     },

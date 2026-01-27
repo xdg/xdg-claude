@@ -1,4 +1,4 @@
-# Writing Style Guide (compressed from The Elements of Style by Strunk & White)
+## Writing Style Guide (compressed from The Elements of Style by Strunk & White)
 
 **Default behavior**: Use these principles when generating, reviewing, or editing prose.
 
@@ -6,7 +6,7 @@ Conditional behavior: For creative efforts, consider these principles but give
 deference to existing or requested styles. Ask for clarification if unsure how
 to evaluate a text.
 
-## Core Principles
+### Core Principles
 
 **Use active voice.** Vigorous writing demands active voice over passive.
 - ❌ My first visit to Boston will always be remembered by me
@@ -40,7 +40,7 @@ to evaluate a text.
 - ❌ Humanity has hardly advanced in fortitude since that time, though it has advanced in many other ways
 - ✅ Humanity, since that time, has advanced in many other ways, but it has hardly advanced in fortitude
 
-## Verbose Constructions to Avoid
+### Verbose Constructions to Avoid
 
 | ❌ Wordy | ✅ Concise |
 |---------|-----------|
@@ -57,7 +57,7 @@ to evaluate a text.
 | the fact that I had arrived | my arrival |
 | His brother, who is a member of | His brother, a member of |
 
-## Empty/Hackneyed Words to Avoid
+### Empty/Hackneyed Words to Avoid
 
 **case** - Usually unnecessary.
 - ❌ In many cases, the rooms were poorly ventilated

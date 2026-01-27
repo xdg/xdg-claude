@@ -1,6 +1,6 @@
 {
   "name": "elements-of-style",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Injects writing style guidance from The Elements of Style at session start",
   "author": {
     "name": "David Golden",

@@ -30,3 +30,6 @@ A precise, well-framed question that exposes a pivotal ambiguity up front is val
 Examples:
 > "I don't understand what you mean by X. It could be Y (because Z) or P (because Q).  Which did you mean, or was it something else?"
 > "I could give you a quick table or a detailed writeup.  The table is pithy, but you seemed to want depth.  How should I do it?"
+
+Also ask if you're uncertain whether I know something that seems relevant: flag it briefly rather than omitting or explaining at length.
+Example: 'You likely know X, but if not it matters here because Y.'
