@@ -21,7 +21,7 @@
       "name": "code-review-agent",
       "source": "./code-review-agent",
       "description": "Code review agent for analyzing code quality, security, performance, and maintainability",
-      "version": "0.1.0",
+      "version": "0.2.1",
       "category": "development",
       "tags": ["code-review", "quality", "security", "performance"]
     },
@@ -45,7 +45,7 @@
       "name": "git-commit-agent",
       "source": "./git-commit-agent",
       "description": "Git commit agent with intelligent change analysis and commit message conventions",
-      "version": "0.1.0",
+      "version": "0.2.1",
       "category": "development",
       "tags": ["git", "commit", "agent", "version-control"]
     },
@@ -53,7 +53,7 @@
       "name": "isolated-task-agent",
       "source": "./isolated-task-agent",
       "description": "Execute focused work in clean, isolated context without polluting main conversation",
-      "version": "0.1.0",
+      "version": "0.2.1",
       "category": "development",
       "tags": ["agent", "productivity", "context-efficiency", "analysis"]
     },
@@ -77,7 +77,7 @@
       "name": "refactoring-agent",
       "source": "./refactoring-agent",
       "description": "Surgical code refactoring agents for analyzing and improving code quality without changing behavior",
-      "version": "0.1.0",
+      "version": "0.2.1",
       "category": "development",
       "tags": ["refactoring", "code-quality", "agent", "analysis"]
     }

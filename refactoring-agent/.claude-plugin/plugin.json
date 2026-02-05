@@ -1,15 +1,11 @@
 {
   "name": "refactoring-agent",
-  "version": "0.1.2",
+  "version": "0.2.1",
   "description": "Surgical code refactoring agents for analyzing and improving code quality without changing behavior",
   "author": {
     "name": "David Golden",
     "email": "xdg@xdg.me"
   },
-  "commands": [
-    "./commands/refactor.md",
-    "./commands/plan-refactor.md"
-  ],
   "agents": [
     "./agents/refactoring-agent.md",
     "./agents/refactor-planning-agent.md"

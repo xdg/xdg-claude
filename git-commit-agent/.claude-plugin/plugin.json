@@ -1,14 +1,11 @@
 {
   "name": "git-commit-agent",
-  "version": "0.1.2",
+  "version": "0.2.1",
   "description": "Git commit agent with intelligent change analysis and commit message conventions",
   "author": {
     "name": "David Golden",
     "email": "xdg@xdg.me"
   },
-  "commands": [
-    "./commands/commit.md"
-  ],
   "agents": [
     "./agents/git-commit-agent.md"
   ]

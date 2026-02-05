@@ -1,6 +1,6 @@
 {
   "name": "isolated-task-agent",
-  "version": "0.1.2",
+  "version": "0.2.1",
   "description": "Execute focused work in clean, isolated contexts without polluting the main conversation history. Ideal for exploratory analysis, parallel work streams, and context-heavy operations.",
   "author": {
     "name": "David Golden",
@@ -8,8 +8,5 @@
   },
   "agents": [
     "./agents/isolated-task-agent.md"
-  ],
-  "commands": [
-    "./commands/isolate.md"
   ]
 }

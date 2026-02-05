@@ -20,21 +20,24 @@ Claude Code plugins are custom collections of commands, agents, skills, hooks, a
 
 ### Component Types
 
-**Commands** - Custom slash commands for quick, deterministic actions
+**Skills** - User-invoked or model-invoked capabilities (replaces commands as of Claude Code 2.1.3)
+- Defined in `skills/skill-name/SKILL.md` files with supporting resources
+- Each skill isolated in its own directory
+- Lazily loaded only when Claude determines they're needed
+- Can route to agents via `context: fork` + `agent` frontmatter
+- Use `disable-model-invocation: true` for manual-only skills (slash command only)
+- Best for: Domain expertise, complex workflows, agent routing, specialized knowledge
+
+**Commands** (legacy) - Custom slash commands; use skills instead
 - Defined in `commands/*.md` files
-- Use natural language instructions with parameter placeholders
-- Best for: Quick, repeatable tasks with predictable flow
+- As of Claude Code 2.1.3, commands and skills are merged; prefer `skills/`
+- Existing commands still work but `skills/` is the recommended path
 
 **Agents (Sub-agents)** - Specialized AI assistants with isolated context
 - Defined in `agents/*.md` files
 - Have their own system prompt and tool permissions
+- Routed to via skill frontmatter (`agent` field) or Task tool (`subagent_type`)
 - Best for: Intelligent analysis requiring reasoning and adaptation
-
-**Skills** - Model-invoked expertise that Claude autonomously uses when relevant
-- Defined in `skills/skill-name/SKILL.md` files with supporting resources
-- Each skill isolated in its own directory
-- Lazily loaded only when Claude determines they're needed
-- Best for: Domain expertise, complex workflows, specialized knowledge
 
 **Hooks** - Event handlers that run shell commands at lifecycle points
 - Defined in `hooks/hooks.json` files with optional `hooks/references/` for content
@@ -54,16 +57,16 @@ plugin-name/
 ├── .claude-plugin/
 │   ├── plugin.json          # Required: plugin manifest
 │   └── marketplace.json     # Optional: for distribution
-├── commands/                # Custom slash commands
-│   └── example.md
-├── agents/                  # Specialized sub-agents
-│   └── helper.md
-├── skills/                  # Model-invoked expertise
+├── skills/                  # Skills (user-invoked and model-invoked)
 │   └── skill-name/         # Each skill in its own directory
 │       ├── SKILL.md
 │       ├── scripts/        # Executable code
 │       ├── reference/      # Documentation loaded as needed
 │       └── assets/         # Files used in output
+├── agents/                  # Specialized sub-agents
+│   └── helper.md
+├── commands/                # (legacy) Use skills/ instead
+│   └── example.md
 ├── hooks/                   # Hook configurations
 │   ├── hooks.json
 │   ├── session-start.sh    # Hook scripts
@@ -111,7 +114,17 @@ Skills transform Claude from general-purpose to specialized agent through **prog
 
 ### Content Organization
 
-**SKILL.md structure:**
+**SKILL.md frontmatter fields:**
+
+| Field | Required | Description |
+|-------|----------|-------------|
+| `name` | Yes | Skill identifier (used in slash commands) |
+| `description` | Yes | What skill does and when to use it (third-person) |
+| `context` | No | `fork` to run skill body as a task prompt in a subagent |
+| `agent` | No | Agent name to route to (requires `context: fork`) |
+| `disable-model-invocation` | No | `true` for manual-only skills (slash command only) |
+
+**SKILL.md structure (knowledge skill):**
 ```markdown
 ---
 name: skill-name
@@ -127,6 +140,21 @@ description: Complete description of what skill does and when to use it (third-p
 
 ## How to Use
 [Procedural instructions referencing bundled resources]
+```
+
+**SKILL.md structure (agent-routing skill):**
+```markdown
+---
+name: skill-name
+description: Brief description of what the agent does
+context: fork
+agent: skill-name
+disable-model-invocation: true
+---
+
+[Task prompt passed to the agent]
+
+$ARGUMENTS
 ```
 
 **Resource types:**
@@ -177,17 +205,19 @@ description: Complete description of what skill does and when to use it (third-p
     "name": "Your Name",
     "email": "you@example.com"
   },
-  "commands": [                      // Optional: Command paths
-    "./commands/example.md"
-  ],
   "agents": [                        // Optional: Agent paths
     "./agents/helper.md"
   ],
   "hooks": [                         // Optional: Hook paths
     "./hooks/hooks.json"
+  ],
+  "commands": [                      // Legacy: use skills/ instead
+    "./commands/example.md"
   ]
 }
 ```
+
+**Note:** Skills are auto-discovered from the `skills/` directory and do not need manifest entries. The `"commands"` field is legacy; prefer `skills/` for new development.
 
 ---
 
@@ -215,25 +245,44 @@ Create `.claude-plugin/plugin.json`:
 }
 ```
 
-## 3. Add a Command (optional)
+## 3. Add a Skill (optional)
 
-Create `commands/hello.md`:
+Skills are the primary way to add slash-command-invocable capabilities to plugins.
+
+**Simple knowledge skill** (`skills/security-check/SKILL.md`):
 ```markdown
-# Hello Command
+---
+name: security-check
+description: Check code for common security vulnerabilities
+---
 
-Say hello to the user with their name.
+# Security Check
 
-Usage: /hello $NAME
+Scan the specified code for OWASP Top 10 vulnerabilities.
 
-Example: /hello Alice
+$ARGUMENTS
 ```
 
-Commands support:
-- Natural language instructions
-- `$ARGUMENTS` or `$NAME` style parameters
-- Clear usage examples
+**Agent-routing skill** (`skills/review/SKILL.md`):
+```markdown
+---
+name: review
+description: Route to the code review agent
+context: fork
+agent: review
+disable-model-invocation: true
+---
 
-Always add frontmatter to commands.
+Review the code for quality, security, and maintainability.
+
+$ARGUMENTS
+```
+
+Skills support:
+- `$ARGUMENTS` parameter placeholder for user input
+- `context: fork` + `agent` for routing to a named agent
+- `disable-model-invocation: true` for manual-only (slash command only)
+- Auto-discovery from `skills/` directory (no manifest entry needed)
 
 ## 4. Add an Agent (optional)
 
@@ -357,11 +406,15 @@ Choose tool access based on the agent's purpose:
 - Handle: specific requests, general requests, edge cases
 - Reduce ambiguity in execution
 
-Agent names should end in "-agent" like "git-commit-agent" or "code-review-agent".
+**Naming Conventions:**
+- Agent **filenames** should end in `-agent` for clarity (e.g., `code-review-agent.md`)
+- Agent frontmatter `name` should match the corresponding skill name (e.g., `name: code-review`)
+- Skill→agent routing is handled by skill frontmatter (`context: fork` + `agent`), not by agent descriptions
+- Do NOT include `(Use subagent_type: ...)` hints in agent descriptions; this is legacy
 
-## 5. Add a Skill (optional)
+## 5. Add a Knowledge Skill (optional)
 
-Create `skills/security-analysis/SKILL.md`:
+Create `skills/security-analysis/SKILL.md` for a skill that provides domain knowledge (no agent routing):
 ```markdown
 ---
 name: security-analysis
@@ -576,10 +629,11 @@ Create `.claude-plugin/marketplace.json`:
 pr-review-plugin/
 ├── .claude-plugin/
 │   └── plugin.json
-├── commands/
-│   └── review-pr.md
+├── skills/
+│   └── review-pr/
+│       └── SKILL.md
 └── agents/
-    └── pr-reviewer.md
+    └── pr-reviewer-agent.md
 ```
 
 **plugin.json:**
@@ -588,10 +642,26 @@ pr-review-plugin/
   "name": "pr-review",
   "description": "Automated PR review workflow",
   "version": "1.0.0",
-  "commands": ["./commands/review-pr.md"],
-  "agents": ["./agents/pr-reviewer.md"]
+  "agents": ["./agents/pr-reviewer-agent.md"]
 }
 ```
+
+**skills/review-pr/SKILL.md:**
+```markdown
+---
+name: review-pr
+description: Review a pull request for quality, bugs, and best practices
+context: fork
+agent: review-pr
+disable-model-invocation: true
+---
+
+Review the pull request.
+
+$ARGUMENTS
+```
+
+**agents/pr-reviewer-agent.md** (frontmatter `name: review-pr` to match skill):
 
 ## Example 2: Security Audit Plugin with Skill
 
@@ -611,7 +681,7 @@ security-plugin/
     └── hooks.json
 ```
 
-**skills/security-audit/SKILL.md:**
+**skills/security-audit/SKILL.md** (knowledge skill, no agent routing):
 ```markdown
 ---
 name: security-audit
