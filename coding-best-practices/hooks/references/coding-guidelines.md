@@ -153,3 +153,18 @@ Choose dependencies that reduce total system complexity, not just code volume.
   cd backend && go build && cd ..  # Bad: if go build fails, cd .. won't run
   ```
 - **Always verify command success** by checking output and exit codes
+
+## Test Isolation
+
+### Avoid fixed identifiers
+
+When developing tests, always use dynamic/random identifiers (ports,
+namespaces, instance IDs) rather than fixed values to support parallel test
+runs.
+
+### Insulate test from user config and environment
+
+User config files and environment variables must never affect tests.
+Mocking home dirs, clearing environment variables, and similar technique
+provide a clean, consistent test environments. Similarly, never let tests
+change the user's configuration.

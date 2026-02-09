@@ -1,6 +1,6 @@
 {
   "name": "coding-best-practices",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Injects coding best practices from Philosophy of Software Design and The Art of Readable Code at session start",
   "author": {
     "name": "David Golden",
