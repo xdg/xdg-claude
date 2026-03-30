@@ -33,12 +33,12 @@ Inject instructions at session start as if they were in your CLAUDE.md.
 
 Specialized sub-agents for focused tasks.
 
-| Plugin | Description |
-|--------|-------------|
-| **code-review** | Code review agent for analyzing code quality, security, performance, and maintainability |
-| **git-commit-agent** | Git commit agent with intelligent change analysis and commit message conventions |
-| **isolated-task-agent** | Execute focused work in clean, isolated context without polluting main conversation |
-| **refactoring-agent** | Surgical code refactoring agents for analyzing and improving code quality without changing behavior |
+| Plugin | Model | Description |
+|--------|-------|-------------|
+| **code-review** | Opus | Code review agent for analyzing code quality, security, performance, and maintainability |
+| **git-commit-agent** | Sonnet | Git commit agent with intelligent change analysis and commit message conventions |
+| **isolated-task-agent** | inherit | Execute focused work in clean, isolated context without polluting main conversation |
+| **refactoring-agent** | Sonnet/Opus | Surgical code refactoring agents for analyzing and improving code quality without changing behavior |
 
 ### Skills
 

@@ -576,7 +576,7 @@ Create `.claude-plugin/marketplace.json`:
 1. **Single responsibility** - Each plugin solves one problem well
 2. **Clear documentation** - Include usage examples and expected behavior
 3. **Descriptive names** - Use clear, searchable plugin and command names
-4. **Semantic versioning** - Follow semver for version numbers
+4. **Semantic versioning** - Follow semver for version numbers; bump versions in both the per-plugin `.claude-plugin/plugin.json` and the root `.claude-plugin/marketplace.json`
 5. **Minimal dependencies** - Keep plugins lightweight and focused
 
 ## Agent Development
