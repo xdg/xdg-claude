@@ -1,0 +1,9 @@
+{
+  "name": "avoid-ai-tells",
+  "version": "0.1.0",
+  "description": "Injects writing style guidance at session start to avoid common AI writing patterns",
+  "author": {
+    "name": "David Golden",
+    "email": "xdg@xdg.me"
+  }
+}

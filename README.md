@@ -25,6 +25,7 @@ Inject instructions at session start as if they were in your CLAUDE.md.
 
 | Plugin | Description |
 |--------|-------------|
+| **avoid-ai-tells** | Injects writing style guidance to avoid common AI patterns: em-dashes, puffery, uniform cadence, banned vocabulary |
 | **coding-best-practices** | Injects coding best practices from *Philosophy of Software Design*, *The Art of Readable Code*, and other tips |
 | **elements-of-style** | Injects writing style guidance from *The Elements of Style* |
 | **pithy-communication** | Injects pithy communication style guidance for high signal-to-noise ratio output |

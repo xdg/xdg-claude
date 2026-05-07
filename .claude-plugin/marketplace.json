@@ -66,6 +66,14 @@
       "tags": ["jira", "project-management", "cli", "productivity"]
     },
     {
+      "name": "avoid-ai-tells",
+      "source": "./avoid-ai-tells",
+      "description": "Injects writing style guidance at session start to avoid common AI writing patterns and tells",
+      "version": "0.1.0",
+      "category": "writing",
+      "tags": ["writing", "style", "ai-tells", "communication"]
+    },
+    {
       "name": "pithy-communication",
       "source": "./pithy-communication",
       "description": "Injects pithy, detailed communication style guidance at session start for high signal-to-noise ratio",
