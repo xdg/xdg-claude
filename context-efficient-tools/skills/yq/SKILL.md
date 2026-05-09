@@ -1,6 +1,6 @@
 ---
 name: yq
-description: Extract specific fields from YAML files efficiently using qq instead of reading entire files, saving 80-95% context.
+description: Extract specific fields from YAML files efficiently using yq instead of reading entire files, saving 80-95% context.
 ---
 
 # yq: YAML Query and Extraction Tool

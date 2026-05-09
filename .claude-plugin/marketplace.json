@@ -29,7 +29,7 @@
       "name": "context-efficient-tools",
       "source": "./context-efficient-tools",
       "description": "CLI tools that minimize context usage through targeted extraction instead of reading entire files",
-      "version": "0.1.1",
+      "version": "0.1.3",
       "category": "development",
       "tags": ["productivity", "context-efficiency", "search", "extraction"]
     },
