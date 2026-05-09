@@ -1,45 +1,35 @@
 ---
 name: ripgrep
-description: Efficient text search using ripgrep (rg) with one-shot patterns that minimize iterations by getting files, line numbers, and context in a single call
+description: Search file contents efficiently with ripgrep (rg) -- one-shot pattern searches that return files, line numbers, and context in a single call.
 ---
 
-# ripgrep: Powerful, one-shot text search
+# ripgrep
 
-## Default Strategy
+Default invocation:
 
-**For content search: use Bash(rg) with `-e 'pattern' -n -C 2` for one-shot results.**
+```bash
+rg -n -C 2 -t TYPE -e 'pattern'
+```
 
-This gives files, line numbers, and context in a single call - minimizes iterations and context usage.
+- `-n` line numbers
+- `-C 2` two lines of context before/after
+- `-t TYPE` file-type filter (`-t js`, `-t py`, `-t go`, ...; `rg --type-list` for the full set)
+- `-e 'pattern'` single-quoted to keep the shell out
 
-Always prefer getting line numbers and surrounding context over multiple search attempts.
+## Tool selection
 
-## Tool Selection
+| Need | Tool |
+|---|---|
+| Simple pattern, structured output | Grep (Claude Code tool, built on rg) |
+| `-F`, `-w`, `-v`, `-L`, pipe composition | Bash(rg) |
+| File name only, not contents | Glob |
 
-**Grep tool** (built on ripgrep) - Use for structured searches:
-- Basic pattern matching with structured output
-- File type filtering with `type` parameter
-- When special flags like `-F`, `-v`, `-w`, or pipe composition are not needed
-- Handles 95% of search needs
+Default to Grep unless something on the right column applies.
 
-**Bash(rg)** - Use for one-shot searches needing special flags or composition:
-- Fixed string search (`-F`)
-- Invert match (`-v`)
-- Word boundaries (`-w`)
-- Context lines with patterns (`-n -C 2`)
-- Pipe composition (`| head`, `| wc -l`, `| sort`)
-- Default choice for efficient one-shot results
+## Non-default flags worth knowing
 
-**Glob tool** - Use for file name/path matching only (not content search)
-
-## When to Load Detailed Reference
-
-Load [ripgrep guide](./reference/ripgrep-guide.md) when needing:
-- One-shot search pattern templates
-- Effective flag combinations for complex searches
-- Pipe composition patterns
-- File type filters reference (`-t` flags)
-- Pattern syntax examples
-- Translation between Grep tool and rg commands
-- Performance optimization for large result sets
-
-The guide focuses on practical patterns for getting targeted results in minimal calls.
+- `-F` literal pattern, no regex -- use when the pattern contains `.` `(` `*` etc.; avoids escape hell
+- `-w` whole-word match -- `-w -e 'test'` won't hit `testing` or `latest`
+- `-l` / `-L` list files containing / not containing the pattern
+- `-g 'glob'` glob filter when `-t` doesn't fit (`-g '*.test.js'`, `-g '!vendor/**'`)
+- `-e 'a' -e 'b'` multiple patterns, OR semantics
