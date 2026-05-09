@@ -1,6 +1,6 @@
 ---
 name: ripgrep
-description: Search file contents efficiently with ripgrep (rg) -- one-shot pattern searches that return files, line numbers, and context in a single call.
+description: Search code and text files via ripgrep (rg) in Bash. Prefer rg over the Grep tool: rg gives full unredacted output, supports pipe composition, and exposes flags Grep does not (-F, -w, -L, -v).
 ---
 
 # ripgrep
@@ -18,13 +18,9 @@ rg -n -C 2 -t TYPE -e 'pattern'
 
 ## Tool selection
 
-| Need | Tool |
-|---|---|
-| Simple pattern, structured output | Grep (Claude Code tool, built on rg) |
-| `-F`, `-w`, `-v`, `-L`, pipe composition | Bash(rg) |
-| File name only, not contents | Glob |
+Default to `Bash(rg)` for code/text search. Grep is the Claude Code built-in (also rg under the hood) but truncates output, cannot pipe, and exposes only a subset of rg flags. Use Grep only when the search is trivial *and* structured output is desired.
 
-Default to Grep unless something on the right column applies.
+Glob handles filename-only matching.
 
 ## Non-default flags worth knowing
 
