@@ -6,16 +6,15 @@
 **Complexity is the enemy.** Good design minimizes cognitive load.
 
 ### Deep vs Shallow Modules
+
+"Modules should be deep, interfaces should be simple, and special cases should be eliminated."
+
 - **Deep modules:** Simple interface, powerful implementation. High benefit/cost ratio.
 - **Shallow modules:** Complex interface, trivial implementation. No abstraction value.
-- Goal: Maximum functionality behind minimal interface.
-
-### Strategic vs Tactical Programming
-- **Tactical:** Quick fixes, "just make it work." Accumulates complexity.
-- **Strategic:** Invest 10-20% extra time in good design upfront. Pays dividends.
-- Working code isn't enough. Well-designed code is the goal.
 
 ### Key Practices
+
+**Strategic over tactical:** Invest 10-20% extra on good design upfront; quick fixes accumulate complexity.
 
 **Information hiding:** Bury complexity behind simple interfaces. Users shouldn't know implementation details.
 
@@ -23,21 +22,13 @@
 
 **Different layer, different abstraction:** Pass-through methods/variables are red flags. Each layer should add value.
 
+**Avoid leaky abstractions:** No exceptions for normal control flow; no getters/setters that expose internal structure.
+
 **Design it twice:** Always consider multiple approaches. First idea is rarely best.
 
 **General-purpose > special-case:** Fewer, more flexible methods > many specialized ones.
 
 **Define errors out of existence:** Design APIs so errors can't happen vs detecting/handling them.
-
-### Red Flags
-- Pass-through methods/variables (shallow layers)
-- Special cases multiplying (configuration complexity)
-- Exceptions for normal control flow
-- Comments describing what code does (should describe why/non-obvious)
-- Getters/setters exposing internal structure
-
-### Design Mantra
-"Modules should be deep, interfaces should be simple, and special cases should be eliminated."
 
 ## The Art of Readable Code (Boswell & Foucher)
 
@@ -67,7 +58,7 @@
 ### Control Flow
 - **Prefer positive conditionals:** `if (is_valid)` > `if (!is_invalid)`
 - **Put changing values on left:** `if (length >= 10)` > `if (10 <= length)`
-- **Minimize nesting:** Early returns > deep if-else trees.
+- **Minimize nesting:** Early returns > deep if-else trees. >3 levels deep is a smell.
 - **Return early:** Guard clauses > nested success paths.
 
 ### Variables
@@ -77,94 +68,30 @@
 
 ### Breaking Down Problems
 1. **Extract functions** for logical chunks, even if called once.
-2. **One task per function.** If you use "and" describing it, split it.
+2. **One task per function.** If you use "and" describing it, split it. >50 LOC usually means more than one task.
 3. **Unrelated subproblems** should be separate functions.
 4. **Interface should be obvious.** If usage is unclear, redesign.
 
-### Red Flags
-- Nested ifs >3 deep
-- Functions >50 LOC (usually)
-- Variables with large scope
-- Clever/terse code that requires decoding
-- Inconsistent naming/formatting
-
-### Key Insight
-**The reader matters more than the writer.** Code is read 10x more than written.
-
 ## Dependency Philosophy
 
-**Default: Skeptical.** Dependencies are liabilities with benefits.
-
-### Use Dependencies For
-- Security/crypto (never roll your own)
-- Complex protocols (HTTP/2, OAuth2, WebSockets)
-- Battle-tested algorithms (compression, parsers, image processing)
-- Framework ecosystems (fighting them is worse than bloat)
-- Complex text format parsing (URIs, email addresses)
-
-### Write It Yourself For
-- <100 LOC of straightforward code
-- Project-specific logic
-- Frequently changing requirements
-- Performance-critical paths
+### Core Principle
+**Choose dependencies that reduce system complexity and risk, not just code volume.** Dependencies are liabilities with benefits.
 
 ### Quality Checklist
 **Green:** Active maintenance (<6mo old), high downloads + age >2yr, small dep tree (<3 levels), semantic versioning, permissive license
 **Red:** Abandoned (>1yr), frequent breaking changes, deep dep tree, single maintainer on critical path, requires native compilation
 
 ### Decision Framework
-1. Security/crypto/complex protocol? → Use dependency
-2. <100 LOC straightforward code? → Write it
-3. Well-known, actively maintained library exists? → Evaluate transitive deps
-4. Requirements stable or shifting? → Stable = dep, shifting = DIY
-5. Transitive dep count >10? → Smell
-
-### Examples
-**Use:** bcrypt, axios/fetch, lodash (tree-shake), express
-**Avoid:** is-odd, left-pad, unmaintained plugins, framework wrappers
-
-### Meta-Principle
-Choose dependencies that reduce total system complexity, not just code volume.
-
-## Working Directory Management
-
-### Important Guidelines
-1. **Always check current directory** if unknown
-2. **Use absolute paths** when possible to avoid confusion
-3. **Return to project root** after completing tasks in subdirectories
-4. **Prefer running git commands from project root** to avoid path issues
-
-### Command Location Reference
-- **Git commands**: Always run from project root
-- **Docker commands**: Run from project root unless othewise instructed
-
-## Bash Tool Best Practices
-- When changing directories for a specific task, prefer using subshells to preserve exit codes:
-  ```bash
-  # Best: Use subshell (preserves exit code)
-  (cd backend && go build)
-
-  # Alternative: Explicit directory management
-  cd backend
-  go build
-  cd ..
-
-  # Avoid: Chaining with && (hides exit codes)
-  cd backend && go build && cd ..  # Bad: if go build fails, cd .. won't run
-  ```
-- **Always verify command success** by checking output and exit codes
+1. Security, crypto, complex protocol, or battle-tested algorithm (compression, parser, image)? → Use dependency
+2. Within an established framework's ecosystem? → Use the ecosystem; fighting it costs more than bloat
+3. <100 LOC straightforward code, or performance-critical hot path? → Write it
+4. Well-known, actively maintained library? → Evaluate transitive deps
+5. Requirements stable or shifting? → Stable = dep, shifting = DIY
+6. Transitive dep count >10? → Smell
 
 ## Test Isolation
 
-### Avoid fixed identifiers
+### Core Principle
+**Tests must be hermetic.** Independent of siblings; independent of the host.
 
-When developing tests, always use dynamic/random identifiers (ports,
-namespaces, instance IDs) rather than fixed values to support parallel test
-runs.
-
-### Insulate test from user config and environment
-
-User config files and environment variables must never affect tests.
-Mocking home dirs, clearing environment variables, and similar technique
-provide a clean, consistent test environments. Similarly, never let tests
-change the user's configuration.
+Use dynamic/random identifiers (ports, namespaces, instance IDs) rather than fixed values so parallel runs don't collide. Mock home directories and clear environment variables so user config can't affect tests; never let tests modify the user's configuration.
