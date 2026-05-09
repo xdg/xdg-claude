@@ -37,7 +37,7 @@
       "name": "elements-of-style",
       "source": "./elements-of-style",
       "description": "Injects writing style guidance from The Elements of Style at session start",
-      "version": "0.1.2",
+      "version": "0.2.0",
       "category": "writing",
       "tags": ["writing", "style", "documentation"]
     },
