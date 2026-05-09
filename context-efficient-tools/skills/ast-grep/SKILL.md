@@ -1,41 +1,37 @@
 ---
 name: ast-grep
-description: Use ast-grep for structural code search and refactoring when editing code structure with ambiguity in text matching, handling "old_string not unique" problems, or performing formatting-independent pattern matching across function signatures, method calls, and class structures
+description: Structural code search and refactoring via ast-grep. Reach for this when Edit fails with "old_string not unique", when refactoring across formatting variations, or when matching code shape rather than text.
 ---
 
-# ast-grep: Structural Code Search and Editing
+# ast-grep
 
-Use ast-grep to solve the "old_string not unique" problem by matching code structure instead of exact text. This enables refactoring across formatting variations and structural patterns.
+Default invocation:
 
-## When to Use ast-grep vs Text Tools
+```bash
+ast-grep -l LANG -p 'PATTERN'                      # search
+ast-grep -l LANG -p 'OLD' -r 'NEW'                 # preview rewrite
+ast-grep -l LANG -p 'OLD' -r 'NEW' --update-all    # apply
+```
 
-### Use ast-grep when:
-- **Structural code changes** - Refactoring function signatures, method calls, class structures
-- **Formatting-independent matching** - Need to find code regardless of whitespace/line breaks
-- **Pattern variations** - Matching similar structures with different variable names/arguments
-- **"old_string not unique" problem** - Edit tool fails because text appears in multiple contexts
-- **Complex queries** - Finding nested structures, specific AST patterns
+`-l` is required -- auto-detect is unreliable. Interactive mode (`-i`) does not work from this harness.
 
-### Use text tools (Edit/Grep) when:
-- **Simple, unique string replacement** - The exact text appears once or in consistent format
-- **Non-code files** - Markdown, configs, data files
-- **Comment/documentation edits** - Content that isn't code structure
-- **Very small changes** - Single line, obvious context, no ambiguity
+## Metavariables
 
-## Key Decision Rule
+- `$VAR` -- one AST node (an expression, an identifier, ...)
+- `$$$ARGS` -- zero or more items in a list (function args, statement bodies)
+- `$$STMT` -- multiple statements
 
-**If editing code structure and there's any ambiguity in text matching → use ast-grep.**
+## Canonical patterns
 
-ast-grep's primary value: **Solves the "old_string not unique" problem by matching structure instead of exact text.**
+```bash
+# Rename a function across all call sites
+ast-grep -l typescript -p 'oldFn($$$ARGS)' -r 'newFn($$$ARGS)'
 
-## Detailed Reference
+# Rename a method on any receiver
+ast-grep -l javascript -p '$OBJ.oldMethod($$$ARGS)' -r '$OBJ.newMethod($$$ARGS)'
 
-For comprehensive patterns, syntax, metavariables, common use cases, language-specific tips, and best practices, load [ast-grep guide](./reference/ast-grep-guide.md).
+# Rewrite imports
+ast-grep -l typescript -p 'import $WHAT from "old-pkg"' -r 'import $WHAT from "new-pkg"'
+```
 
-The reference includes:
-- Pattern syntax and metavariables (`$VAR`, `$$$ARGS`, `$$STMT`)
-- Recommended workflow (search, verify, apply, validate)
-- Common use cases with examples (function calls, imports, method renames)
-- Language-specific tips (JavaScript/TypeScript, Python, Go, Rust)
-- Best practices and pitfalls to avoid
-- Integration strategies with Edit tool
+Workflow: run without `-r` to see matches, run with `-r` to preview the diff, then add `--update-all`. For surgical per-site control, use ast-grep to find locations and Edit to apply.
