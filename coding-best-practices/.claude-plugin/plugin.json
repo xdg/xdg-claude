@@ -1,7 +1,7 @@
 {
   "name": "coding-best-practices",
-  "version": "0.1.3",
-  "description": "Injects coding best practices from Philosophy of Software Design and The Art of Readable Code at session start",
+  "version": "0.3.0",
+  "description": "Injects coding best practices from Philosophy of Software Design and The Art of Readable Code at session start and on subagent dispatch",
   "author": {
     "name": "David Golden",
     "email": "xdg@xdg.me"
