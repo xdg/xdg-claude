@@ -16,14 +16,11 @@ The plugin ships no skills of its own. It is the prioritization layer; install w
 
 ## Installation
 
-This plugin is part of the `xdg-claude` marketplace. Install via `/plugin`.
+```bash
+claude plugin install prioritize-skills@xdg-claude
+```
 
-## Files
-
-- `.claude-plugin/plugin.json` -- manifest.
-- `hooks/hooks.json` -- registers the hook for `SessionStart` and `SubagentStart`.
-- `hooks/inject-priority.sh` -- emits the directive as `hookSpecificOutput.additionalContext`. Strips YAML frontmatter from the reference file before injection.
-- `hooks/references/prioritize-skills.md` -- the directive text.
+Requires the `xdg-claude` marketplace to be added first; see the [top-level README](../README.md#installation).
 
 `SubagentStart` is Claude Code-specific; on platforms that lack the event the hook is harmless and only the session-level injection fires.
 

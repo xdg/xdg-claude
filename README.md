@@ -4,18 +4,19 @@ Community marketplace for Claude Code plugins that enhance development workflows
 
 ## Installation
 
-Configure this marketplace in Claude Code by adding the GitHub repository URL to your marketplace settings directly within `claude`.
+Add this marketplace from the command line:
 
 ```bash
-/marketplace add https://github.com/xdg/xdg-claude
+claude plugin marketplace add xdg/xdg-claude
 ```
 
-Once added, you can browse and install individual plugins:
+Then install individual plugins:
 
 ```bash
-/plugin
-/plugin install coding-best-practices@xdg-claude
+claude plugin install coding-best-practices@xdg-claude
 ```
+
+You can also do both from inside Claude Code with `/plugin marketplace add xdg/xdg-claude` and `/plugin install <name>@xdg-claude`.
 
 ## List of Plugins
 
@@ -34,27 +35,27 @@ Foundational plugins that shape how Claude operates across all other skills and 
 
 | Plugin | Description |
 |--------|-------------|
-| **prioritize-skills** | Directive injected at session and subagent start that requires checking for and invoking applicable skills before responding or acting. Adapted from [obra/superpowers](https://github.com/obra/superpowers) (MIT) |
+| [**prioritize-skills**](prioritize-skills/README.md) | Directive injected at session and subagent start that requires checking for and invoking applicable skills before responding or acting. Adapted from [obra/superpowers](https://github.com/obra/superpowers) (MIT) |
 
 ### Rule plugins
 
 | Plugin | Description |
 |--------|-------------|
-| **avoid-ai-tells** | Writing style guidance to avoid common AI patterns: em-dashes, puffery, uniform cadence, banned vocabulary |
-| **coding-best-practices** | Coding best practices from *Philosophy of Software Design*, *The Art of Readable Code*, and other tips |
-| **elements-of-style** | Writing style guidance from *The Elements of Style* |
-| **pithy-communication** | Pithy communication style guidance for high signal-to-noise ratio output |
+| [**avoid-ai-tells**](avoid-ai-tells/README.md) | Writing style guidance to avoid common AI patterns: em-dashes, puffery, uniform cadence, banned vocabulary |
+| [**coding-best-practices**](coding-best-practices/README.md) | Coding best practices from *Philosophy of Software Design*, *The Art of Readable Code*, and other tips |
+| [**elements-of-style**](elements-of-style/README.md) | Writing style guidance from *The Elements of Style* |
+| [**pithy-communication**](pithy-communication/README.md) | Pithy communication style guidance for high signal-to-noise ratio output |
 
 ### Skill plugins
 
 | Plugin | Knowledge skill | Task skill | Subagent | Slash command | Description |
 |--------|:---------------:|:----------:|:--------:|:-------------:|-------------|
-| **code-review-agent** | | ✓ | ✓ | `/code-review` | Analyze code quality, security, performance, and maintainability (Opus) |
-| **context-efficient-tools** | ✓ | | | | CLI tools that minimize context usage through targeted extraction instead of reading entire files (ripgrep, ast-grep, jq, yq, code-structure) |
-| **git-commit-agent** | | ✓ | ✓ | `/commit` | Commit current changes with intelligent analysis and best-practice messages (Sonnet) |
-| **isolated-task-agent** | | ✓ | ✓ | `/isolated` | Execute focused work in clean, isolated context without polluting main conversation |
-| **jira-cli** | ✓ | | | | Command-line Jira management using jira-cli with efficient querying and issue workflows |
-| **refactoring-agent** | | ✓ | ✓ | `/refactor`, `/plan-refactor` | Surgical refactoring and refactor-planning agents for improving code quality without changing behavior (Sonnet/Opus) |
+| [**code-review-agent**](code-review-agent/README.md) | | ✓ | ✓ | `/code-review` | Analyze code quality, security, performance, and maintainability (Opus) |
+| [**context-efficient-tools**](context-efficient-tools/README.md) | ✓ | | | | CLI tools that minimize context usage through targeted extraction instead of reading entire files (ripgrep, ast-grep, jq, yq, code-structure) |
+| [**git-commit-agent**](git-commit-agent/README.md) | | ✓ | ✓ | `/commit` | Commit current changes with intelligent analysis and best-practice messages (Sonnet) |
+| [**isolated-task-agent**](isolated-task-agent/README.md) | | ✓ | ✓ | `/isolated` | Execute focused work in clean, isolated context without polluting main conversation |
+| [**jira-cli**](jira-cli/README.md) | ✓ | | | | Command-line Jira management using jira-cli with efficient querying and issue workflows |
+| [**refactoring-agent**](refactoring-agent/README.md) | | ✓ | ✓ | `/refactor`, `/plan-refactor` | Surgical refactoring and refactor-planning agents for improving code quality without changing behavior (Sonnet/Opus) |
 
 ## License
 
