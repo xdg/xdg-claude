@@ -21,7 +21,7 @@
       "name": "code-review-agent",
       "source": "./code-review-agent",
       "description": "Code review agent for analyzing code quality, security, performance, and maintainability",
-      "version": "0.3.0",
+      "version": "0.4.0",
       "category": "development",
       "tags": ["code-review", "quality", "security", "performance"]
     },
