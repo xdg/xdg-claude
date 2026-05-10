@@ -376,14 +376,14 @@ Choose tool access based on the agent's purpose:
 - **KillShell** - Terminate background shells
 
 *Prompt Expansion:*
-- **Skill** - Load specialized skill instructions
-- **SlashCommand** - Execute custom command prompts
+- **Skill** - Load specialized skill instructions (preferred for agents)
+- **SlashCommand** - Execute custom command prompts (legacy; commands and skills merged in Claude Code 2.1.3, prefer Skill)
 
 *Restricted Tools:*
 - **ExitPlanMode** - Controls parent conversation flow; should NOT be available to subagents
 
 *Common Tool Patterns:*
-- **All agents**: Skill and SlashCommand to enhance capabilities
+- **All agents**: Skill to enhance capabilities (do not include SlashCommand for new agents)
 - **Exploration agents:** Read-only tools + TodoWrite
 - **Implementation agents:** Full tool access (read + write + bash)
 - **Analysis agents:** Read-only + TodoWrite + AskUserQuestion
