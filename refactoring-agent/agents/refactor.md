@@ -1,7 +1,7 @@
 ---
 name: refactor
-description: The refactoring-agent carries out ONE specific refactoring safely and surgically. User must specify what to refactor (e.g., 'extract this function', 'remove duplication in X'). For analysis or planning what to refactor, use plan-refactor agent instead.
-tools: Read, Edit, Write, Grep, Glob, Bash, NotebookEdit, Skill, SlashCommand
+description: Carries out one specific refactoring safely and surgically with zero behavior change. Use when the user asks to refactor, restructure, extract, rename, simplify, or clean up code without changing behavior.
+tools: Read, Edit, Write, Grep, Glob, Bash, NotebookEdit, Skill
 color: yellow
 model: sonnet
 ---

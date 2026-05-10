@@ -4,8 +4,7 @@ description: Improve code quality without changing behavior via surgical refacto
 context: fork
 agent: refactor
 disable-model-invocation: true
+argument-hint: "<what to refactor>"
 ---
-
-Perform the following refactoring:
 
 $ARGUMENTS

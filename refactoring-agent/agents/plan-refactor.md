@@ -1,7 +1,7 @@
 ---
 name: plan-refactor
-description: The refactor-planning-agent recommends refactoring changes to improve codebase quality. Use this agent when the user asks what to refactor, where to improve code quality, or needs analysis of refactoring opportunities. E.g., 'what should I refactor?', 'find code smells', 'analyze this for improvements', 'what's the best refactoring to do next?'. Returns prioritized recommendations, NOT code changes.
-tools: Read, Grep, Glob, Bash, AskUserQuestion, Skill, SlashCommand
+description: Analyzes code and returns prioritized refactoring recommendations without making changes. Use when the user asks what to refactor, where to improve code quality, or for analysis of refactoring opportunities.
+tools: Read, Grep, Glob, Bash, AskUserQuestion, Skill
 color: yellow
 model: opus
 ---
