@@ -53,7 +53,7 @@
       "name": "isolated-task-agent",
       "source": "./isolated-task-agent",
       "description": "Execute focused work in clean, isolated context without polluting main conversation",
-      "version": "0.3.0",
+      "version": "0.4.0",
       "category": "development",
       "tags": ["agent", "productivity", "context-efficiency", "analysis"]
     },

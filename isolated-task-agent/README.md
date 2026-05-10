@@ -6,8 +6,11 @@ A Claude Code plugin that adds a general-purpose isolated-execution subagent and
 
 Provides a subagent that executes a focused task in a clean, forked context and returns a concise writeup. Use it to keep exploratory analysis, parallel work streams, experimental operations, and context-heavy investigations out of the main conversation history.
 
-- **Subagent** (`agents/isolated-task-agent.md`): inherits the parent model and the parent's full toolset.
-- **Slash command**: `/isolated <task description>` forks into the subagent with the task as its first user turn.
+The plugin follows the standard three-piece form:
+
+- **Subagent** (`agents/isolated.md`): inherits the parent model and the parent's full toolset. Holds the role, reporting contract, and anti-speculation rules.
+- **Educational skill** (`skills/how-to-isolated/SKILL.md`): teaches Claude when to delegate to this subagent (vs. handling inline or using a topic-specific subagent like commit / code-review / refactor) and how to craft the prompt. Not user-invocable.
+- **Slash command** (`skills/isolated/SKILL.md`): `/isolated <task description>` forks into the subagent with the task as its first user turn.
 
 Unlike the topic-specific agents in this marketplace (code-review, commit, refactor), this one is deliberately general -- the value is the context isolation, not domain expertise.
 
