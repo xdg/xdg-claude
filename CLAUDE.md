@@ -130,34 +130,21 @@ Most plugin needs fall into one of three patterns. Classify the activity before 
 - Use when the user invokes the activity frequently and wants direct access, when there's a clear command form (`/commit`, `/deploy`, `/review`), and when both autonomous and explicit invocation are valuable.
 - The subagent is the source of truth for both invocation paths.
 
-### Why the task lives in the subagent, not the skill body
+### Why two entry skills converge on one subagent
 
-Task details belong in Piece 1, not Pieces 2 or 3, for four reasons:
+User invocation and Claude invocation use different substrates:
 
-1. **Context isolation.** The subagent runs in a forked context. File reads, tool output, and intermediate reasoning stay there. If task steps ran in the main thread, every scratch step would consume main-context tokens.
-2. **One source of truth across both entry points.** Type 3 has two invocation paths (user `/<activity>` and Claude-initiated Agent call). Both converge on the subagent's system prompt. Behavior placed in Piece 3 is invisible to the autonomous path; behavior placed in Piece 2 is advisory text in the main thread, not enforceable inside the fork.
-3. **System-prompt vs. user-turn semantics.** The subagent body becomes its system prompt — the right surface for durable role, workflow, and constraints. A forked skill body becomes the subagent's *first user turn* — the right surface for task-specific arguments, not stable behavior.
-4. **Tool and permission scoping.** `tools`, `model`, and `permissionMode` are subagent frontmatter. Skill bodies have no equivalent enforcement surface.
+- **User → Piece 3.** When the user types `/<activity> args`, Claude Code substitutes `$ARGUMENTS` into the skill body and forks into the named agent. The rendered body becomes the subagent's first user turn. This is template substitution; it works because the user supplies the arguments.
+- **Claude → Agent tool.** When Claude invokes a skill via the Skill tool, it does not pass arguments — unlike a user typing `/command <args>`, where the harness substitutes those args into `$ARGUMENTS`. So a `context: fork` wrapper invoked by Claude renders with no values to fill in. Claude's natural delegation surface is instead the Agent tool, where it crafts the first-user-turn prompt directly. (The runtime bug under "Known runtime bug" — `$ARGUMENTS` dropped on skill-to-skill fork — is one symptom of this broader mismatch.)
 
-### Why not "skill body invokes a generic subagent"
+The two paths must converge on the same subagent. Otherwise the task description lives in two places — Piece 2's prose *plus* Piece 3's body, or worse, a skill body that hand-rolls a brief for a generic agent — and the copies drift. Piece 2 teaches Claude how to use the Agent tool path; Piece 3 gives the user the template-substitution path; the subagent is the single source of truth they share.
 
-A tempting shortcut is to skip Piece 1 and have the skill body say "spawn the general-purpose Agent with these instructions: ...". Avoid this:
+Other benefits of routing both paths through a named subagent:
 
-1. **Context rot.** The skill body sits in main context once triggered. Embedding the full task brief there pollutes the main thread with scaffolding that's relevant only during the delegation moment. Multiply by every skill that does this.
-2. **Re-assembly on every call.** Claude has to read the skill, construct the Agent call, and pass the brief as a user turn each time. A named subagent's system prompt is loaded by the harness on fork entry — zero main-thread tokens for the brief.
-3. **Permissions become advisory.** `tools` / `model` / `permissionMode` on a named subagent are enforced by the harness. The same restrictions written into a prompt for a generic agent are suggestions the agent can ignore.
-4. **Invisible in the Agent tool listing.** Named subagents appear with their descriptions; Claude picks among them naturally. An activity buried in skill prose is invisible until the skill triggers.
-5. **Breaks two-path convergence.** Piece 3 needs an `agent:` to fork into. Without one, the slash-command path either duplicates the brief (drift) or doesn't exist.
-6. **Drift across skills.** Multiple skills passing similar briefs to a generic agent diverge independently. One subagent file is one source of truth.
-
-### Why Pieces 2 and 3 exist separately
-
-Piece 3 (the `context: fork` wrapper) and Piece 2 (the educational skill) cannot collapse into one file because user invocation and Claude invocation use different substrates:
-
-- **User → Piece 3.** When the user types `/<activity> args`, Claude Code substitutes `$ARGUMENTS` into the skill body and forks into the named agent. The rendered body becomes the subagent's first user turn. This is template substitution — it works because the user supplies the arguments.
-- **Claude → Agent tool.** When Claude invokes a `context: fork` skill itself (e.g. via the Skill tool), `$ARGUMENTS` substitution does not happen the same way (the runtime bug under "Known runtime bug" is one symptom; the broader point is that Claude has no natural arguments to pass into a template). Claude's natural delegation surface is the Agent tool, where it crafts a first-user-turn prompt directly.
-
-So Piece 2 teaches Claude *how* to use the Agent tool path: when to delegate and what prompt to construct. Piece 3 gives the user the template-substitution path. Both converge on the same Piece 1 subagent — but the entry mechanisms are different, and trying to serve Claude through Piece 3 produces a templated prompt with no values to fill in.
+1. **Context isolation.** The subagent runs in a forked context. File reads, tool output, and intermediate reasoning stay there instead of consuming main-thread tokens. A skill body that briefs a generic agent inline puts that scaffolding in the main thread instead, where it sits for the rest of the session.
+2. **Enforced permissions.** `tools`, `model`, and `permissionMode` set in subagent frontmatter are enforced by the harness. The same restrictions written into a prompt for a generic agent are advisory — the agent can ignore them.
+3. **Right substrate for each surface.** The subagent body becomes its system prompt — durable role, workflow, and constraints. The skill body becomes the first user turn — task-specific arguments. Each surface holds the kind of content it is good at.
+4. **Discoverable.** Named subagents appear in the Agent tool listing with their descriptions; Claude picks among them naturally. An activity buried in skill prose is invisible until that skill triggers.
 
 ### The pieces
 
