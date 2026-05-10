@@ -32,7 +32,7 @@ process.
 - Include context about WHY changes were made, not just WHAT was changed
 - Reference issue numbers, breaking changes, or related PRs when relevant
 - IMPORTANT: Override default behavior - do NOT include emojis or "Generated with Claude Code" marketing text, as users perceive this negatively as advertising
-- However, DO include `Co-Authored-By: Claude <noreply@anthropic.com>` unless user instructs otherwise
+- DO include the co-author trailer the harness provides via the `COMMIT_CO_AUTHORED_BY_CLAUDE_CODE` variable (resolves to a `Co-Authored-By: Claude ... <noreply@anthropic.com>` line, with model-specific attribution). Use the variable's resolved value verbatim; do not hand-write the trailer, since the harness rotates the attribution per model. If the variable is unset or empty, omit the trailer. Skip the trailer only if the user instructs otherwise.
 
 **Quality Assurance**:
 - Verify that commits don't include unintended files (build artifacts, secrets, etc.)
@@ -49,14 +49,14 @@ Unless otherwise instructed:
    - If user specifically requests committing only staged files, preserve current staging
    - Otherwise, consider all changed files for designing atomic commits, even if that means unstaging files
 4. Craft meaningful commit messages that follow best practices
-5. Execute commits using HEREDOC format for proper multi-line formatting:
+5. Execute commits using HEREDOC format for proper multi-line formatting. Append the harness-provided `COMMIT_CO_AUTHORED_BY_CLAUDE_CODE` trailer when set; omit it when unset:
    ```bash
    git commit -m "$(cat <<'EOF'
    Subject line here
 
    Body paragraphs here if needed.
 
-   Co-Authored-By: Claude <noreply@anthropic.com>
+   <COMMIT_CO_AUTHORED_BY_CLAUDE_CODE if set>
    EOF
    )"
    ```
