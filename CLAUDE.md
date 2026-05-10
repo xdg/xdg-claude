@@ -24,8 +24,7 @@ Claude Code plugins are custom collections of commands, agents, skills, hooks, a
 - Defined in `skills/skill-name/SKILL.md` files with supporting resources
 - Each skill isolated in its own directory
 - Lazily loaded only when Claude determines they're needed
-- Can route to agents via `context: fork` + `agent` frontmatter
-- Use `disable-model-invocation: true` for manual-only skills (slash command only)
+- Three patterns cover most needs: informational (Type 1), task delegated to a subagent (Type 2), and task with a `/<activity>` slash command (Type 3). See "The three skill patterns" below.
 - Best for: Domain expertise, complex workflows, agent routing, specialized knowledge
 
 **Commands** (legacy) - Custom slash commands; use skills instead
@@ -112,55 +111,132 @@ Skills transform Claude from general-purpose to specialized agent through **prog
 
 ## Skill Design Principles
 
-### Content Organization
+### The three skill patterns
 
-**SKILL.md frontmatter fields:**
+Most plugin needs fall into one of three patterns. Classify the activity before writing files.
+
+**Type 1 — Informational skill.** Reference content Claude reads in the main conversation and applies for the rest of the session: conventions, patterns, style guides, domain knowledge, tool usage notes.
+- Structure: a single `skills/<name>/SKILL.md`. No subagent, no `context: fork`. The body becomes standing instructions for the session.
+- Use when the value is *Claude knowing something while it works*, not *Claude doing a delimited task*.
+- Examples: `api-conventions` (REST naming and error formats this codebase uses), `internal-services` (directory of services and their owners), `using-foo-cli` (how to use an in-house CLI tool).
+
+**Type 2 — Task.** An activity Claude carries out by delegating to a subagent. No human slash command — Claude triggers it from conversational signals.
+- Structure: a **subagent** (Piece 1) and an **educational skill** (Piece 2).
+- Use when the activity produces output that would clutter the main context, the user wouldn't naturally type a slash command for it, or triggering depends on conversational nuance Claude needs to recognize.
+- Examples: `dependency-impact` analysis after code changes touch shared modules; `migration-readiness` check during planning; `test-impact` analysis when changes might break tests in unrelated areas.
+
+**Type 3 — Task with human-ready command.** Same as Type 2 plus a `/<activity>` shortcut for the user.
+- Structure: subagent (Piece 1), educational skill (Piece 2), **user-entry skill** (Piece 3).
+- Use when the user invokes the activity frequently and wants direct access, when there's a clear command form (`/commit`, `/deploy`, `/review`), and when both autonomous and explicit invocation are valuable.
+- The subagent is the source of truth for both invocation paths.
+
+### Why the task lives in the subagent, not the skill body
+
+Task details belong in Piece 1, not Pieces 2 or 3, for four reasons:
+
+1. **Context isolation.** The subagent runs in a forked context. File reads, tool output, and intermediate reasoning stay there. If task steps ran in the main thread, every scratch step would consume main-context tokens.
+2. **One source of truth across both entry points.** Type 3 has two invocation paths (user `/<activity>` and Claude-initiated Agent call). Both converge on the subagent's system prompt. Behavior placed in Piece 3 is invisible to the autonomous path; behavior placed in Piece 2 is advisory text in the main thread, not enforceable inside the fork.
+3. **System-prompt vs. user-turn semantics.** The subagent body becomes its system prompt — the right surface for durable role, workflow, and constraints. A forked skill body becomes the subagent's *first user turn* — the right surface for task-specific arguments, not stable behavior.
+4. **Tool and permission scoping.** `tools`, `model`, and `permissionMode` are subagent frontmatter. Skill bodies have no equivalent enforcement surface.
+
+### Why not "skill body invokes a generic subagent"
+
+A tempting shortcut is to skip Piece 1 and have the skill body say "spawn the general-purpose Agent with these instructions: ...". Avoid this:
+
+1. **Context rot.** The skill body sits in main context once triggered. Embedding the full task brief there pollutes the main thread with scaffolding that's relevant only during the delegation moment. Multiply by every skill that does this.
+2. **Re-assembly on every call.** Claude has to read the skill, construct the Agent call, and pass the brief as a user turn each time. A named subagent's system prompt is loaded by the harness on fork entry — zero main-thread tokens for the brief.
+3. **Permissions become advisory.** `tools` / `model` / `permissionMode` on a named subagent are enforced by the harness. The same restrictions written into a prompt for a generic agent are suggestions the agent can ignore.
+4. **Invisible in the Agent tool listing.** Named subagents appear with their descriptions; Claude picks among them naturally. An activity buried in skill prose is invisible until the skill triggers.
+5. **Breaks two-path convergence.** Piece 3 needs an `agent:` to fork into. Without one, the slash-command path either duplicates the brief (drift) or doesn't exist.
+6. **Drift across skills.** Multiple skills passing similar briefs to a generic agent diverge independently. One subagent file is one source of truth.
+
+### Why Pieces 2 and 3 exist separately
+
+Piece 3 (the `context: fork` wrapper) and Piece 2 (the educational skill) cannot collapse into one file because user invocation and Claude invocation use different substrates:
+
+- **User → Piece 3.** When the user types `/<activity> args`, Claude Code substitutes `$ARGUMENTS` into the skill body and forks into the named agent. The rendered body becomes the subagent's first user turn. This is template substitution — it works because the user supplies the arguments.
+- **Claude → Agent tool.** When Claude invokes a `context: fork` skill itself (e.g. via the Skill tool), `$ARGUMENTS` substitution does not happen the same way (the runtime bug under "Known runtime bug" is one symptom; the broader point is that Claude has no natural arguments to pass into a template). Claude's natural delegation surface is the Agent tool, where it crafts a first-user-turn prompt directly.
+
+So Piece 2 teaches Claude *how* to use the Agent tool path: when to delegate and what prompt to construct. Piece 3 gives the user the template-substitution path. Both converge on the same Piece 1 subagent — but the entry mechanisms are different, and trying to serve Claude through Piece 3 produces a templated prompt with no values to fill in.
+
+### The pieces
+
+**Piece 1 — the subagent (`agents/<activity>.md`).** Required for Type 2 and Type 3. Holds all baseline behavior in its body (this becomes the system prompt for both invocation paths).
+- `description`: concise statement of when Claude should delegate. The only descriptive surface visible in the Agent tool listing — put trigger phrases first.
+- `tools` / `model` / `permissionMode`: set explicitly; do not rely on inheritance.
+- `skills:` preloads informational skills (Type 1) the activity always needs.
+- The body must produce sensible behavior when the first user turn is empty or vague. It is the fallback for empty-args user invocations from Piece 3.
+
+**Piece 2 — the educational skill (`skills/how-to-<activity>/SKILL.md`).** Required for Type 2 and Type 3. Teaches Claude *when* to spawn the subagent and *what* prompt to craft. Pure documentation; not a command.
+- Name pattern: `how-to-<activity>`. The imperative phrasing matches Claude's reader-perspective and reads cleanly across all activity types.
+- Required frontmatter: `user-invocable: false`.
+- The `description` should front-load the user's likely trigger phrases.
+- Body covers only the delta the subagent's own description cannot hold: examples of good delegation prompts, when to delegate vs. handle inline, anti-patterns, argument-crafting guidance. Do not restate the subagent's role.
+
+**Piece 3 — the user-entry skill (`skills/<activity>/SKILL.md`).** Required for Type 3 only. Thin wrapper that turns `/<activity> args` into a fork into the subagent.
+- Required frontmatter: `disable-model-invocation: true`, `context: fork`, `agent: <activity>`.
+- Body: `$ARGUMENTS` alone, or omit entirely (Claude Code appends `ARGUMENTS: <value>` when `$ARGUMENTS` is absent).
+- Nothing else belongs here. No baseline behavior, no fallback logic — those belong in Piece 1.
+
+To convert a Type 3 design to Type 2, omit Piece 3. The other two pieces are unchanged. Adding Piece 3 later is mechanical: its body is `$ARGUMENTS`, its frontmatter is fixed, and it does not affect the existing pieces.
+
+### SKILL.md frontmatter fields
 
 | Field | Required | Description |
 |-------|----------|-------------|
-| `name` | Yes | Skill identifier (used in slash commands) |
-| `description` | Yes | What skill does and when to use it (third-person) |
-| `context` | No | `fork` to run skill body as a task prompt in a subagent |
+| `name` | Yes | Skill identifier (matches the slash command for Piece 3) |
+| `description` | Yes | What the skill does and when to use it (third-person) |
+| `context` | No | `fork` to run the skill body as a task prompt in a subagent |
 | `agent` | No | Agent name to route to (requires `context: fork`) |
-| `disable-model-invocation` | No | `true` for manual-only skills (slash command only) |
+| `disable-model-invocation` | No | `true` for Piece 3 — user-typed slash command only; Claude must not auto-invoke |
+| `user-invocable` | No | `false` for Piece 2 — Claude reads it as guidance; user has no slash command |
 
-**SKILL.md structure (knowledge skill):**
-```markdown
----
-name: skill-name
-description: Complete description of what skill does and when to use it (third-person)
----
+The two opt-out fields apply to different pieces and are not interchangeable:
 
-# Skill Name
+| Field | Effect | Used on |
+|-------|--------|---------|
+| `disable-model-invocation: true` | User can type `/<name>`; Claude must not auto-call | Piece 3 (user-entry wrapper) |
+| `user-invocable: false` | Claude can read/apply; user has no slash command | Piece 2 (educational skill) |
 
-[Purpose in a few sentences]
+### Description openers for `how-to-<activity>` skills
 
-## When to Use
-[Specific triggers and use cases]
+Front-load the user's likely trigger phrases. Each opener should match the contexts where Claude should consult the skill before acting.
 
-## How to Use
-[Procedural instructions referencing bundled resources]
-```
+| Skill | Description opener |
+|---|---|
+| `how-to-commit` | "When the user asks to commit, check in, or save changes..." |
+| `how-to-code-review` | "When the user asks for a code review, PR review, or critical look at recent changes..." |
+| `how-to-security-review` | "When the user asks for a security audit, vuln check, or wants security issues identified..." |
+| `how-to-refactor` | "When the user asks to refactor, restructure, or clean up code without changing behavior..." |
+| `how-to-plan` | "When the user asks to plan, design an approach, or think through work before implementing..." |
+| `how-to-research` | "When the user asks to research, investigate, explore the codebase, or understand how something works..." |
 
-**SKILL.md structure (agent-routing skill):**
-```markdown
----
-name: skill-name
-description: Brief description of what the agent does
-context: fork
-agent: skill-name
-disable-model-invocation: true
----
+### Invocation paths
 
-[Task prompt passed to the agent]
+- **User → Type 3:** `/<activity> args` → Piece 3 forks → subagent runs with `args` as the first user turn, baseline from the subagent's system prompt.
+- **Claude → Type 2 or Type 3:** Claude reads Piece 2, decides to delegate, calls the Agent tool on `<activity>` with crafted instructions. Piece 3 is not on this path.
 
-$ARGUMENTS
-```
+For Type 3, both paths converge on the same subagent.
 
-**Resource types:**
-- **scripts/** - Code rewritten repeatedly or requiring deterministic reliability
-- **reference/** - Documentation Claude should reference while working (schemas, API docs, policies)
-- **assets/** - Files used in final output, not loaded into context
+### Resource types (any skill)
+
+- **scripts/** — code rewritten repeatedly or requiring deterministic reliability
+- **reference/** — documentation Claude should reference while working (schemas, API docs, policies)
+- **assets/** — files used in final output, not loaded into context
+
+### Anti-patterns
+
+- **Baseline behavior in Piece 3's body.** Only the user path sees it; the subagent should hold it.
+- **Fallback logic in Piece 3** ("do X or default to Y"). Piece 3 is dumb forwarding. The subagent's system prompt must make empty args meaningful.
+- **Restating the subagent in Piece 2.** Recurring token cost for zero signal.
+- **Cramming when-to-delegate guidance into the subagent's `description`.** The listing budget is small. Long guidance belongs in Piece 2.
+- **Omitting `disable-model-invocation: true` on Piece 3.** The wrapper assumes user-typed text drives behavior; Claude calling it produces nonsense.
+- **Duplicating tool/permission configuration across the wrapper and the subagent.** The subagent's frontmatter governs the forked context.
+- **Reaching for Type 3 by default.** If the user wouldn't naturally type a slash command, Type 2 is the right shape. An unused Piece 3 costs maintenance and clutters the slash menu.
+
+### Known runtime bug
+
+Skill-to-skill invocation of a `context: fork` skill silently drops `$ARGUMENTS` substitution (issue #34164). Direct user invocation is unaffected. Do not build meta-skills that programmatically invoke Piece 3 until this is fixed.
 
 ### Writing Guidelines
 
@@ -245,44 +321,69 @@ Create `.claude-plugin/plugin.json`:
 }
 ```
 
-## 3. Add a Skill (optional)
+## 3. Add a skill (optional)
 
-Skills are the primary way to add slash-command-invocable capabilities to plugins.
+Pick a skill type from "The three skill patterns" above. Each type has a different file layout. Skills are auto-discovered from `skills/` and need no manifest entry.
 
-**Simple knowledge skill** (`skills/security-check/SKILL.md`):
+### Type 1 — informational skill
+
+Single file at `skills/<name>/SKILL.md`:
 ```markdown
 ---
-name: security-check
-description: Check code for common security vulnerabilities
+name: api-conventions
+description: REST naming and error formats this codebase uses
 ---
 
-# Security Check
+# API Conventions
 
-Scan the specified code for OWASP Top 10 vulnerabilities.
-
-$ARGUMENTS
+[Standing reference content Claude consults during the session.]
 ```
 
-**Agent-routing skill** (`skills/review/SKILL.md`):
+### Type 2 — task (subagent + educational skill)
+
+Two pieces. The subagent (Piece 1) holds behavior; the educational skill (Piece 2) teaches Claude when to delegate. Write Piece 1 using the agent guidance in the next step. Then add Piece 2:
+
+`skills/how-to-dependency-impact/SKILL.md`:
 ```markdown
 ---
-name: review
-description: Route to the code review agent
-context: fork
-agent: review
+name: how-to-dependency-impact
+description: When code changes touch shared modules, consult this skill to decide whether to delegate to the dependency-impact subagent and how to craft the prompt.
+user-invocable: false
+---
+
+# Handling shared-module changes
+
+Delegate to the `dependency-impact` subagent via the Agent tool when [...].
+
+## When to delegate vs. handle inline
+[examples of clear-delegate vs. handle-inline cases]
+
+## Crafting the delegation prompt
+[concrete prompt examples for common scenarios]
+
+## Anti-patterns
+[misuses to avoid]
+```
+
+### Type 3 — task with `/<activity>` slash command
+
+Three pieces. Add Piece 3 to the Type 2 layout:
+
+`skills/<activity>/SKILL.md`:
+```markdown
+---
+name: commit
+description: Commit the current working changes.
 disable-model-invocation: true
+context: fork
+agent: commit
+argument-hint: "[subject hint or scope]"
 ---
-
-Review the code for quality, security, and maintainability.
 
 $ARGUMENTS
 ```
 
-Skills support:
-- `$ARGUMENTS` parameter placeholder for user input
-- `context: fork` + `agent` for routing to a named agent
-- `disable-model-invocation: true` for manual-only (slash command only)
-- Auto-discovery from `skills/` directory (no manifest entry needed)
+Body is `$ARGUMENTS` alone. No fallback logic — Piece 1 handles empty args.
 
 ## 4. Add an Agent (optional)
 
@@ -412,39 +513,7 @@ Choose tool access based on the agent's purpose:
 - Skill→agent routing is handled by skill frontmatter (`context: fork` + `agent`), not by agent descriptions
 - Do NOT include `(Use subagent_type: ...)` hints in agent descriptions; this is legacy
 
-## 5. Add a Knowledge Skill (optional)
-
-Create `skills/security-analysis/SKILL.md` for a skill that provides domain knowledge (no agent routing):
-```markdown
----
-name: security-analysis
-description: Analyze code for security vulnerabilities following OWASP guidelines
----
-
-# Security Analysis Skill
-
-Use when analyzing code for security vulnerabilities.
-
-## Common Vulnerabilities to Check
-- SQL injection
-- XSS attacks
-- CSRF vulnerabilities
-- Insecure authentication
-- Sensitive data exposure
-
-## Analysis Process
-1. Identify input validation points
-2. Check authentication/authorization
-3. Review data handling
-4. Verify cryptographic practices
-```
-
-Optional skill resources (each skill in its own directory):
-```bash
-mkdir -p skills/security-analysis/{scripts,reference,assets}
-```
-
-## 6. Add Hooks (optional)
+## 5. Add Hooks (optional)
 
 Create `hooks/hooks.json`:
 ```json
@@ -623,47 +692,98 @@ Create `.claude-plugin/marketplace.json`:
 
 # Complete Examples
 
-## Example 1: PR Review Plugin
+## Example 1: `/commit` plugin (Type 3, all three pieces)
 
 ```
-pr-review-plugin/
+commit-plugin/
 ├── .claude-plugin/
 │   └── plugin.json
-├── skills/
-│   └── review-pr/
-│       └── SKILL.md
-└── agents/
-    └── pr-reviewer-agent.md
+├── agents/
+│   └── commit.md                       # Piece 1: subagent
+└── skills/
+    ├── how-to-commit/
+    │   └── SKILL.md                    # Piece 2: educational skill
+    └── commit/
+        └── SKILL.md                    # Piece 3: user-entry wrapper
 ```
 
-**plugin.json:**
-```json
-{
-  "name": "pr-review",
-  "description": "Automated PR review workflow",
-  "version": "1.0.0",
-  "agents": ["./agents/pr-reviewer-agent.md"]
-}
-```
-
-**skills/review-pr/SKILL.md:**
+**`agents/commit.md` (Piece 1):**
 ```markdown
 ---
-name: review-pr
-description: Review a pull request for quality, bugs, and best practices
-context: fork
-agent: review-pr
-disable-model-invocation: true
+name: commit
+description: Stages and commits current working changes with a well-formed message. Use when the user asks to commit, check in, or save changes.
+tools: Bash(git:*), Read, Grep
+model: sonnet
+permissionMode: acceptEdits
 ---
 
-Review the pull request.
+You stage and commit the user's current changes.
+
+Workflow:
+1. Run `git status` and `git diff --staged` (and `git diff` if nothing is staged) to understand the changes.
+2. If nothing is staged and there are unstaged changes to tracked files, stage them. Do not add untracked files without an explicit instruction.
+3. Compose a commit message: imperative subject under 72 chars; optional body explaining the *why* if non-obvious.
+4. Run `git commit`.
+5. Report the resulting commit hash and one-line summary.
+
+If the first user turn provides specifics (subject hint, scope, files to include or exclude), follow them. If empty, perform the default workflow above.
+
+Never push. Never amend without an explicit instruction.
+```
+
+**`skills/how-to-commit/SKILL.md` (Piece 2):**
+```markdown
+---
+name: how-to-commit
+description: When the user asks to commit, check in, or save changes, consult this skill to decide whether to delegate to the commit subagent and how to craft the prompt.
+user-invocable: false
+---
+
+# Handling commit requests
+
+Delegate to the `commit` subagent via the Agent tool when the user asks to commit work.
+
+## When to delegate vs. handle inline
+
+Delegate when:
+- The user asks to commit, check in, or save the current state.
+- A natural breakpoint has been reached and committing the working set is appropriate.
+
+Handle inline (do not delegate) when:
+- The user is mid-discussion about what should go in the commit and hasn't decided.
+- The user explicitly wants a step-by-step walkthrough instead of an autonomous commit.
+
+## Crafting the delegation prompt
+
+Pass any subject hints, scope instructions, or include/exclude rules the user mentioned.
+
+- User: "commit this" → Delegate with empty prompt; subagent's default workflow handles it.
+- User: "commit just the auth changes" → Delegate with: "Stage and commit only the changes in the auth module."
+- User: "commit with subject 'fix: handle null token'" → Delegate with: "Use subject line: fix: handle null token"
+
+## Anti-patterns
+
+- Do not run `git commit` directly in the main session. The subagent owns this.
+- Do not delegate when the user is still exploring whether to commit. Wait for a clear instruction.
+```
+
+**`skills/commit/SKILL.md` (Piece 3):**
+```markdown
+---
+name: commit
+description: Commit the current working changes.
+disable-model-invocation: true
+context: fork
+agent: commit
+argument-hint: "[subject hint or scope]"
+---
 
 $ARGUMENTS
 ```
 
-**agents/pr-reviewer-agent.md** (frontmatter `name: review-pr` to match skill):
+To downgrade this to Type 2 (Claude-triggered only, no `/commit` slash command), delete `skills/commit/SKILL.md`. The other two pieces are unchanged.
 
-## Example 2: Security Audit Plugin with Skill
+## Example 2: Security Audit Plugin (Type 1 informational skill)
 
 ```
 security-plugin/
