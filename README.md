@@ -19,6 +19,14 @@ Once added, you can browse and install individual plugins:
 
 ## List of Plugins
 
+### Essential
+
+Foundational plugins that shape how Claude operates across all other skills and plugins.
+
+| Plugin | Description |
+|--------|-------------|
+| **prioritize-skills** | Injects a directive at session and subagent start that requires checking for and invoking applicable skills before responding or acting. Adapted from [obra/superpowers](https://github.com/obra/superpowers) (MIT) |
+
 ### CLAUDE.md extensions
 
 Inject instructions at session start as if they were in your CLAUDE.md.

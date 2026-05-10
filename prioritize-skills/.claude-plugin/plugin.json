@@ -1,0 +1,9 @@
+{
+  "name": "prioritize-skills",
+  "version": "0.1.0",
+  "description": "Injects a directive at session and subagent start that requires checking for and invoking applicable skills before responding or acting",
+  "author": {
+    "name": "David Golden",
+    "email": "xdg@xdg.me"
+  }
+}
