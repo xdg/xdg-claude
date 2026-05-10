@@ -627,7 +627,8 @@ Create `.claude-plugin/marketplace.json`:
 2. **Clear documentation** - Include usage examples and expected behavior
 3. **Descriptive names** - Use clear, searchable plugin and command names
 4. **Semantic versioning** - Follow semver for version numbers; bump versions in both the per-plugin `.claude-plugin/plugin.json` and the root `.claude-plugin/marketplace.json`
-5. **Minimal dependencies** - Keep plugins lightweight and focused
+5. **List new plugins in README.md** - When adding a new plugin to this marketplace, add a row to the appropriate table under "List of Plugins" in `README.md` (Essential / CLAUDE.md extensions / Agents / Skills). Pick the category that matches the plugin's primary surface.
+6. **Minimal dependencies** - Keep plugins lightweight and focused
 
 ## Agent Development
 
