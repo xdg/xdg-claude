@@ -4,8 +4,7 @@ description: Commit current changes with intelligent analysis and best-practice 
 context: fork
 agent: commit
 disable-model-invocation: true
+argument-hint: "[subject hint or scope]"
 ---
-
-Commit the current changes.
 
 $ARGUMENTS
