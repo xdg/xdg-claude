@@ -82,6 +82,14 @@
       "tags": ["communication", "style", "productivity"]
     },
     {
+      "name": "prioritize-skills",
+      "source": "./prioritize-skills",
+      "description": "Injects a directive at session and subagent start that requires checking for and invoking applicable skills before responding or acting",
+      "version": "0.1.0",
+      "category": "productivity",
+      "tags": ["skills", "workflow", "prioritization"]
+    },
+    {
       "name": "refactoring-agent",
       "source": "./refactoring-agent",
       "description": "Surgical code refactoring agents for analyzing and improving code quality without changing behavior",
