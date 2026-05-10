@@ -35,7 +35,7 @@ Claude Code plugins are custom collections of commands, agents, skills, hooks, a
 **Agents (Sub-agents)** - Specialized AI assistants with isolated context
 - Defined in `agents/*.md` files
 - Have their own system prompt and tool permissions
-- Routed to via skill frontmatter (`agent` field) or Task tool (`subagent_type`)
+- Routed to via skill frontmatter (`agent` field) or the Agent tool (`subagent_type`)
 - Best for: Intelligent analysis requiring reasoning and adaptation
 
 **Hooks** - Event handlers that run shell commands at lifecycle points
@@ -187,16 +187,18 @@ The two opt-out fields apply to different pieces and are not interchangeable:
 
 ### Description openers for `how-to-<activity>` skills
 
-Front-load the user's likely trigger phrases. Each opener should match the contexts where Claude should consult the skill before acting.
+Front-load the user's likely trigger phrases, then state the action the skill enables. The trigger clause tells Claude *when* to load the skill; the action clause tells it *what* the skill is for.
 
-| Skill | Description opener |
-|---|---|
-| `how-to-commit` | "When the user asks to commit, check in, or save changes..." |
-| `how-to-code-review` | "When the user asks for a code review, PR review, or critical look at recent changes..." |
-| `how-to-security-review` | "When the user asks for a security audit, vuln check, or wants security issues identified..." |
-| `how-to-refactor` | "When the user asks to refactor, restructure, or clean up code without changing behavior..." |
-| `how-to-plan` | "When the user asks to plan, design an approach, or think through work before implementing..." |
-| `how-to-research` | "When the user asks to research, investigate, explore the codebase, or understand how something works..." |
+Pattern: `When the user asks to <triggers>, consult this skill to <decide whether to delegate to the <activity> subagent and how to craft the prompt>.`
+
+Examples:
+
+- `how-to-commit`: "When the user asks to commit, check in, or save changes, consult this skill to decide whether to delegate to the commit subagent and how to craft the prompt."
+- `how-to-code-review`: "When the user asks for a code review, PR review, or critical look at recent changes, consult this skill to decide whether to delegate to the code-review subagent and how to craft the prompt."
+- `how-to-security-review`: "When the user asks for a security audit, vuln check, or wants security issues identified, consult this skill to decide whether to delegate to the security-review subagent and how to craft the prompt."
+- `how-to-refactor`: "When the user asks to refactor, restructure, or clean up code without changing behavior, consult this skill to decide whether to delegate to the refactor subagent and how to craft the prompt."
+- `how-to-plan`: "When the user asks to plan, design an approach, or think through work before implementing, consult this skill to decide whether to delegate to the plan subagent and how to craft the prompt."
+- `how-to-research`: "When the user asks to research, investigate, explore the codebase, or understand how something works, consult this skill to decide whether to delegate to the research subagent and how to craft the prompt."
 
 ### Invocation paths
 
@@ -280,7 +282,7 @@ Skill-to-skill invocation of a `context: fork` skill silently drops `$ARGUMENTS`
 }
 ```
 
-**Note:** Skills are auto-discovered from the `skills/` directory and do not need manifest entries. The `"commands"` field is legacy; prefer `skills/` for new development.
+**Note:** Skills, agents, and hooks placed under their standard directories (`skills/`, `agents/`, `hooks/`) are auto-discovered and do not need manifest entries. The `agents` and `hooks` arrays are only needed when files live outside those directories. The `"commands"` field is legacy; prefer `skills/` for new development.
 
 ---
 
@@ -291,7 +293,7 @@ Skill-to-skill invocation of a `context: fork` skill silently drops `$ARGUMENTS`
 ```bash
 mkdir my-plugin
 cd my-plugin
-mkdir -p .claude-plugin commands agents skills hooks
+mkdir -p .claude-plugin agents skills hooks
 ```
 
 ## 2. Create Manifest
@@ -372,55 +374,48 @@ $ARGUMENTS
 
 Body is `$ARGUMENTS` alone. No fallback logic — Piece 1 handles empty args.
 
-## 4. Add an Agent (optional)
+## 4. Add an Agent (Piece 1, optional)
 
-Create `agents/reviewer.md`:
+For Type 2 and Type 3 skills, create the subagent at `agents/<activity>.md`. The subagent body becomes the system prompt for both invocation paths (user `/<activity>` and Claude-initiated Agent calls), so it must hold all baseline behavior and behave sensibly when the first user turn is empty.
+
+Example — `agents/code-review.md`:
 ```markdown
 ---
-name: code-review-agent
-description: Perform thorough code review checking for quality, bugs, and best practices
-tools: Read, Grep, Glob
-color: blue
+name: code-review
+description: Reviews code for quality, bugs, and best practices. Use when the user asks for a code review, PR review, or critical look at recent changes.
+tools: Read, Grep, Glob, Bash
+model: sonnet
+permissionMode: default
+skills:
+  - context-efficient-tools:ripgrep
+  - context-efficient-tools:ast-grep
+  - context-efficient-tools:code-structure
 ---
 
-# Role
+You review the user's code changes and report issues.
 
-You are a senior code reviewer specializing in identifying code quality issues, potential bugs, and adherence to best practices. Your reviews are thorough, constructive, and specific.
+Workflow:
+1. If the first user turn names a scope (a PR, a commit range, a path), review that. Otherwise review the working tree against the merge base with the main branch.
+2. Read the changed files and surrounding context as needed.
+3. Identify quality issues, likely bugs, and security concerns. Skip stylistic nits the formatter would catch.
+4. Return a structured report (see "Reporting" below).
 
-# Primary Responsibilities
+# Responsibilities
 
-**Code Quality Analysis:**
-- Check for readability and maintainability issues
-- Identify overly complex code that should be simplified
-- Verify consistent code style and formatting
-- Flag technical debt and suggest improvements
+- Quality: readability, maintainability, unnecessary complexity.
+- Correctness: edge cases, error handling, null/undefined, concurrency.
+- Security: input validation, secret handling, common vulnerability patterns.
 
-**Bug Detection:**
-- Identify potential runtime errors
-- Check for edge cases and error handling
-- Verify proper null/undefined handling
-- Look for race conditions and concurrency issues
+# Reporting
 
-**Best Practices Verification:**
-- Ensure proper separation of concerns
-- Check for security vulnerabilities
-- Verify appropriate use of language features
-- Validate test coverage for new code
+Return:
+- **Summary:** 1–2 sentences on overall quality.
+- **Issues:** Each entry has severity (critical / major / minor), `file:line`, and a one-sentence explanation. Suggest a fix when it fits in a line.
 
-# Reporting Back
-
-Provide a structured review report:
-
-**Summary:** Brief overview (1-2 sentences) of overall code quality
-
-**Issues Found:** List only specific, actionable items with:
-- Severity (critical, major, minor)
-- File and line number reference
-- Brief explanation of the issue
-- Suggested fix when appropriate
-
-Do NOT include full code blocks or diffs in your report unless absolutely necessary. Keep feedback concise and actionable.
+Do not return full code blocks, diffs, or file listings — those are in the working tree. Keep the report scannable.
 ```
+
+Note: the `name` field matches the corresponding skill name (e.g. `code-review`, not `code-review-agent`). The harness routes by the frontmatter `name`, not the filename.
 
 ### Agent Writing Guidelines
 
@@ -495,8 +490,7 @@ Choose tool access based on the agent's purpose:
 - Reduce ambiguity in execution
 
 **Naming Conventions:**
-- Agent **filenames** should end in `-agent` for clarity (e.g., `code-review-agent.md`)
-- Agent frontmatter `name` should match the corresponding skill name (e.g., `name: code-review`)
+- Agent frontmatter `name` is what the harness routes by; it should match the corresponding skill name (e.g., `name: code-review`). The filename is incidental — `agents/code-review.md` is fine.
 - Skill→agent routing is handled by skill frontmatter (`context: fork` + `agent`), not by agent descriptions
 - Do NOT include `(Use subagent_type: ...)` hints in agent descriptions; this is legacy
 
@@ -649,7 +643,6 @@ Create `.claude-plugin/marketplace.json`:
 2. **Scripts as black boxes** - Include `--help` flags, design for execution not reading
 3. **Smart references** - Large docs should have grep search patterns in SKILL.md
 4. **Clear metadata** - Description determines when Claude invokes skill
-5. **Evaluation-driven** - Start with evals, identify gaps, build incrementally
 
 ## Security
 
