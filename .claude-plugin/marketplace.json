@@ -60,8 +60,8 @@
     {
       "name": "jira-cli",
       "source": "./jira-cli",
-      "description": "Command-line Jira management skill using jira-cli with efficient querying and issue workflows",
-      "version": "0.1.1",
+      "description": "Manage Jira issues from the command line via jira-cli.",
+      "version": "0.1.3",
       "category": "development",
       "tags": ["jira", "project-management", "cli", "productivity"]
     },

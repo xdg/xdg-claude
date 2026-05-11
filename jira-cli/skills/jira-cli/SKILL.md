@@ -1,19 +1,17 @@
 ---
 name: jira-cli
-description: Manage Jira issues via command line - read issues, query by filters, create/update issues, add comments, and close issues after work completion.
+description: Manage Jira issues via the jira-cli tool.
 ---
 
 # jira-cli: Command-Line Jira Management
 
-Use jira-cli when interacting with Jira. Assume jira-cli already installed/configured.
+Assume jira-cli is installed and configured.
 
 **Project flag:** Always use `-p PROJ` to specify project explicitly (don't rely on defaults)
 
-## When to Use
+## Limitation
 
-**Use for:** Reading issues, querying (status/priority/assignee filters), creating/updating issues, adding comments, closing after work complete
-
-**Ask user for web UI:** Attachments/images, visual board operations (can't do from CLI)
+Ask the user to use the web UI for attachments/images and visual board operations -- these can't be done from the CLI.
 
 ## Core Pattern: Work on Issue
 
@@ -37,11 +35,6 @@ jira issue view -p PROJ PROJ-123 --raw | jq -r '.fields.status.name'
 jira issue list -p PROJ --plain --no-headers --columns KEY
 ```
 
-## When to Load Detailed Guide
+## Detailed reference
 
-Load [jira-cli reference guide](./reference/jira-cli-reference.md) for:
-- Command syntax and flags
-- Query patterns and JQL filtering
-- Output format options
-- User intent → command mapping
-- Git integration patterns
+See [jira-cli reference guide](./reference/jira-cli-reference.md) for command syntax, JQL, filter flags, output formats, and data extraction patterns.

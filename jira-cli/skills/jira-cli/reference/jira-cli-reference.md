@@ -6,20 +6,6 @@
 
 ---
 
-# Core Workflow: Working on Issue
-
-```bash
-# User: "Work on PROJ-123"
-jira issue view -p PROJ PROJ-123                          # Read requirements
-jira issue assign PROJ-123 $(jira me)                     # Assign to user
-jira issue move PROJ-123 "In Progress"                    # Update status
-# ... implement code ...
-jira issue comment add PROJ-123 "Fixed in $(git rev-parse --short HEAD)"
-jira issue move PROJ-123 "Done"                           # Close
-```
-
----
-
 # Command Syntax by Intent
 
 ## Query Issues
@@ -151,28 +137,11 @@ jira issue view -p PROJ PROJ-123 --raw | jq -r '.fields.summary'
 
 ---
 
-# User Intent → Command Mapping
-
-| User Says | Command |
-|-----------|---------|
-| "Work on PROJ-123" | `jira issue view -p PROJ PROJ-123` |
-| "What bugs do I have?" | `jira issue list -p PROJ -tBug -aCurrentUser` |
-| "What should I work on?" | `jira issue list -p PROJ -yHigh -s"To Do"` |
-| "Create bug for X" | `jira issue create -p PROJ -tBug -s"X"` |
-| "Close PROJ-123" | `jira issue move PROJ-123 "Done"` |
-| "Add comment to PROJ-123" | `jira issue comment add PROJ-123 "text"` |
-| "What did I work on yesterday?" | `jira issue list -p PROJ -aCurrentUser --updated -1d` |
-
----
-
 # Best Practices
 
-1. **Always specify project:** Use `-p PROJ` flag explicitly
-2. **Extract minimal data:** Use `--raw | jq` for specific fields instead of reading full issue
-3. **Filter before reading:** Narrow with queries, then read details
-4. **Use plain output for scripts:** `--plain --no-headers --columns KEY`
-5. **Proactive updates:** After code changes, offer to add commits/close issues
-6. **Rate limits:** Add `sleep 0.5` between bulk operations
+1. **Filter before reading:** Narrow with queries, then read details
+2. **Proactive updates:** After code changes, offer to add commits/close issues
+3. **Rate limits:** Add `sleep 0.5` between bulk operations
 
 ---
 
