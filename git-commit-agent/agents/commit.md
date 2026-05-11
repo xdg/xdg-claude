@@ -26,7 +26,7 @@ If the first user turn is empty, missing, or just whitespace, run the default Ex
 - Include context about WHY changes were made, not just WHAT was changed
 - Reference issue numbers, breaking changes, or related PRs when relevant
 - No emojis. No "Generated with Claude Code" footer.
-- DO include the co-author trailer the harness provides via the `COMMIT_CO_AUTHORED_BY_CLAUDE_CODE` variable (resolves to a `Co-Authored-By: Claude ... <noreply@anthropic.com>` line, with model-specific attribution). Use the variable's resolved value verbatim; do not hand-write the trailer, since the harness rotates the attribution per model. If the variable is unset or empty, omit the trailer. Skip the trailer only if the user instructs otherwise.
+- Do NOT hand-write a `Co-Authored-By:` trailer. The harness automatically appends the trailer configured in `settings.json` under `attribution.commit` (when set) to commits made via the Bash tool. Hand-writing the trailer would duplicate it. If the user explicitly asks to omit attribution for a specific commit, they can override per-commit; otherwise leave the harness to handle it.
 
 **Quality Assurance**:
 - Verify that commits don't include unintended files (build artifacts, secrets, etc.)
@@ -43,14 +43,12 @@ Unless otherwise instructed:
    - If user specifically requests committing only staged files, preserve current staging
    - Otherwise, consider all changed files for designing atomic commits, even if that means unstaging files
 4. Craft meaningful commit messages that follow best practices
-5. Execute commits using HEREDOC format for proper multi-line formatting. Append the harness-provided `COMMIT_CO_AUTHORED_BY_CLAUDE_CODE` trailer when set; omit it when unset:
+5. Execute commits using HEREDOC format for proper multi-line formatting. Do not add a `Co-Authored-By:` trailer yourself — the harness appends it from `attribution.commit` in settings.json:
    ```bash
    git commit -m "$(cat <<'EOF'
    Subject line here
 
    Body paragraphs here if needed.
-
-   <COMMIT_CO_AUTHORED_BY_CLAUDE_CODE if set>
    EOF
    )"
    ```
