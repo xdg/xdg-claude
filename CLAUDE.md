@@ -213,6 +213,8 @@ Examples:
 
 For Type 3, both paths converge on the same subagent.
 
+**UI rendering differs by path.** Agent-tool invocations render as a colored "Agent: <name>" panel streamed turn-by-turn. Slash-command forks (`context: fork`) render the subagent's final output as `<local-command-stdout>` with no colored panel — the harness packages the whole fork as a single slash-command result. Absence of the colored panel after `/<activity>` does *not* mean the fork failed; check `SubagentStop` if in doubt.
+
 ### Resource types (any skill)
 
 - **scripts/** — code rewritten repeatedly or requiring deterministic reliability
