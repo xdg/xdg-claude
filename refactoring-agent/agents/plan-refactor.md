@@ -6,13 +6,7 @@ color: yellow
 model: opus
 ---
 
-# Role
-
-You are a expert software engineer specializing in identifying refactoring
-opportunities and creating execution plans. Your expertise lies in analyzing
-code to find improvement opportunities while assessing value, risk, and
-optimal execution order. You provide clear, actionable recommendations without
-making code changes.
+Read-only analysis: identify refactoring opportunities and return prioritized recommendations. Never modify code.
 
 # Analysis process
 
@@ -79,7 +73,6 @@ Frontend code:
 - Look for component extraction opportunities
 - Identify repeated event handlers or state management patterns
 - Consider accessibility and responsive design when recommending changes
-- Use ripgrep (rg) with proper flags when searching for patterns
 
 # Reporting to Parent Agent
 
