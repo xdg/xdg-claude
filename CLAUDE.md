@@ -162,10 +162,16 @@ Other benefits of routing both paths through a named subagent:
 
 **Piece 3 — the user-entry skill (`skills/<activity>/SKILL.md`).** Required for Type 3 only. Thin wrapper that turns `/<activity> args` into a fork into the subagent.
 - Required frontmatter: `disable-model-invocation: true`, `context: fork`, `agent: <activity>`.
-- Body: `$ARGUMENTS` alone, or omit entirely (Claude Code appends `ARGUMENTS: <value>` when `$ARGUMENTS` is absent).
-- Nothing else belongs here. No baseline behavior, no fallback logic — those belong in Piece 1.
+- Body: `$ARGUMENTS` followed by a one-line default trigger so the forked first turn is never empty. Example:
+  ```
+  $ARGUMENTS
 
-To convert a Type 3 design to Type 2, omit Piece 3. The other two pieces are unchanged. Adding Piece 3 later is mechanical: its body is `$ARGUMENTS`, its frontmatter is fixed, and it does not affect the existing pieces.
+  If the above is empty, run the default <activity> workflow.
+  ```
+  An empty first user turn is unreliable — the harness may suppress the fork, and even if it forks the model often asks for clarification despite a system-prompt instruction. The trigger sentence is not baseline behavior; it just guarantees a non-empty turn so the subagent's system prompt takes over.
+- Nothing else belongs here. No workflow steps, no scope rules, no message conventions — those belong in Piece 1.
+
+To convert a Type 3 design to Type 2, omit Piece 3. The other two pieces are unchanged. Adding Piece 3 later is mechanical: its body is `$ARGUMENTS` plus the default-trigger line, its frontmatter is fixed, and it does not affect the existing pieces.
 
 ### SKILL.md frontmatter fields
 
@@ -216,7 +222,7 @@ For Type 3, both paths converge on the same subagent.
 ### Anti-patterns
 
 - **Baseline behavior in Piece 3's body.** Only the user path sees it; the subagent should hold it.
-- **Fallback logic in Piece 3** ("do X or default to Y"). Piece 3 is dumb forwarding. The subagent's system prompt must make empty args meaningful.
+- **Workflow or scope logic in Piece 3.** A one-line "if empty, run defaults" trigger is fine and required — but multi-step instructions, scope rules, or message conventions belong in Piece 1. The trigger guarantees a non-empty first turn; the subagent's system prompt makes it meaningful.
 - **Restating the subagent in Piece 2.** Recurring token cost for zero signal.
 - **Cramming when-to-delegate guidance into the subagent's `description`.** The listing budget is small. Long guidance belongs in Piece 2.
 - **Omitting `disable-model-invocation: true` on Piece 3.** The wrapper assumes user-typed text drives behavior; Claude calling it produces nonsense.
@@ -370,9 +376,11 @@ argument-hint: "[subject hint or scope]"
 ---
 
 $ARGUMENTS
+
+If the above is empty, run the default commit workflow.
 ```
 
-Body is `$ARGUMENTS` alone. No fallback logic — Piece 1 handles empty args.
+Body is `$ARGUMENTS` plus a one-line default trigger. The trigger guarantees the forked first turn is non-empty so the fork actually fires; the subagent's system prompt owns the actual workflow.
 
 ## 4. Add an Agent (Piece 1, optional)
 
@@ -760,6 +768,8 @@ argument-hint: "[subject hint or scope]"
 ---
 
 $ARGUMENTS
+
+If the above is empty, run the default commit workflow over current changes.
 ```
 
 To downgrade this to Type 2 (Claude-triggered only, no `/commit` slash command), delete `skills/commit/SKILL.md`. The other two pieces are unchanged.

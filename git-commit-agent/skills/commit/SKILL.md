@@ -8,3 +8,5 @@ argument-hint: "[subject hint or scope]"
 ---
 
 $ARGUMENTS
+
+If the above is empty, run the default commit workflow over current changes.
