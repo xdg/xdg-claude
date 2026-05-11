@@ -45,7 +45,7 @@
       "name": "git-commit-agent",
       "source": "./git-commit-agent",
       "description": "Git commit agent with intelligent change analysis and commit message conventions",
-      "version": "0.5.0",
+      "version": "0.6.0",
       "category": "development",
       "tags": ["git", "commit", "agent", "version-control"]
     },
