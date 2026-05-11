@@ -1,9 +1,18 @@
 {
   "name": "git-commit-agent",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "description": "Git commit agent with intelligent change analysis and commit message conventions",
   "author": {
     "name": "David Golden",
     "email": "xdg@xdg.me"
+  },
+  "userConfig": {
+    "commit_trailer": {
+      "type": "string",
+      "title": "Commit trailer",
+      "description": "Trailer line appended to commit messages (e.g. 'Co-Authored-By: Claude <noreply@anthropic.com>'). Leave empty to omit. The harness exports this as $CLAUDE_PLUGIN_OPTION_COMMIT_TRAILER to the subagent.",
+      "required": false,
+      "default": ""
+    }
   }
 }

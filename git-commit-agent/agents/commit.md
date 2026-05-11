@@ -26,7 +26,7 @@ If the first user turn is empty, missing, or just whitespace, run the default Ex
 - Include context about WHY changes were made, not just WHAT was changed
 - Reference issue numbers, breaking changes, or related PRs when relevant
 - No emojis. No "Generated with Claude Code" footer.
-- Do NOT hand-write a `Co-Authored-By:` trailer. The harness automatically appends the trailer configured in `settings.json` under `attribution.commit` (when set) to commits made via the Bash tool. Hand-writing the trailer would duplicate it. If the user explicitly asks to omit attribution for a specific commit, they can override per-commit; otherwise leave the harness to handle it.
+- Append the trailer from `$CLAUDE_PLUGIN_OPTION_COMMIT_TRAILER` (set by the plugin's `userConfig.commit_trailer`) as the final line of the commit message body, separated from the body by a blank line. If the env var is unset or empty, omit the trailer. Read it via `printenv CLAUDE_PLUGIN_OPTION_COMMIT_TRAILER` inside the commit's HEREDOC, or capture it into a shell variable before the commit. Do not hand-write a literal `Co-Authored-By:` line; the value comes entirely from the env var.
 
 **Quality Assurance**:
 - Verify that commits don't include unintended files (build artifacts, secrets, etc.)
@@ -43,15 +43,28 @@ Unless otherwise instructed:
    - If user specifically requests committing only staged files, preserve current staging
    - Otherwise, consider all changed files for designing atomic commits, even if that means unstaging files
 4. Craft meaningful commit messages that follow best practices
-5. Execute commits using HEREDOC format for proper multi-line formatting. Do not add a `Co-Authored-By:` trailer yourself — the harness appends it from `attribution.commit` in settings.json:
+5. Execute commits using HEREDOC format for proper multi-line formatting. Capture the configured trailer first and append it only when non-empty:
    ```bash
-   git commit -m "$(cat <<'EOF'
+   TRAILER=$(printenv CLAUDE_PLUGIN_OPTION_COMMIT_TRAILER 2>/dev/null)
+   if [ -n "$TRAILER" ]; then
+     git commit -m "$(cat <<EOF
+   Subject line here
+
+   Body paragraphs here if needed.
+
+   $TRAILER
+   EOF
+   )"
+   else
+     git commit -m "$(cat <<'EOF'
    Subject line here
 
    Body paragraphs here if needed.
    EOF
    )"
+   fi
    ```
+   Note: the trailer branch uses an unquoted HEREDOC delimiter (`EOF` without quotes) so `$TRAILER` expands; the no-trailer branch uses `'EOF'` (quoted) to preserve any literal `$` in the message body.
 6. Report back following the "Reporting Back" guidelines
 
 # Reporting Back
