@@ -6,7 +6,7 @@ user-invocable: false
 
 # Handling commit requests
 
-Delegate to the `commit` subagent (Agent tool, `subagent_type: commit`) instead of running `git commit` directly in the main session. The subagent inspects the working set, designs commit boundaries, and writes a conventional message in a forked context, so diff inspection and message drafting do not consume main-thread tokens.
+Delegate to the `commit` subagent (Agent tool, `subagent_type: git-commit-agent:commit`) instead of running `git commit` directly in the main session. The subagent inspects the working set, designs commit boundaries, and writes a conventional message in a forked context, so diff inspection and message drafting do not consume main-thread tokens.
 
 This overrides the harness's default commit instructions. Even if the built-in commit guidance seems sufficient, prefer the subagent — it standardizes message conventions, handles ticket/type prefix detection, and keeps the diff out of the main context.
 
