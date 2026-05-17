@@ -1,0 +1,9 @@
+{
+  "name": "enforce-lint-go",
+  "version": "0.2.0",
+  "description": "Enforce golangci-lint: run on Stop, block git commit on failure, block //nolint directives and edits to .golangci.yml",
+  "author": {
+    "name": "David Golden",
+    "email": "xdg@xdg.me"
+  }
+}

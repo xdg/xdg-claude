@@ -90,6 +90,14 @@
       "tags": ["skills", "workflow", "prioritization"]
     },
     {
+      "name": "enforce-lint-go",
+      "source": "./enforce-lint-go",
+      "description": "Enforce golangci-lint: run on Stop, block git commit on failure, block //nolint directives and edits to .golangci.yml",
+      "version": "0.2.0",
+      "category": "development",
+      "tags": ["go", "lint", "golangci-lint", "hooks", "enforcement"]
+    },
+    {
       "name": "refactoring-agent",
       "source": "./refactoring-agent",
       "description": "Surgical code refactoring agents for analyzing and improving code quality without changing behavior",

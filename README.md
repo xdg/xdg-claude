@@ -46,6 +46,12 @@ Foundational plugins that shape how Claude operates across all other skills and 
 | [**elements-of-style**](elements-of-style/README.md) | Writing style guidance from *The Elements of Style* |
 | [**pithy-communication**](pithy-communication/README.md) | Pithy communication style guidance for high signal-to-noise ratio output |
 
+### Hook plugins
+
+| Plugin | Description |
+|--------|-------------|
+| [**enforce-lint-go**](enforce-lint-go/README.md) | Enforce `golangci-lint`: auto-discover Go modules under any layout, run on Stop, block `git commit` on failure, block `//nolint` directives and edits to `.golangci.yml` |
+
 ### Skill plugins
 
 | Plugin | Knowledge skill | Task skill | Subagent | Slash command | Description |
