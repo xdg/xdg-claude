@@ -59,6 +59,7 @@ Foundational plugins that shape how Claude operates across all other skills and 
 | [**code-review-agent**](code-review-agent/README.md) | | ✓ | ✓ | `/code-review` | Analyze code quality, security, performance, and maintainability (Opus) |
 | [**context-efficient-tools**](context-efficient-tools/README.md) | ✓ | | | | CLI tools that minimize context usage through targeted extraction instead of reading entire files (ripgrep, ast-grep, jq, yq, code-structure) |
 | [**git-commit-agent**](git-commit-agent/README.md) | | ✓ | ✓ | `/commit` | Commit current changes with intelligent analysis and best-practice messages (Sonnet) |
+| [**interview-user**](interview-user/README.md) | ✓ | | | | Structured tree-shaped interview to elicit an under-formed plan, design, or strategy, persisted to disk for resumability |
 | [**isolated-task-agent**](isolated-task-agent/README.md) | | ✓ | ✓ | `/isolated` | Execute focused work in clean, isolated context without polluting main conversation |
 | [**jira-cli**](jira-cli/README.md) | ✓ | | | | Command-line Jira management using jira-cli with efficient querying and issue workflows |
 | [**refactoring-agent**](refactoring-agent/README.md) | | ✓ | ✓ | `/refactor`, `/plan-refactor` | Surgical refactoring and refactor-planning agents for improving code quality without changing behavior (Sonnet/Opus) |
