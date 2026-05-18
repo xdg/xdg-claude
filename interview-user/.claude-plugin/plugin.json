@@ -1,0 +1,9 @@
+{
+  "name": "interview-user",
+  "version": "0.1.0",
+  "description": "Conducts a structured, persisted, tree-shaped interview to externalize an under-formed plan, design, or strategy",
+  "author": {
+    "name": "David Golden",
+    "email": "xdg@xdg.me"
+  }
+}
