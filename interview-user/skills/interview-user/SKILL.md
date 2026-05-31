@@ -21,6 +21,8 @@ Do not use for: well-scoped implementation tasks, debugging, code review, or any
 
 **One question at a time.** Always. Multi-question messages overwhelm the user and produce shallow answers.
 
+**Preserve the user's coinages verbatim.** When the user invents a term or lands a load-bearing phrasing -- "constraint-driven development," "one person's fix becomes everybody's fix" -- record those exact words in the **Answer**. Paraphrase only the connective tissue around them. The user's own vocabulary is the highest-value material the interview captures; a paraphrase of a coinage discards the thing worth keeping. This matters most for dictated input, which runs long and self-correcting with the gold buried in one specific clause -- read for the clause, keep it intact.
+
 **Recommend an answer only on convergent questions.** A convergent question picks among known options, ratifies a default, or scopes something concrete; lead with a recommendation so the user can "yes / different / why?" A divergent question is generative -- values, success criteria, "what should X be" -- where a confident guess anchors the user before they've explored. Ask divergent questions raw. If the user stalls or asks "what do you think?", *then* offer a recommendation. See "Recommending answers" below.
 
 **Read the repo to find gaps, not to answer questions for the user.** The interview's goal is to get the user to structure their thinking, not to close nodes efficiently. The repo tells you what *is*; the interview elicits what the user *intends*, *values*, or *believes is true*. Those are different artifacts.
@@ -40,6 +42,8 @@ The repo's primary job in this skill is gap-finding: where does the user's idea 
 3. **Resume the one-question-at-a-time loop.** Pose the first new child to the user. The other new children wait their turn alongside any pre-existing open nodes; pick the next question by leverage, not by tree position.
 
 If step 1 produced no follow-ups, mark the parent `answered` and move to the next open node. No silent moves -- every answer either closes its parent or branches.
+
+A substantive answer can also resolve *other* open nodes -- a reframe often dissolves seed questions posed earlier. When that happens, mark each of those nodes `subsumed` with a **Reason:** cross-referencing the resolving node, rather than leaving them open or quietly deleting them.
 
 ### Follow-up taxonomy
 
@@ -63,6 +67,8 @@ Pick one per answer (including "none"):
 
 Question trees live in `docs/questions/<session-name>.md` relative to the current working directory, unless the user or standing instructions specify otherwise. One tree per session. Create the directory if it does not exist.
 
+Before creating the directory, check whether the cwd looks like a build, content, or output location -- a Hugo/Jekyll page bundle, `content/`, `public/`, `dist/`, `build/`, `site/`, or similar -- where the tree would land inside publishable or generated files. If so, propose a repo-root location instead (e.g. the repository's top-level `docs/questions/`) and confirm before writing.
+
 ### Node format
 
 Each node is a nested markdown bullet with this shape:
@@ -78,14 +84,16 @@ Each node is a nested markdown bullet with this shape:
 Field reference:
 
 - **ID** -- stable, dotted (`Q1`, `Q1.2`, `Q1.2.3`). Never renumber; if a node is abandoned its ID stays as a tombstone.
-- **Status** -- one of `open`, `answered`, `deferred`, `abandoned`.
+- **Status** -- one of `open`, `answered`, `deferred`, `abandoned`, `subsumed`.
 - **Necessity** -- `necessary` (must be answered to close the parent) or `exploratory` (interesting but optional).
 - **Shape** -- `convergent` (pick among options, ratify a default, scope something concrete) or `divergent` (generative -- values, criteria, open "what should X be"). Drives whether to lead with a recommendation.
 - **Recommend** -- the agent's proposed answer. Present *with* convergent questions; offer on divergent questions only if the user stalls.
-- **Answer** -- the user's actual answer, lightly paraphrased. Include `(file:line)` refs for anything sourced from the repo.
+- **Answer** -- the user's actual answer. Paraphrase the connective tissue for brevity, but keep coined terms and load-bearing phrasings verbatim (see "Preserve the user's coinages verbatim" above). Include `(file:line)` refs for anything sourced from the repo.
 - **Touched** -- ISO date of last modification.
 
-`deferred` and `abandoned` require a one-line **Reason:** field so the trace is preserved for downstream synthesis.
+`subsumed` marks a node the user never answered directly because another node's answer resolved it -- a seed question that dissolved when a deeper answer reframed the problem. It is distinct from `answered` (the user posed it) and from `abandoned` (dropped as irrelevant): the question got answered, just elsewhere. Use it instead of silently closing a node you never asked.
+
+`deferred`, `abandoned`, and `subsumed` require a one-line **Reason:** field so the trace is preserved for downstream synthesis. For `subsumed`, the reason is a cross-reference to the resolving node -- e.g. `Reason: answered by Q1.2's reframe`.
 
 ### Header
 
@@ -129,7 +137,7 @@ After each exchange:
 
 1. Update the file. Mark the parent `answered` or add children. Update **Open threads**. Bump **Touched** on the node.
 2. Tag every new child on two axes at creation time: `necessary` / `exploratory` (controls termination) and `convergent` / `divergent` (controls whether to lead with a recommendation).
-3. If adding a child would take a branch to depth 3 or beyond, pause and ask the user: "this branch is getting detailed -- pursue the details or move on to `<next open thread>`?" Do not auto-prune; do not auto-continue.
+3. Before adding a child, apply the **thesis-movement test**: does this question move the overall idea forward, or only add granularity to a subset of the parent's answer? A clarifying chain that keeps advancing the thesis is legitimate however deep it nests; drilling that narrows into one sub-aspect is the failure mode. Depth alone is not the signal -- detail-without-movement is. See "Keeping the tree balanced" below.
 4. If a question is adjacent to the declared scope (e.g. a code question during a strategy interview), flag it: "this is cross-domain — pursue or park?" Default to park unless the user pulls it in.
 5. Pose the next open question to the user -- with a recommended answer if convergent, raw if divergent. Pick by leverage, not by tree position.
 
@@ -149,7 +157,21 @@ At stop:
 1. Set the header **Status:** to `complete` or `paused`.
 2. Fill in **Stop signal:** with the reason (e.g. "all necessary nodes resolved", "user paused — resume on auth threading").
 3. Leave `open` nodes in a real, useful state — not noise.
-4. Tell the user the file path and note that synthesis into a final artifact (PRD / design doc / ADR / memo) is a separate step.
+4. **If the user asks for a consolidation or steelman, write it into the tree file** under a `## Consolidation` heading -- not as the deliverable. This is the one synthesizing move the skill permits: a short reflective pass that draws the answered nodes together into the strongest version of the user's own position, preserving their coinages. It is still raw material handed to the downstream synthesis step, not the PRD/design/memo. Do not produce it unprompted (see "Synthesis creep" under Anti-patterns).
+5. Tell the user the file path and note that synthesis into a final artifact (PRD / design doc / ADR / memo) is a separate step.
+
+## Keeping the tree balanced
+
+Aim for a tree that is neither too deep on one branch nor too broad on one node. Two tests and one check-in govern this.
+
+**Depth -- the thesis-movement test.** When deciding whether to add a child, ask: does this question move the overall idea forward, or only add granularity to a subset of the parent's answer?
+
+- **Clarifying chain.** Successive follow-up siblings that each advance the whole thesis -- `Q1 -> Q1.1 -> Q1.2 -> Q1.3` where every step reframes or sharpens the core idea.  This deep spine is often the single most valuable line in the interview; do not interrupt it to chase shallower seed questions or drill into an answer until the answer chain is complete.
+- **Drilling.** Follow-ups that narrow into one sub-aspect -- `Q1 -> Q1.1 -> Q1.1.1 -> Q1.1.1.1` -- each adding detail to the previous answer without moving the thesis. Drill in when an answer is multifaceted and multiple child questions are necessary will clarify it.  Don't drill in if capturing the details don't advance the goal of the interview (e.g. "nice to have" answers).
+
+**Breadth -- the 3–5 rule.** A single node should not accumulate more than 3–5 direct children. Past that, the node is doing too much: introduce an intermediate grouping question that pushes some of those children down a level, or recognize the node is really several questions and split it. A flat fan of many siblings is as much a smell as an over-deep spine.
+
+**The check-in.** When a branch has absorbed sustained investment -- several questions deep, or you cannot articulate how the next child moves the thesis -- surface a check-in rather than auto-deciding: "we've gone a few levels into `<branch>`; keep pulling this thread or move on to `<next open thread>`?" Trigger the check-in on the substance signal, not on a fixed depth count. Do not auto-prune; do not auto-continue.
 
 ## Tagging guidance
 
@@ -181,7 +203,7 @@ If the user produces a substantive answer, record it and move on. If they stall,
 
 - **Asking before writing.** The discipline is *externalize, then ask.* Reverse it and the skill is no better than plain chat.
 - **Multi-question messages.** Pose one. If two are coupled, pick the one whose answer constrains the other.
-- **Synthesis creep.** Do not start drafting the PRD/design/memo mid-interview, even if the user asks "so what would the doc look like?" Note the request, finish elicitation, then hand off.
+- **Synthesis creep.** Do not start drafting the PRD/design/memo mid-interview, even if the user asks "so what would the doc look like?" Note the request, finish elicitation, then hand off. The one carve-out: a reflective **consolidation/steelman written into the tree file** at the user's request during stop (see Stop, step 4) is allowed -- it is raw material that draws the answered nodes together, not the deliverable. Drafting the actual artifact, in the tree file or anywhere else, is still off-limits.
 - **Silent tree updates.** Every status change is reflected in the file before the next question is asked.
 - **Over-tagging `necessary`.** If everything is mandatory, nothing is. Use the confirm-on-close-calls rule.
 - **Recommending on divergent questions.** Anchors the user before they've thought. The whole point of a divergent question is to elicit *their* framing -- a confident guess undermines it. Lean toward "ask raw" when the shape is unclear.

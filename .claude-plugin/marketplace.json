@@ -109,7 +109,7 @@
       "name": "interview-user",
       "source": "./interview-user",
       "description": "Structured tree-shaped interview to elicit an under-formed plan, design, or strategy, persisted to disk for resumability",
-      "version": "0.1.0",
+      "version": "0.2.0",
       "category": "productivity",
       "tags": ["interview", "elicitation", "planning", "design"]
     }
