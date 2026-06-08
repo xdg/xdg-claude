@@ -1,0 +1,5 @@
+{
+  "enabledPlugins": {
+    "plugin-authoring@xdg-claude": true
+  }
+}
