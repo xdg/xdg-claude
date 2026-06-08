@@ -72,6 +72,23 @@
 3. **Unrelated subproblems** should be separate functions.
 4. **Interface should be obvious.** If usage is unclear, redesign.
 
+## Surgical Changes
+
+### Core Principle
+**Every changed line must trace to the request.** Scope discipline beats opportunistic improvement.
+
+### Key Practices
+
+**Change only what the task requires.** No improving adjacent code, refactoring what isn't broken, or restyling code that works.
+
+**Match the surrounding style,** even where you'd write it differently. Consistency beats personal preference.
+
+**Preserve what you don't fully understand.** Code and comments may matter in ways not visible locally; don't alter them as a side effect.
+
+**Flag off-task problems, don't fix them.** Dead code, a bug, a smell outside the task? Note it for the user; keep it out of this diff.
+
+**Separate refactors from behavior changes,** and treat removal as its own task. A refactor and a behavior change are distinct steps, never one tangled diff. Deleting dead code earns real verification (search callers, check serialization/reflection/interface use, run tests), not a drive-by edit.
+
 ## Dependency Philosophy
 
 ### Core Principle

@@ -8,6 +8,7 @@ On `SessionStart` and `SubagentStart`, the plugin's hook reads `hooks/references
 
 - *Philosophy of Software Design* (Ousterhout): deep modules, information hiding, pulling complexity downward, defining errors out of existence.
 - *The Art of Readable Code* (Boswell & Foucher): naming, comments, control flow, breaking down problems.
+- Surgical-change discipline: every changed line traces to the request; no opportunistic refactors or drive-by deletions.
 - A dependency-selection framework (when to add a dep vs. write the code).
 - Test-isolation principles (hermetic tests, dynamic identifiers, no host-config pollution).
 
