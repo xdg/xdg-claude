@@ -112,6 +112,22 @@
       "version": "0.2.0",
       "category": "productivity",
       "tags": ["interview", "elicitation", "planning", "design"]
+    },
+    {
+      "name": "todo-planner",
+      "source": "./todo-planner",
+      "description": "Create and maintain structured TODO.md implementation plans with phased tasks, a testing philosophy, and verification checklists",
+      "version": "0.1.0",
+      "category": "development",
+      "tags": ["planning", "todo", "roadmap", "workflow"]
+    },
+    {
+      "name": "adversarial-implementation",
+      "source": "./adversarial-implementation",
+      "description": "Implement TODO.md items via isolated subagents with adversarial verification, code review, human-in-the-loop checks, and per-subsection commits",
+      "version": "0.1.0",
+      "category": "development",
+      "tags": ["implementation", "verification", "subagents", "workflow"]
     }
   ]
 }

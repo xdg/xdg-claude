@@ -1,0 +1,9 @@
+{
+  "name": "adversarial-implementation",
+  "version": "0.1.0",
+  "description": "Implement TODO.md items one checkbox at a time via isolated subagents, with adversarial verification, code review, human-in-the-loop checks, and per-subsection commits",
+  "author": {
+    "name": "David Golden",
+    "email": "xdg@xdg.me"
+  }
+}
