@@ -1,0 +1,9 @@
+{
+  "name": "plugin-authoring",
+  "version": "0.1.0",
+  "description": "Reference skill for authoring Claude Code plugins: component types, the three skill patterns, frontmatter, agents, hooks, manifests, and worked examples",
+  "author": {
+    "name": "David Golden",
+    "email": "xdg@xdg.me"
+  }
+}

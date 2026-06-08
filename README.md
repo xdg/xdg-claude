@@ -65,6 +65,7 @@ Foundational plugins that shape how Claude operates across all other skills and 
 | [**interview-user**](interview-user/README.md) | | ✓ | | | Structured tree-shaped interview to elicit an under-formed plan, design, or strategy, persisted to disk for resumability |
 | [**isolated-task-agent**](isolated-task-agent/README.md) | | | ✓ | ✓ | Execute focused work in clean, isolated context without polluting main conversation |
 | [**jira-cli**](jira-cli/README.md) | ✓ | | | | Command-line Jira management using jira-cli with efficient querying and issue workflows |
+| [**plugin-authoring**](plugin-authoring/README.md) | ✓ | | | | How to author Claude Code plugins: component types, the three skill patterns, frontmatter, agents, hooks, manifests, and worked examples |
 | [**refactoring-agent**](refactoring-agent/README.md) | | | ✓ | ✓ | Surgical refactoring and refactor-planning agents for improving code quality without changing behavior (Sonnet/Opus) |
 | [**todo-planner**](todo-planner/README.md) | ✓ | | | | Create and maintain structured TODO.md implementation plans with phased tasks, a testing philosophy, and verification checklists |
 
