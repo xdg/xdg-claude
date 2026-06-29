@@ -4,13 +4,13 @@ A Claude Code plugin that bundles knowledge skills for CLI tools that minimize c
 
 ## What it does
 
-Ships five Type 1 (knowledge) skills. Each teaches Claude when and how to use a specific CLI tool in place of broader file reads or the built-in Grep tool.
+Ships five Type 1 (knowledge) skills. Each teaches Claude when and how to use a specific CLI tool in place of broader file reads or the built-in Grep tool. A `SessionStart` / `SubagentStart` hook injects a brief reminder to reach for these tools before reading whole files.
 
 | Skill | Purpose |
 |-------|---------|
 | **ripgrep** | Search code and text via `rg`. Preferred over the Grep tool: full unredacted output, pipe composition, and flags like `-F`, `-w`, `-L`, `-v`. |
 | **ast-grep** | Structural code search and refactoring. Use when Edit fails on uniqueness, when refactoring across formatting variations, or when matching code shape rather than text. |
-| **code-structure** | Get an outline (functions/classes/exports) of a file or package without reading it whole. For "list/show/what's in" questions. |
+| **code-structure** | Outline a file or package (functions, classes, methods, types, imports, exports) instead of reading it whole. Use before opening an unfamiliar/large file, when surveying a package's API surface, or to find where a symbol is defined. Leads with `ast-grep outline`. |
 | **jq** | Extract a known field from a JSON file by running `jq` instead of reading the whole file. |
 | **yq** | Extract a known field from a YAML file by running `yq` instead of reading the whole file. |
 

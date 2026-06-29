@@ -1,6 +1,6 @@
 ---
 name: code-structure
-description: Get an outline (functions/classes/exports) of a file or package without reading it whole. Use when the question is "list/show/what's in" rather than "where is" (search) or "how does it work" (read).
+description: Outline a file or package (functions, classes, methods, types, imports, exports) instead of reading it whole. Use before opening an unfamiliar or large file to orient, when surveying a package's API surface, or to find where a symbol is defined so you can Read just that range -- any "what's in / list / show me the structure of" need. Not for "where is X used" (search) or "how does X work" (read the body).
 ---
 
 # code-structure
@@ -15,19 +15,22 @@ When the question is "list the X in Y", do not Read the whole file. Get an outli
 
 ## Tiered approach
 
-1. **Compiler/parser-aware tool when one fits the language.** These respect exports, cross files, and use real semantic information:
+1. **`ast-grep outline`** -- the default. One interface across languages, no build or import step, and every text view carries line numbers so you can Read just the range you need afterward. Pass `-l` to be safe (required for stdin; inferred from extension for paths).
+   - File outline: `ast-grep outline -l go file.go` (digest: signatures + member names)
+   - Cheapest survey: `ast-grep outline -l go file.go --view names`
+   - Drill one symbol's members: `ast-grep outline -l go file.go --match Visitor --view expanded`
+   - Directory's exported surface: `ast-grep outline -l go ./pkg`
+   - Filter by kind: `--type struct,function`; by name: `--match REGEX`; public members only: `--pub-members`
+   - Dependency check: `ast-grep outline -l go file.go --items imports`
+   - Machine-readable: `--json=compact` (also `pretty`, `stream`)
+
+2. **Compiler/parser-aware tool** when you need true export semantics or docstrings, which outline does not carry:
    - Go: `go doc -all ./path/to/pkg`
    - Python: `python -m pydoc some.module.path` (requires the module to be importable -- deps installed, on `PYTHONPATH`)
    - TS/JS third-party: `cat node_modules/<pkg>/dist/index.d.ts` -- the declaration file is a pre-made API outline
    - Java: `javap -p <Class>` (requires compiled `.class` files)
 
-2. **ast-grep with a signature pattern.** Works on any file, no import/build step. See the ast-grep skill for metavariable syntax. Swap the keyword (`function` / `class` / `struct` / `interface` / `type`) to list other constructs:
-   - JS/TS: `ast-grep -l typescript -p 'export function $NAME($$$)' file.ts`
-   - Python: `ast-grep -l python -p 'def $NAME($$$):' file.py`
-   - Go exported: `ast-grep -l go -p 'func $NAME($$$)' file.go | rg -e '^func [A-Z]'`
-   - Rust public: `ast-grep -l rust -p 'pub fn $NAME($$$)' file.rs`
-
-3. **ctags fallback** -- universal across languages, canonical for C/C++:
+3. **ctags fallback** -- for languages outline's bundled rules don't cover; canonical for C/C++:
    ```bash
    ctags -f - file | grep -v '^!' | cut -f1,4    # symbol + kind
    ```

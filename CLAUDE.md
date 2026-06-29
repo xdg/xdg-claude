@@ -35,3 +35,8 @@ These rules govern work in this repo regardless of which plugin you touch:
 
 4. **One plugin, one responsibility.** Skill plugins are each exactly one
    pattern from the taxonomy in the `authoring-plugins` skill.
+
+5. **Keep plugin READMEs in sync with changes.** When a change adds, removes,
+   or alters a plugin's skills, agents, hooks, or behavior, update that
+   plugin's own `README.md` in the same pass. Treat the README as part of the
+   change, not a follow-up.

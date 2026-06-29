@@ -35,3 +35,5 @@ ast-grep -l typescript -p 'import $WHAT from "old-pkg"' -r 'import $WHAT from "n
 ```
 
 Workflow: run without `-r` to see matches, run with `-r` to preview the diff, then add `--update-all`. For surgical per-site control, use ast-grep to find locations and Edit to apply.
+
+To list a file's or package's structure (functions, types, imports/exports) rather than match a pattern, use the `outline` subcommand -- see the `code-structure` skill.
