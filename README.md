@@ -61,6 +61,7 @@ Foundational plugins that shape how Claude operates across all other skills and 
 | [**adversarial-implementation**](adversarial-implementation/README.md) | | ✓ | | ✓ | Execute a TODO.md plan one checkbox at a time via isolated subagents, with adversarial lint/test/review verification, human-in-the-loop checks, and per-subsection commits |
 | [**code-review-agent**](code-review-agent/README.md) | | | ✓ | ✓ | Analyze code quality, security, performance, and maintainability (Opus) |
 | [**context-efficient-tools**](context-efficient-tools/README.md) | ✓ | | | | CLI tools that minimize context usage through targeted extraction instead of reading entire files (ripgrep, ast-grep, jq, yq, code-structure) |
+| [**decision-log**](decision-log/README.md) | | ✓ | | ✓ | Record durable engineering decisions in an append-only log, with a fixed entry template, a supersede protocol, and consent before creating the log in an unfamiliar repo |
 | [**git-commit-agent**](git-commit-agent/README.md) | | | ✓ | ✓ | Commit current changes with intelligent analysis and best-practice messages (Sonnet) |
 | [**interview-user**](interview-user/README.md) | | ✓ | | | Structured tree-shaped interview to elicit an under-formed plan, design, or strategy, persisted to disk for resumability |
 | [**isolated-task-agent**](isolated-task-agent/README.md) | | | ✓ | ✓ | Execute focused work in clean, isolated context without polluting main conversation |

@@ -1,0 +1,9 @@
+{
+  "name": "decision-log",
+  "version": "0.1.0",
+  "description": "Record durable engineering decisions in an append-only decision log, with a fixed entry template and consent before creating the log in an unfamiliar repo",
+  "author": {
+    "name": "David Golden",
+    "email": "xdg@xdg.me"
+  }
+}

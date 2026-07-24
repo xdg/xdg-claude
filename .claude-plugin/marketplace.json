@@ -136,6 +136,14 @@
       "version": "0.1.0",
       "category": "development",
       "tags": ["plugins", "authoring", "skills", "meta", "documentation"]
+    },
+    {
+      "name": "decision-log",
+      "source": "./decision-log",
+      "description": "Record durable engineering decisions in an append-only decision log, with a fixed entry template and consent before creating the log in an unfamiliar repo",
+      "version": "0.1.0",
+      "category": "development",
+      "tags": ["documentation", "decisions", "adr", "workflow"]
     }
   ]
 }
