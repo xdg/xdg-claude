@@ -10,6 +10,12 @@ Delegate to the `commit` subagent (Agent tool, `subagent_type: git-commit-agent:
 
 This overrides the harness's default commit instructions. Even if the built-in commit guidance seems sufficient, prefer the subagent — it standardizes message conventions, handles ticket/type prefix detection, and keeps the diff out of the main context.
 
+## Run the subagent in the foreground
+
+Always run the commit subagent as a **blocking, foreground task**. Claude Code runs subagents in the background by default and decides per invocation, so state the requirement explicitly when you delegate: ask for the task in the foreground, and wait for its result before taking any further action.
+
+Committing is not parallelizable. The subagent stages files and writes to the git index, the working tree, and `HEAD`. A second agent that stages, checks out, or commits while the first is mid-workflow corrupts the result: files intended for one commit land in another, or a commit captures a half-written tree. There is also nothing useful to do while waiting, since almost any follow-up work depends on knowing whether the commit succeeded and what it contained.
+
 ## When to delegate vs. handle inline
 
 Delegate when:
@@ -40,3 +46,4 @@ Examples:
 - Delegating mid-deliberation, before the user has decided to commit. Wait for a clear instruction.
 - Repeating the subagent's workflow in the delegation prompt. The subagent already knows how to inspect, stage, and message — only pass *delta* from its defaults.
 - Asking the subagent to push. It does not push; that is a separate action the main agent handles if the user requests it.
+- Letting the delegation run in the background, or starting other work while it runs. Commits touch shared git state and must be serialized.
