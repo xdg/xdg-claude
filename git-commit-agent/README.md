@@ -8,7 +8,7 @@ Provides a specialized subagent that analyzes the current working set, drafts a 
 
 The plugin follows the standard three-piece form:
 
-- **Subagent** (`agents/commit.md`): Sonnet model. Tools: Bash, Glob, Grep, Read, Skill. Owns the full commit workflow — inspect changes, design boundaries, compose message, run `git commit`.
+- **Subagent** (`agents/commit.md`): Sonnet model. Tools: Bash, Glob, Grep, Read. Owns the full commit workflow — inspect changes, design boundaries, compose message, run `git commit`.
 - **Educational skill** (`skills/how-to-commit/SKILL.md`): teaches Claude when to delegate to the subagent versus handle the request inline, and how to craft the delegation prompt. Not user-invocable.
 - **Slash command** (`skills/commit/SKILL.md`): `/commit [subject hint or scope]` forks into the subagent. With no argument, the subagent runs its default workflow.
 
