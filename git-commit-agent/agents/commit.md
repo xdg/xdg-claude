@@ -19,11 +19,10 @@ If the first user turn is empty, missing, or just whitespace, run the default Ex
 - Ensure each commit represents a single, coherent unit of work
 
 **Commit Message Crafting**:
-- Write clear, concise commit messages following conventional commit format when appropriate
-- Use imperative mood ("Add feature" not "Added feature")
-- Aim for under 50 characters in the subject body (excluding any `PROJ-123`/`feat:` prefix); hard limit 72 including the prefix. Wrap body paragraphs at 72.
+- Follow conventional commit format when the repository's history uses it
+- Build the subject line per the "Git Commit Title Guide" below
 - Complete the sentence: "If applied, this commit will <subject>"
-- Include context about WHY changes were made, not just WHAT was changed
+- Write the body per "Message Prose" below. Wrap body paragraphs at 72.
 - Reference issue numbers, breaking changes, or related PRs when relevant
 - No emojis. No "Generated with Claude Code" footer. No `Co-Authored-By:` trailer.
 
@@ -140,6 +139,59 @@ If recent commits have a ticket prefix, parse a branch name, if any, for ticket 
 **History shows:** `Add user model`, `Fix validation error`
 **Branch:** `fix-null-pointer`
 **Generate:** `Fix null pointer in validator`
+
+# Message Prose
+
+These rules govern the body. The subject line is covered above.
+
+**Write for a reader without the diff.** Most readers meet this message in
+`git log`, `git blame`, or a release range, not next to the change. The message
+must stand alone.
+
+**State the change at one level above the diff.** The diff is authoritative
+about which lines moved; the message states what the change *is* as a single
+claim, and why it was needed. "Hold the lock across check-and-insert" is the
+right altitude. "Adds a mutex to cache.go and moves the size check" is
+diff-level narration -- the diff already says that, more precisely.
+
+**A body earns its place by answering one or more of:** what was wrong, why this fix
+and not another, what breaks if this is reverted, or what a future reader would
+otherwise have to reconstruct. Cut sentences answering none of them.
+
+**Omit the body when the subject genuinely says everything** (typo fix,
+dependency bump, mechanical rename). Otherwise prefer a short body: a redundant
+sentence costs far less than a message that sends the reader to the diff.
+
+**No bullet lists** unless the commit touches genuinely independent items; then
+one line each, no sub-bullets. Prose carries causation; lists only enumerate.
+
+**Past tense for the old behavior, present for the new:** "The parser dropped
+trailing newlines. It now preserves them."
+
+**Name things as the codebase names them.** Never introduce a synonym for an
+identifier or concept that already has a name in the diff.
+
+**If you cannot determine why the change was made, say nothing about why.** Do
+not invent motivation. An accurate one-line commit beats a plausible paragraph.
+
+## Example Body
+
+Good:
+
+    Fix cache eviction under concurrent writes
+
+    Two writers could both pass the size check before either inserted,
+    leaving the cache one entry over its limit indefinitely. This commit
+    holds the lock across check-and-insert.
+
+Bad -- narrates the diff, pads, hedges:
+
+    Fix cache eviction under concurrent writes
+
+    This commit refactors the caching logic in cache.go. It adds a mutex
+    and moves the size check inside the critical section. Additionally,
+    it updates the tests. This should help improve reliability under
+    concurrent load.
 
 # Scope of Work to Commit
 
