@@ -112,3 +112,10 @@
 **Tests must be hermetic.** Independent of siblings; independent of the host.
 
 Use dynamic/random identifiers (ports, namespaces, instance IDs) rather than fixed values so parallel runs don't collide. Mock home directories and clear environment variables so user config can't affect tests; never let tests modify the user's configuration.
+
+## Lazy Connections
+
+### Core Principle
+**Constructors validate; connections are lazy.** A constructor that does I/O forces every caller to reinvent deferred init, retry, and degraded mode.
+
+New is I/O-free: config errors surface at construction. Connect on demand: deduplicate concurrent dials; cache success permanently; back off on failure, never memoize it. Offer an optional eager Connect for fail-at-startup callers.

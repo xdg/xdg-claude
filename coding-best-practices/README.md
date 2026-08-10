@@ -11,6 +11,7 @@ On `SessionStart` and `SubagentStart`, the plugin's hook reads `hooks/references
 - Surgical-change discipline: every changed line traces to the request; no opportunistic refactors or drive-by deletions.
 - A dependency-selection framework (when to add a dep vs. write the code).
 - Test-isolation principles (hermetic tests, dynamic identifiers, no host-config pollution).
+- Lazy-connection design (constructors validate without I/O; connect on demand with optional eager Connect).
 
 The plugin ships no skills or agents. It is guideline injection only.
 
