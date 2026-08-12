@@ -8,6 +8,13 @@ if [[ ! -f "$CONTENT_FILE" ]]; then
   exit 1
 fi
 
+EVENT=$(jq -r '.hook_event_name // empty')
+
+if [[ -z "$EVENT" ]]; then
+  echo "Error: hook_event_name missing from stdin" >&2
+  exit 1
+fi
+
 # Strip leading YAML frontmatter (used for source attribution) before injection.
 CONTENT=$(awk '
   NR==1 && /^---$/ { in_fm=1; next }
@@ -18,7 +25,7 @@ CONTENT=$(awk '
 cat <<EOF
 {
   "hookSpecificOutput": {
-    "hookEventName": "SessionStart",
+    "hookEventName": "$EVENT",
     "additionalContext": $(jq -Rs . <<< "$CONTENT")
   }
 }
