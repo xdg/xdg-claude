@@ -1,0 +1,9 @@
+{
+  "name": "review-walkthrough",
+  "version": "0.1.0",
+  "description": "Guided, interactive walkthrough of a file or diff one unit at a time, driven by a persisted checklist so the review spans sessions",
+  "author": {
+    "name": "David Golden",
+    "email": "xdg@xdg.me"
+  }
+}

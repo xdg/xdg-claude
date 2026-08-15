@@ -68,6 +68,7 @@ Foundational plugins that shape how Claude operates across all other skills and 
 | [**jira-cli**](jira-cli/README.md) | ✓ | | | | Command-line Jira management using jira-cli with efficient querying and issue workflows |
 | [**plugin-authoring**](plugin-authoring/README.md) | ✓ | | | | How to author Claude Code plugins: component types, the three skill patterns, frontmatter, agents, hooks, manifests, and worked examples |
 | [**refactoring-agent**](refactoring-agent/README.md) | | | ✓ | ✓ | Surgical refactoring and refactor-planning agents for improving code quality without changing behavior (Sonnet/Opus) |
+| [**review-walkthrough**](review-walkthrough/README.md) | | ✓ | | ✓ | Guided, interactive walkthrough of a file (function by function) or diff (change group by change group), driven by a persisted checklist so the review spans sessions; distinct from automated code review |
 | [**todo-planner**](todo-planner/README.md) | ✓ | | | | Create and maintain structured TODO.md implementation plans with phased tasks, a testing philosophy, and verification checklists |
 
 ## License

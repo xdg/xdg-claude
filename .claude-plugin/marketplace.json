@@ -138,6 +138,14 @@
       "tags": ["plugins", "authoring", "skills", "meta", "documentation"]
     },
     {
+      "name": "review-walkthrough",
+      "source": "./review-walkthrough",
+      "description": "Guided, interactive walkthrough of a file or diff one unit at a time, driven by a persisted checklist so the review spans sessions",
+      "version": "0.1.0",
+      "category": "development",
+      "tags": ["walkthrough", "review", "teaching", "checklist", "interactive"]
+    },
+    {
       "name": "decision-log",
       "source": "./decision-log",
       "description": "Record durable engineering decisions in an append-only decision log, with a fixed entry template and consent before creating the log in an unfamiliar repo",
