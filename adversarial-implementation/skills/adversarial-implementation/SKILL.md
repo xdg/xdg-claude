@@ -31,6 +31,12 @@ Here, `3.1.1` and `3.1.2` are completion units (each is a subsection directly co
 A completion unit is complete only when ALL its checkboxes are checked—including any
 that require human verification.
 
+## Isolated subagents
+
+Whenever this guide says to invoke an isolated subagent, fall back to a general
+agent if the isolated subagent doesn't exist.  In either case, use model 'opus'
+and effort 'low' for subagents unless otherwise instructed by the user.
+
 ### Phase 1: Plan the Subsection
 
 For the next incomplete Phase subsection:

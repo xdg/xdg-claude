@@ -24,7 +24,8 @@ escalations stay interactive; the heavy work is isolated in the subagents it spa
 It composes with sibling plugins when installed — [isolated-task-agent](../isolated-task-agent/README.md)
 for implementation, [code-review-agent](../code-review-agent/README.md) for review, and
 [git-commit-agent](../git-commit-agent/README.md) for commits — and falls back to general
-subagents when they are absent.
+subagents when they are absent. Subagents default to model `opus` at effort `low` unless you
+instruct otherwise.
 
 ## Usage
 

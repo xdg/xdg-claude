@@ -125,7 +125,7 @@
       "name": "adversarial-implementation",
       "source": "./adversarial-implementation",
       "description": "Implement TODO.md items via isolated subagents with adversarial verification, code review, human-in-the-loop checks, and per-subsection commits",
-      "version": "0.1.0",
+      "version": "0.2.0",
       "category": "development",
       "tags": ["implementation", "verification", "subagents", "workflow"]
     },
