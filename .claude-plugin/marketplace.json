@@ -152,6 +152,14 @@
       "version": "0.1.0",
       "category": "development",
       "tags": ["documentation", "decisions", "adr", "workflow"]
+    },
+    {
+      "name": "design-docs",
+      "source": "./design-docs",
+      "description": "Draft, amend, and close out the document ladder for software work: PRD, milestone system design, inchstone behavioral spec, and the living docs they feed",
+      "version": "0.1.0",
+      "category": "development",
+      "tags": ["prd", "design", "specification", "documentation", "workflow"]
     }
   ]
 }
