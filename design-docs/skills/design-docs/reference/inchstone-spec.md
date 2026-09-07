@@ -15,8 +15,9 @@ docs.
 done.** Everything else (file layout, task order, types, which function calls
 which) belongs to the implementation plan that comes afterward.
 
-An inchstone is one tangible, independently useful increment toward a
-milestone. Its spec is the contract between the design that motivated the
+An inchstone is one tangible, independently acceptable increment toward a
+milestone: its acceptance criteria can be checked without waiting on a
+sibling inchstone, whether or not its value reaches the end user. Its spec is the contract between the design that motivated the
 work and the plan that will build it. It gets read three times: when
 planning the work, when accepting the work, and a year later by someone
 asking why the thing is shaped this way. Write for all three.

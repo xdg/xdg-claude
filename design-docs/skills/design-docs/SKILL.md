@@ -15,7 +15,7 @@ present, even when two rungs share a file.
 |---|---|---|---|---|
 | Label | Needs | Shape | Behavior | Steps |
 | Question | What must the product do, for whom, and why? | What does this milestone deliver, and how is the system composed to deliver it? | What must this increment observably do, precisely enough to test? | In what order, in which files? |
-| Unit | The product | One milestone: a complete slice, either a feature a user can use or an experiment that resolves a question | One inchstone: one tangible, independently useful increment | One inchstone |
+| Unit | The product | One milestone: a complete slice, either a capability its consumer can use or an experiment that resolves a question | One inchstone: one tangible, independently acceptable increment | One inchstone |
 | States | Users, goals, non-goals, vocabulary, numbered requirements with reasons, constraints, open questions, future possibilities | Scope thesis, in/out with destinations, components and ownership, data flow, enforcement points, mechanisms with losing alternatives, inchstone list, exit criteria | Boundary, go/no-go discovery, continuity, forced changes to existing code, data and API in general terms, numbered acceptance criteria | Tasks, files, types, signatures, test names, sequence |
 | Omits | Any mechanism, mode, layout, field, or owner of upkeep | Behavior detail (errors, edges, defaults), acceptance criteria, field names, endpoint contracts | Structure (inherited from the design), construction | Re-deciding anything above |
 | Reader | Spec author ("required or invented?"); user ("does it do X?") | Spec author ("what is in, what shape?"); anyone ("why not X?") | Implementer, acceptor, reviewer a year on | Implementer, today |

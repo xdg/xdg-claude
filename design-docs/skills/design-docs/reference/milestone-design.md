@@ -11,8 +11,10 @@ CodeMap docs.
 
 ## North Star
 
-**A milestone is a complete slice of user functionality: a feature a user
-can use end to end, or an experiment that resolves a question.** Its design
+**A milestone is a complete slice of capability: something its consumer can
+use end to end, or an experiment that resolves a question.** The consumer is
+usually an end user, but may be an operator, an integrating system, or a
+downstream team. Its design
 decides what the slice delivers, what it deliberately does not, and how the
 system is composed to deliver it. The design picks this hill and not
 another, and it fixes the shape of the force: components, what each owns,
@@ -63,17 +65,21 @@ spec author what is in, what is out, and what comes first. The rest apply
 when their condition holds.
 
 1. **Scope thesis.** One paragraph: who this milestone serves, whether it is
-   a feature or an experiment, what becomes usable at the end or what
+   a capability or an experiment, who can use what at the end or what
    question gets answered, and why this slice first. Early dogfooding beats
    completeness.
 2. **In and out of scope, per requirement.** In: citing the PRD section,
    with this milestone's reading of it and the structural decisions it
    forces. Out: each with its destination and its reason. Out is empty only
    when the milestone ships the whole PRD.
-3. **Inchstones.** Tangible, incremental, independently useful, testable
-   steps, ordered so early ones de-risk later ones. A standing constraint
-   that every inchstone must honor is stated once here, not as a numbered
-   step.
+3. **Inchstones.** Tangible, incremental, independently acceptable,
+   testable steps, ordered so early ones de-risk later ones. Independently
+   acceptable means the increment's criteria can be checked without waiting
+   on a sibling; its consumer may be an end user, an API client, an
+   operator, or a later inchstone. Reaching the end user is not required. A
+   slice defined by labor rather than by behavior is what this rules out. A
+   standing constraint that every inchstone must honor is stated once here,
+   not as a numbered step.
 4. **Structural decisions with rationale**, when a choice is expensive to
    reverse or binds more than one inchstone. Argued in place, with the
    losing alternative. When an Architecture doc exists, cite the current
@@ -184,7 +190,7 @@ changelog carries the history.
 - **Sequencing by convenience.** Order by what de-risks and what becomes
   usable, and say so.
 - **A milestone that is not a slice.** One inchstone dressed as a milestone,
-  or a grab-bag of tasks with no user or question at the end.
+  or a grab-bag of tasks with no consumer or question at the end.
 
 ## Rules
 

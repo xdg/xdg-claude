@@ -26,7 +26,7 @@ The references, loaded one per invocation:
 | Reference | Mode |
 |---|---|
 | `reference/prd.md` | Write or amend a PRD; route design detail that leaked into a requirement |
-| `reference/milestone-design.md` | Scope and design a milestone as a complete slice (a feature or an experiment); also the combined design+spec form for small work |
+| `reference/milestone-design.md` | Scope and design a milestone as a complete slice (a capability or an experiment); also the combined design+spec form for small work |
 | `reference/inchstone-spec.md` | Spec one increment: boundary, go/no-go discovery, continuity, numbered acceptance criteria |
 | `reference/closeout.md` | At inchstone acceptance or milestone close: harvest structure, rationale, and needs into living docs; freeze; delete the plan. Propose-then-wait |
 | `reference/living-docs.md` | Kinds of living content (Domain, Architecture, DataModel, CodeMap), the CLAUDE.md doc index with a tier column, and the routing table for displaced detail |

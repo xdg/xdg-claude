@@ -1,6 +1,6 @@
 {
   "name": "design-docs",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Draft, amend, and close out the document ladder for software work: PRD, milestone system design, inchstone behavioral spec, and the living docs they feed",
   "author": {
     "name": "David Golden",
