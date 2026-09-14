@@ -1,6 +1,6 @@
 {
   "name": "todo-planner",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Create and maintain structured TODO.md implementation plans with phased tasks, a testing philosophy, and verification checklists",
   "author": {
     "name": "David Golden",

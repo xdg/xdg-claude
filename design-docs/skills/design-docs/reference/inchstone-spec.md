@@ -136,9 +136,18 @@ while first-uploaded does not." Not "idempotency works correctly."
 - A spot-check of each standing constraint (erasure, scoping) against the
   new storage
 
+**Each criterion should test something the other criteria don't already
+cover.** Before writing one, name what it would prove that a lower rung's
+tests, a sibling inchstone's run log, or another criterion in this list does
+not.  A criterion whose reason reads fluently but names no new evidence
+is the one to be suspicious of.
+
 **Say which criteria may use synthetic fixtures and which demand live
 data.** Without that line, everything gets faked and the go/no-go discovery
-is never actually made.
+is never actually made. Put a live-data criterion on the tier where that
+data occurs without a rig: a dev-tier criterion that needs forged sessions
+and a throwaway harness to reach data production produces for free belongs
+on the production tier.
 
 **Tier by environment when something cannot be exercised locally.** Number
 continuously across tiers. State which tier is where the work happens, and
@@ -147,9 +156,12 @@ what external dependencies the far tier waits on.
 ## Procedure
 
 1. **Gather inputs.** The design doc and its inchstone list; the PRD; the
-   decision log; prior inchstone specs in the same milestone; any
-   acceptance run logs. Read the design's open questions; some are
-   explicitly assigned to this inchstone.
+   decision log; prior inchstone specs in the same milestone and their
+   acceptance run logs. The logs are the record of what is already proven;
+   read them before drafting criteria, not after, so a new criterion is
+   checked against them rather than re-deriving their evidence through a
+   new surface. Read the design's open questions; some are explicitly
+   assigned to this inchstone.
 2. **Infer conventions from siblings.** Path, filename pattern, numbering,
    header block, tiering vocabulary. Match them. If this is the first spec
    in the project, propose the layout and confirm it before drafting.
@@ -229,6 +241,10 @@ teaches you something. Revision is a normal mode, not a failure.
 - **Silence about existing code the increment breaks.** The most expensive
   omission, because it surfaces mid-implementation as scope nobody
   budgeted.
+- **Re-proving the previous inchstone through a new surface.** A UI
+  inchstone that walks the API's behavior again because the UI now sits on
+  it. The prior run log is the citation; the new criteria cover only what
+  the new code decides.
 - **Deciding an open question without saying you did.** Flag every one.
 - **Padding to a section template.** An empty section signals the increment
   is incoherent when usually it just means the heading did not apply.

@@ -58,10 +58,14 @@ Template:
 ## Testing Philosophy
 
 - **Automated tests for business logic**: [specific areas like store operations, API handlers]
-- **Manual tests for UI interactions**: [specific areas like drag-drop, visual behavior]
+- **Playwright tests for UI interactions**: [specific areas like drag-drop, visual behavior]
+- **Manual tests for subjective UI experience**: [specific areas that require human input]
 - **Factor code for testability**: Interfaces for backends, dependency injection
 - **[Language] tests**: [framework specifics, e.g., "Use `testing` with `httptest` for handlers"]
 - **[Frontend] tests**: [framework specifics, e.g., "Vitest for component logic"]
+
+Test what new code changes. Don't revalidate behaviors already tested in earlier commits. E.g. browser tests
+are for layout, controls, navigation, storage, not API contracts backend tests already cover.
 ```
 
 ## Verification Checklist Preamble
