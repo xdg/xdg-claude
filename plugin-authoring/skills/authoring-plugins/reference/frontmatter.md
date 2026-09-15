@@ -4,11 +4,11 @@
 |-------|----------|-------------|
 | `name` | Yes | Skill identifier (matches the slash command, for Piece 3 or a main-agent task) |
 | `description` | Yes | What the skill does and when to use it (third-person) |
-| `context` | No | `fork` to run the skill body as a task prompt in a subagent (Piece 3 only — never on a main-agent task) |
+| `context` | No | `fork` to run the skill body as a task prompt in a subagent (Piece 3 only -- never on a main-agent task) |
 | `agent` | No | Agent name to route to (requires `context: fork`) |
 | `argument-hint` | No | Placeholder shown after `/<name>` in the slash menu; for any slash-invocable skill |
-| `disable-model-invocation` | No | `true` for a user-only slash skill — Piece 3, or a main-agent task the user alone should trigger |
-| `user-invocable` | No | `false` for Piece 2 — Claude reads it as guidance; user has no slash command |
+| `disable-model-invocation` | No | `true` for a user-only slash skill -- Piece 3, or a main-agent task the user alone should trigger |
+| `user-invocable` | No | `false` for Piece 2 -- Claude reads it as guidance; user has no slash command |
 
 ## The two opt-out fields are not interchangeable
 

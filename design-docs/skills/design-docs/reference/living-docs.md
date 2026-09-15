@@ -18,7 +18,7 @@ distinction is not. When two kinds share a file, label the parts.
 | **Decision log** | Append-only: each choice between live alternatives, the alternatives, why they lost, what would reopen it | Current structure (Architecture); the decision restated as a rule (PRD) |
 | **Acceptance run log** | Per spec: date, run, result per criterion; what failed and what fixed it | Anything but evidence |
 
-Most projects lack a Domain doc, and domain discovery then silts up the PRD
+Most projects lack a Domain doc, and domain rules then accumulate in the PRD
 (identity rules, `null` semantics, schema appendices). When you see that
 happening, propose the Domain doc; do not grow the PRD.
 

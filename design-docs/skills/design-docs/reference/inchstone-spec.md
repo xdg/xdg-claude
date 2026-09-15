@@ -59,9 +59,8 @@ implementer what to build and an acceptor when it is done. The rest apply
 when their condition holds.
 
 1. **A boundary.** What is built, and what is explicitly not built with a
-   pointer to where it goes instead. Non-scope earns as much ink as scope;
-   it is the thing that holds during implementation when everything looks
-   adjacent and cheap.
+   pointer to where it goes instead. Give non-scope as much detail as scope;
+   during implementation it is what keeps adjacent work out.
 2. **Acceptance criteria.** Numbered and observable. See below.
 3. **The go/no-go discovery**, when the inchstone has one: the risky
    unknown it exists to resolve. Naming it explains why everything around
@@ -79,11 +78,11 @@ when their condition holds.
 6. **Standing constraints**, when the design declares any (erasure,
    visibility scoping, backward compatibility). Restated as they bind
    *this* increment; a constraint nobody restates is a constraint somebody
-   breaks. None declared, none restated.
+   breaks. If the design declares none, restate none.
 
 ## Sections, in the usual order
 
-The table is an order, not a form. Rows marked Always are the rung's
+The table gives the usual section order. Rows marked Always are the rung's
 minimum: the least the document can hold and still serve the reader one
 rung down. Include any other row when its condition holds; when it does
 not, omit the section rather than fill it. Content that fits no row gets a
@@ -191,17 +190,16 @@ Sample questions follow. Ask only if necessary, never for form's sake.
 - A design assumption the code contradicts, where the resolution is a
   judgment call rather than a fact.
 
-Everything else waits for the post-draft list. A draft with five flagged
-assumptions beats five questions asked before a word is written.
+Everything else waits for the post-draft list of assumptions.
 
 ## Revising an existing spec
 
 Specs get revised after review, after new information, and after the code
-teaches you something. Revision is a normal mode, not a failure.
+teaches you something. Revision is normal.
 
 - **Keep the header block's running provenance.** The date line accumulates
   a compressed changelog: what changed, after which review, and when the
-  original draft was. It is the cheapest possible history and it survives
+  original draft was. It is the lowest-effort history and it survives
   outside git.
 - **Update the status** as the inchstone advances: draft, implemented,
   accepted. Accepted is set at closeout and freezes the file; after that,
@@ -238,9 +236,8 @@ teaches you something. Revision is a normal mode, not a failure.
 - **Types, signatures, file lists, task ordering, estimates.** All of it
   belongs to the plan, except when public types or signatures are an
   essential part of an API contract.
-- **Silence about existing code the increment breaks.** The most expensive
-  omission, because it surfaces mid-implementation as scope nobody
-  budgeted.
+- **Silence about existing code the increment breaks.** This omission causes
+  the most rework: it surfaces mid-implementation as unplanned scope.
 - **Re-proving the previous inchstone through a new surface.** A UI
   inchstone that walks the API's behavior again because the UI now sits on
   it. The prior run log is the citation; the new criteria cover only what

@@ -18,7 +18,7 @@
 
 **Information hiding:** Bury complexity behind simple interfaces. Users shouldn't know implementation details.
 
-**Pull complexity downward:** Make module implementers work harder so users work less. The opposite is disaster.
+**Pull complexity downward:** Make module implementers work harder so users work less. The reverse pushes complexity onto every caller.
 
 **Different layer, different abstraction:** Pass-through methods/variables are red flags. Each layer should add value.
 
@@ -87,7 +87,7 @@
 
 **Flag off-task problems, don't fix them.** Dead code, a bug, a smell outside the task? Note it for the user; keep it out of this diff.
 
-**Separate refactors from behavior changes,** and treat removal as its own task. A refactor and a behavior change are distinct steps, never one tangled diff. Deleting dead code earns real verification (search callers, check serialization/reflection/interface use, run tests), not a drive-by edit.
+**Separate refactors from behavior changes,** and treat removal as its own task. A refactor and a behavior change are distinct steps, never one tangled diff. Before deleting dead code, verify it is unused (search callers, check serialization/reflection/interface use, run tests).
 
 ## Dependency Philosophy
 
@@ -100,7 +100,7 @@
 
 ### Decision Framework
 1. Security, crypto, complex protocol, or battle-tested algorithm (compression, parser, image)? → Use dependency
-2. Within an established framework's ecosystem? → Use the ecosystem; fighting it costs more than bloat
+2. Within an established framework's ecosystem? → Use the ecosystem; working against it is harder than accepting the extra code
 3. <100 LOC straightforward code, or performance-critical hot path? → Write it
 4. Well-known, actively maintained library? → Evaluate transitive deps
 5. Requirements stable or shifting? → Stable = dep, shifting = DIY

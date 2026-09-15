@@ -35,9 +35,9 @@ Hooks run shell commands at lifecycle events. Defined in `hooks/hooks.json`, wit
 
 ## Exit codes
 
-- `0` — success, allow the operation.
-- `2` — block the operation (PreToolUse only; message via stderr).
-- other non-zero — non-blocking error shown to the user.
+- `0` -- success, allow the operation.
+- `2` -- block the operation (PreToolUse only; message via stderr).
+- other non-zero -- non-blocking error shown to the user.
 
 ## SessionStart hooks with references
 

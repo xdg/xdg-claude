@@ -6,7 +6,7 @@ user-invocable: false
 
 # Handling code review requests
 
-Delegate to the `code-review` subagent (Agent tool, `subagent_type: code-review`) instead of reading diffs and writing the review inline. Review runs in a forked Opus context — diff reading, file expansion, and reasoning stay out of the main thread; only the report comes back.
+Delegate to the `code-review` subagent (Agent tool, `subagent_type: code-review`) instead of reading diffs and writing the review inline. Review runs in a forked Opus context -- diff reading, file expansion, and reasoning stay out of the main thread; only the report comes back.
 
 ## When to delegate vs. handle inline
 
@@ -18,7 +18,7 @@ Delegate when:
 Handle inline (do not delegate) when:
 - The user wants a *quick sanity check* on a single small snippet visible in conversation. Delegating costs more than reading three lines.
 - The user is asking how to fix a *specific known issue*, not asking for issue discovery.
-- The user wants a discussion or back-and-forth about a design choice — that is conversation, not review.
+- The user wants a discussion or back-and-forth about a design choice -- that is conversation, not review.
 
 ## Crafting the delegation prompt
 
@@ -36,5 +36,5 @@ Examples:
 ## Anti-patterns
 
 - Reading the diff yourself and writing the review in the main session. The subagent owns this; doing it inline burns the main context on diff content.
-- Asking the subagent for full code blocks or diffs in its report. It returns findings keyed to `file:line` — the code is in the working tree.
+- Asking the subagent for full code blocks or diffs in its report. It returns findings keyed to `file:line` -- the code is in the working tree.
 - Delegating mid-discussion before the user has actually asked for review. "Should I refactor X?" is not a review request.

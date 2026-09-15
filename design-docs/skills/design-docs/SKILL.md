@@ -8,7 +8,7 @@ argument-hint: "[prd|design|spec|closeout] <what to draft, amend, or close>"
 
 ## The ladder
 
-Four rungs, four questions. Each rung is a level of content that is always
+The ladder has four rungs; each answers one question. Each rung is a level of content that is always
 present, even when two rungs share a file.
 
 | | PRD | Milestone design | Inchstone spec | Implementation plan |
@@ -71,7 +71,7 @@ historical.
 - **Ephemeral:** implementation plans and TODO lists. Deleted when done.
 
 The project's CLAUDE.md doc index should carry a tier column so displaced
-detail is never homeless; `reference/living-docs.md` has the routing table.
+detail always has a named destination; `reference/living-docs.md` has the routing table.
 
 ## Modes
 
@@ -108,7 +108,7 @@ living docs it reads on entry and feeds on exit.
 - **Propose, then wait,** for any change outside the document being
   drafted: a fold-back into the PRD, a move into a living doc, a freeze, a
   deletion.
-- **Form is not rigor.** Fluent rationale is evidence of fluency. Be
+- **A well-formatted draft with fluent rationale can still be wrong.** Be
   suspicious of a draft that raises no questions; offer a
   `review-walkthrough` on any draft above the plan rung.
 - **Match the project's voice, numbering, and paths** over anything here.

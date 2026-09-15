@@ -97,7 +97,7 @@ To drop the slash command (Claude-triggered only, no `/commit`), delete `skills/
 
 ## Example 2: `/adversarial-implementation` plugin (Type 2 main-agent task)
 
-A workflow that drives a `TODO.md`, delegating each item to isolated subagents while keeping the loop, human-verification pauses, and commits in the main thread. One file — no subagent, no `context: fork`.
+A workflow that drives a `TODO.md`, delegating each item to isolated subagents while keeping the loop, human-verification pauses, and commits in the main thread. One file -- no subagent, no `context: fork`.
 
 ```
 adversarial-implementation/

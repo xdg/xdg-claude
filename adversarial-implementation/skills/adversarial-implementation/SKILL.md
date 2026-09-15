@@ -14,7 +14,7 @@ subsection. If there is no TODO.md file, prompt the user for instructions.)
 When implementing from TODO.md:
 - **Implementation unit**: Individual checkboxes (keeps subagent sessions manageable)
 - **Completion unit** (aka "subsection"): The immediate parent heading of a group of
-  checkboxes—i.e., the most specific heading that directly contains them, not any ancestor.
+  checkboxes -- i.e., the most specific heading that directly contains them, not any ancestor.
 
 Example TODO structure:
 ```
@@ -26,9 +26,9 @@ Example TODO structure:
 - [ ] Handle redirect
 ```
 Here, `3.1.1` and `3.1.2` are completion units (each is a subsection directly containing checkboxes).
-`3.1 OAuth Setup` is NOT a completion unit—it's a parent grouping.
+`3.1 OAuth Setup` is NOT a completion unit -- it's a parent grouping.
 
-A completion unit is complete only when ALL its checkboxes are checked—including any
+A completion unit is complete only when ALL its checkboxes are checked -- including any
 that require human verification.
 
 ## Isolated subagents
@@ -64,7 +64,7 @@ For each automatable checkbox:
    Acceptance criteria: [the specific checkbox, explicitly stated]
    Output: Implement and report a concise summary of what you changed.
 ```
-2. Do NOT provide the full codebase—give minimal necessary context so you
+2. Do NOT provide the full codebase -- give minimal necessary context so you
    minimize use of the main context. Include: TODO.md, relevant specs, file paths
    to modify. Exclude: file contents the subagent can read itself, unrelated modules.
 
@@ -115,7 +115,7 @@ After item passes verification:
 2. If more automatable items remain in the subsection, return to Phase 2
 3. If all automatable items are done, proceed to Phase 5
 
-IMPORTANT: Do NOT commit yet—defer until Phase 7.
+IMPORTANT: Do NOT commit yet -- defer until Phase 7.
 
 ### Phase 5: Code Review
 

@@ -13,7 +13,7 @@
       "name": "coding-best-practices",
       "source": "./coding-best-practices",
       "description": "Injects coding best practices from Philosophy of Software Design and The Art of Readable Code at session start and on subagent dispatch",
-      "version": "0.4.1",
+      "version": "0.4.2",
       "category": "development",
       "tags": ["coding", "best-practices", "software-design", "readability"]
     },
@@ -21,7 +21,7 @@
       "name": "code-review-agent",
       "source": "./code-review-agent",
       "description": "Code review agent for analyzing code quality, security, performance, and maintainability",
-      "version": "0.5.0",
+      "version": "0.5.1",
       "category": "development",
       "tags": ["code-review", "quality", "security", "performance"]
     },
@@ -29,7 +29,7 @@
       "name": "context-efficient-tools",
       "source": "./context-efficient-tools",
       "description": "CLI tool skills that minimize context usage through targeted extraction instead of reading entire files",
-      "version": "0.2.1",
+      "version": "0.2.2",
       "category": "development",
       "tags": ["productivity", "context-efficiency", "search", "extraction"]
     },
@@ -45,7 +45,7 @@
       "name": "git-commit-agent",
       "source": "./git-commit-agent",
       "description": "Git commit agent with intelligent change analysis and commit message conventions",
-      "version": "0.7.0",
+      "version": "0.7.1",
       "category": "development",
       "tags": ["git", "commit", "agent", "version-control"]
     },
@@ -53,7 +53,7 @@
       "name": "isolated-task-agent",
       "source": "./isolated-task-agent",
       "description": "Execute focused work in clean, isolated contexts without polluting the main conversation history. Ideal for exploratory analysis, parallel work streams, and context-heavy operations.",
-      "version": "0.4.1",
+      "version": "0.4.2",
       "category": "development",
       "tags": ["agent", "productivity", "context-efficiency", "analysis"]
     },
@@ -101,7 +101,7 @@
       "name": "refactoring-agent",
       "source": "./refactoring-agent",
       "description": "Surgical code refactoring agents for analyzing and improving code quality without changing behavior",
-      "version": "0.4.1",
+      "version": "0.4.2",
       "category": "development",
       "tags": ["refactoring", "code-quality", "agent", "analysis"]
     },
@@ -109,7 +109,7 @@
       "name": "interview-user",
       "source": "./interview-user",
       "description": "Conducts a structured, persisted, tree-shaped interview to externalize an under-formed plan, design, or strategy",
-      "version": "0.2.0",
+      "version": "0.2.1",
       "category": "productivity",
       "tags": ["interview", "elicitation", "planning", "design"]
     },
@@ -125,7 +125,7 @@
       "name": "adversarial-implementation",
       "source": "./adversarial-implementation",
       "description": "Implement TODO.md items via isolated subagents with adversarial verification, code review, human-in-the-loop checks, and per-subsection commits",
-      "version": "0.2.0",
+      "version": "0.2.1",
       "category": "development",
       "tags": ["implementation", "verification", "subagents", "workflow"]
     },
@@ -133,7 +133,7 @@
       "name": "plugin-authoring",
       "source": "./plugin-authoring",
       "description": "Reference skill for authoring Claude Code plugins: component types, the three skill patterns, frontmatter, agents, hooks, manifests, and worked examples",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "category": "development",
       "tags": ["plugins", "authoring", "skills", "meta", "documentation"]
     },
@@ -141,7 +141,7 @@
       "name": "review-walkthrough",
       "source": "./review-walkthrough",
       "description": "Guided, interactive walkthrough of a file or diff one unit at a time, driven by a persisted checklist so the review spans sessions",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "category": "development",
       "tags": ["walkthrough", "review", "teaching", "checklist", "interactive"]
     },
@@ -149,7 +149,7 @@
       "name": "decision-log",
       "source": "./decision-log",
       "description": "Record durable engineering decisions in an append-only decision log, with a fixed entry template and consent before creating the log in an unfamiliar repo",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "category": "development",
       "tags": ["documentation", "decisions", "adr", "workflow"]
     },

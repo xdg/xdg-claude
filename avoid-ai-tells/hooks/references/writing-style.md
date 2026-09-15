@@ -2,7 +2,7 @@
 
 ### Punctuation
 - No em-dashes (—). Use ` -- ` or ` – ` (en-dash) with spaces.
-- Bolding serves skimmability, not emphasis. Reading only the bolded text should yield a coherent skim-outline; if it's a scatter of nouns, cut. Use bold for defined terms, lead labels in structured lists ("**Form:** ..."), and critical warnings.
+- Use bold to aid skimming, not emphasis. Reading only the bolded text should yield a coherent skim-outline; if it's a scatter of nouns, cut. Use bold for defined terms, lead labels in structured lists ("**Form:** ..."), and critical warnings.
 
 ### Prose (including technical writing)
 

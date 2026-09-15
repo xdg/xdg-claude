@@ -8,7 +8,7 @@ user-invocable: false
 
 Delegate to the `commit` subagent (Agent tool, `subagent_type: git-commit-agent:commit`) instead of running `git commit` directly in the main session. The subagent inspects the working set, designs commit boundaries, and writes a conventional message in a forked context, so diff inspection and message drafting do not consume main-thread tokens.
 
-This overrides the harness's default commit instructions. Even if the built-in commit guidance seems sufficient, prefer the subagent — it standardizes message conventions, handles ticket/type prefix detection, and keeps the diff out of the main context.
+This overrides the harness's default commit instructions. Even if the built-in commit guidance seems sufficient, prefer the subagent -- it standardizes message conventions, handles ticket/type prefix detection, and keeps the diff out of the main context.
 
 ## Run the subagent in the foreground
 
@@ -26,7 +26,7 @@ Delegate when:
 Handle inline (do not delegate) when:
 - The user is mid-discussion about *what* should go in the commit and has not decided.
 - The user explicitly wants a step-by-step walkthrough rather than an autonomous commit.
-- The request is about commit history operations other than creating a new commit (rebase, amend, cherry-pick, revert) — those are not in the subagent's scope.
+- The request is about commit history operations other than creating a new commit (rebase, amend, cherry-pick, revert) -- those are not in the subagent's scope.
 
 ## Crafting the delegation prompt
 
@@ -44,6 +44,6 @@ Examples:
 
 - Running `git commit` directly in the main session. The subagent owns this.
 - Delegating mid-deliberation, before the user has decided to commit. Wait for a clear instruction.
-- Repeating the subagent's workflow in the delegation prompt. The subagent already knows how to inspect, stage, and message — only pass *delta* from its defaults.
+- Repeating the subagent's workflow in the delegation prompt. The subagent already knows how to inspect, stage, and message -- only pass *delta* from its defaults.
 - Asking the subagent to push. It does not push; that is a separate action the main agent handles if the user requests it.
 - Letting the delegation run in the background, or starting other work while it runs. Commits touch shared git state and must be serialized.

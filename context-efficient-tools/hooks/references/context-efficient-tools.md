@@ -19,5 +19,4 @@ fraction of the context:
 - **Extracting a known field from JSON or YAML** -- use `jq` / `yq` instead of
   reading the whole file.
 
-These skills exist to keep the main context small. The reflex to just open the
-file is the thing they replace.
+These skills exist to keep the main context small. Use them instead of reading whole files.

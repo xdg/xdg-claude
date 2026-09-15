@@ -61,8 +61,8 @@ condition holds.
    each one line. Non-goals: what is not, each with its reason. A non-goal
    is not required and not prohibited: if other work satisfies it by
    accident, fine; but no design, spec, or plan spends effort or shapes a
-   decision to achieve it. Non-goals earn their ink because they settle
-   once something people would otherwise keep proposing; the list is short
+   decision to achieve it. Non-goals are worth listing because each settles,
+   once, something people would otherwise keep proposing; the list is short
    when nothing needs settling, and never padded. Anything that must *not*
    happen is a requirement (a rule with a reason), never a non-goal.
 3. **Numbered functional requirements**, each citable (FR-n; FR-n.m for a
@@ -84,7 +84,7 @@ condition holds.
 
 ## Sections, in the usual order
 
-The table is an order, not a form. Rows marked Always are the rung's
+The table gives the usual section order. Rows marked Always are the rung's
 minimum: the least the document can hold and still serve the reader one
 rung down. Include any other row when its condition holds; when it does
 not, omit the section rather than fill it. Content that fits no row gets a
@@ -120,7 +120,7 @@ keeps it from being cut when someone wants a cleaner table.
    design's open questions or scope, or the living doc that owns that kind
    of content (see `living-docs.md`). If no milestone design exists to
    receive it, create a stub (header block, empty scope thesis, the routed
-   item under open questions) so the detail is never homeless. The stub is
+   item under open questions) so the detail has a destination. The stub is
    the one change outside the PRD that needs no prior approval; say you
    made it.
 3. **Triage questions.** Ask only what changes the document's shape: who
@@ -142,7 +142,7 @@ coherent statement of current intent.
 - **Supersede visibly.** A promoted future possibility is struck with a
   pointer to its FR; a dropped requirement is struck with the decision that
   dropped it. Nothing silently vanishes.
-- **Fold-back, not leak.** A design decision that turned out to be a
+- **Fold design decisions back as rules.** A design decision that turned out to be a
   requirement (a rule any future solution must keep) is stated in the PRD as
   the rule and its reason, with the mechanism left in the design doc.
 - **Experiment results.** When a milestone was an experiment, closeout
@@ -177,7 +177,7 @@ coherent statement of current intent.
   it does not belong.
 - **Speculation as requirement.** "Eventually" belongs in future
   possibilities, one line.
-- **An FR that dwarfs its siblings.** The reliable sign a design has moved in.
+- **An FR that dwarfs its siblings.** This reliably means design detail has entered the PRD.
 - **Domain discovery parked here.** Identity rules, trust levels, and
   schema-shaped appendices accumulate in the PRD when no living doc holds
   them. Propose the Domain doc instead of growing the PRD.

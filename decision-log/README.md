@@ -10,16 +10,16 @@ dependency, a version pin, a protocol or deployment topology, a deliberate
 omission, or a reversal of an earlier decision. Claude appends a dated entry
 naming what was chosen, what lost, and the condition for revisiting it.
 
-The format is deliberately plain — `## YYYY-MM-DD — Title` followed by prose,
+The format is deliberately plain -- `## YYYY-MM-DD -- Title` followed by prose,
 newest last:
 
 ```markdown
 # Decision log (append-only)
 
-Format: date — decision — rationale. Newest last. Do not rewrite
+Format: date -- decision -- rationale. Newest last. Do not rewrite
 history; supersede with a new entry.
 
-## 2026-07-22 — Pin dex v2.45.1 (alpine variant) by tag + digest
+## 2026-07-22 -- Pin dex v2.45.1 (alpine variant) by tag + digest
 
 The bare version tag IS the alpine variant; chosen over `-distroless`
 because it has a shell + wget for the compose healthcheck. Config

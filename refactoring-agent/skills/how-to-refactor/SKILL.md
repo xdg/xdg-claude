@@ -8,7 +8,7 @@ user-invocable: false
 
 Delegate to the `refactor` subagent (Agent tool, `subagent_type: refactor`) when the user wants code restructured without behavior change. The subagent executes one atomic refactoring, runs tests to verify behavior preservation, and stops. Doing this work in the main session risks tangling refactor edits with unrelated changes and consumes context on diff-level reasoning.
 
-For broader "what should I refactor?" questions, use `plan-refactor` instead — see `how-to-plan-refactor`.
+For broader "what should I refactor?" questions, use `plan-refactor` instead -- see `how-to-plan-refactor`.
 
 ## When to delegate vs. handle inline
 
@@ -18,9 +18,9 @@ Delegate when:
 - The change is mechanical but spans enough code that tests must verify behavior preservation.
 
 Handle inline (do not delegate) when:
-- The user is *deciding whether* to refactor — that is conversation, not execution.
+- The user is *deciding whether* to refactor -- that is conversation, not execution.
 - The refactor is a one-line rename inside code already loaded in conversation. Subagent overhead exceeds the work.
-- The request mixes refactoring with feature changes or bug fixes. The subagent refuses combined changes — split first.
+- The request mixes refactoring with feature changes or bug fixes. The subagent refuses combined changes -- split first.
 
 ## Crafting the delegation prompt
 
@@ -35,7 +35,7 @@ Examples:
 
 ## Anti-patterns
 
-- Delegating with "refactor this file" or "clean this up". The subagent will ask for clarification — wasted round-trip. Pick a specific refactoring first (or run `plan-refactor` to identify one).
+- Delegating with "refactor this file" or "clean this up". The subagent will ask for clarification -- wasted round-trip. Pick a specific refactoring first (or run `plan-refactor` to identify one).
 - Bundling multiple refactorings into one delegation. The subagent does one atomic change per invocation. For a list, invoke per item.
 - Asking the subagent to commit. It does not commit; the calling agent does that separately.
 - Telling the subagent to skip tests. Behavior preservation is its core contract; without tests it warns and asks.

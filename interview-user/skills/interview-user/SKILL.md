@@ -5,7 +5,7 @@ description: When the user asks to be interviewed, grilled, or talked through an
 
 # interview-user
 
-Elicit structure from an under-formed idea by asking one question at a time, recording each question and answer in a persistent tree on disk. The tree is the source of truth — not chat history.
+Elicit structure from an under-formed idea by asking one question at a time, recording each question and answer in a persistent tree on disk. The tree is the source of truth -- not chat history.
 
 This skill produces raw material. It does not produce the final artifact. When the user signals "we're done," hand off; do not slide into drafting the PRD/design doc/memo inline.
 
@@ -17,11 +17,11 @@ Do not use for: well-scoped implementation tasks, debugging, code review, or any
 
 ## Core discipline
 
-**Write the question down before asking it.** This is the single most important rule. The on-disk tree is updated *first*, then the question is posed to the user. Skipping this step collapses the skill into ordinary chat and forfeits the resumability and branch-coverage value.
+**Write the question down before asking it.** The on-disk tree is updated *first*, then the question is posed to the user. Skipping this step turns the skill into ordinary chat and loses resumability and branch coverage.
 
 **One question at a time.** Always. Multi-question messages overwhelm the user and produce shallow answers.
 
-**Preserve the user's coinages verbatim.** When the user invents a term or lands a load-bearing phrasing -- "constraint-driven development," "one person's fix becomes everybody's fix" -- record those exact words in the **Answer**. Paraphrase only the connective tissue around them. The user's own vocabulary is the highest-value material the interview captures; a paraphrase of a coinage discards the thing worth keeping. This matters most for dictated input, which runs long and self-correcting with the gold buried in one specific clause -- read for the clause, keep it intact.
+**Preserve the user's coinages verbatim.** When the user invents a term or uses a phrasing that carries the idea -- "constraint-driven development," "one person's fix becomes everybody's fix" -- record those exact words in the **Answer**. Paraphrase only the surrounding wording. The user's own vocabulary is the most valuable thing the interview captures; a paraphrase of a coinage discards the thing worth keeping. This matters most for dictated input, which runs long and self-correcting; the key idea is often in one clause. Find it and keep it verbatim.
 
 **Recommend an answer only on convergent questions.** A convergent question picks among known options, ratifies a default, or scopes something concrete; lead with a recommendation so the user can "yes / different / why?" A divergent question is generative -- values, success criteria, "what should X be" -- where a confident guess anchors the user before they've explored. Ask divergent questions raw. If the user stalls or asks "what do you think?", *then* offer a recommendation. See "Recommending answers" below.
 
@@ -37,9 +37,9 @@ The repo's primary job in this skill is gap-finding: where does the user's idea 
 
 **After each answer: decide, write, then resume.** Every user answer triggers the same three-step loop:
 
-1. **Decide if follow-ups are necessary.** Pick from the taxonomy below. The default is *none* -- close the node and move on. A follow-up earns its place only if its answer could change the parent's answer or change the downstream artifact (MECE pruning rule: if the child cannot move the parent, do not ask it).
+1. **Decide if follow-ups are necessary.** Pick from the taxonomy below. The default is *none* -- close the node and move on. Ask a follow-up only if its answer could change the parent's answer or change the downstream artifact (MECE pruning rule: if the child cannot move the parent, do not ask it).
 2. **Write follow-ups as children to the file before asking anything.** Same externalize-before-asking rule as the rest of the skill. Add each child with full tagging (`necessary`/`exploratory`, `convergent`/`divergent`) and a recommended answer on convergent children. Update **Open threads** and **Touched**.
-3. **Resume the one-question-at-a-time loop.** Pose the first new child to the user. The other new children wait their turn alongside any pre-existing open nodes; pick the next question by leverage, not by tree position.
+3. **Resume the one-question-at-a-time loop.** Pose the first new child to the user. The other new children wait their turn alongside any pre-existing open nodes; pick the question whose answer would most change the outcome, not the next one in tree position.
 
 If step 1 produced no follow-ups, mark the parent `answered` and move to the next open node. No silent moves -- every answer either closes its parent or branches.
 
@@ -88,7 +88,7 @@ Field reference:
 - **Necessity** -- `necessary` (must be answered to close the parent) or `exploratory` (interesting but optional).
 - **Shape** -- `convergent` (pick among options, ratify a default, scope something concrete) or `divergent` (generative -- values, criteria, open "what should X be"). Drives whether to lead with a recommendation.
 - **Recommend** -- the agent's proposed answer. Present *with* convergent questions; offer on divergent questions only if the user stalls.
-- **Answer** -- the user's actual answer. Paraphrase the connective tissue for brevity, but keep coined terms and load-bearing phrasings verbatim (see "Preserve the user's coinages verbatim" above). Include `(file:line)` refs for anything sourced from the repo.
+- **Answer** -- the user's actual answer. Paraphrase the surrounding wording for brevity, but keep coined terms and key phrasings verbatim (see "Preserve the user's coinages verbatim" above). Include `(file:line)` refs for anything sourced from the repo.
 - **Touched** -- ISO date of last modification.
 
 `subsumed` marks a node the user never answered directly because another node's answer resolved it -- a seed question that dissolved when a deeper answer reframed the problem. It is distinct from `answered` (the user posed it) and from `abandoned` (dropped as irrelevant): the question got answered, just elsewhere. Use it instead of silently closing a node you never asked.
@@ -138,10 +138,10 @@ After each exchange:
 1. Update the file. Mark the parent `answered` or add children. Update **Open threads**. Bump **Touched** on the node.
 2. Tag every new child on two axes at creation time: `necessary` / `exploratory` (controls termination) and `convergent` / `divergent` (controls whether to lead with a recommendation).
 3. Before adding a child, apply the **thesis-movement test**: does this question move the overall idea forward, or only add granularity to a subset of the parent's answer? A clarifying chain that keeps advancing the thesis is legitimate however deep it nests; drilling that narrows into one sub-aspect is the failure mode. Depth alone is not the signal -- detail-without-movement is. See "Keeping the tree balanced" below.
-4. If a question is adjacent to the declared scope (e.g. a code question during a strategy interview), flag it: "this is cross-domain — pursue or park?" Default to park unless the user pulls it in.
-5. Pose the next open question to the user -- with a recommended answer if convergent, raw if divergent. Pick by leverage, not by tree position.
+4. If a question is adjacent to the declared scope (e.g. a code question during a strategy interview), flag it: "this is cross-domain -- pursue or park?" Default to park unless the user pulls it in.
+5. Pose the next open question to the user -- with a recommended answer if convergent, raw if divergent. Pick the question whose answer would most change the outcome, not the next one in tree position.
 
-Update the file when a node changes status or a child is added — not after every line of chat.
+Update the file when a node changes status or a child is added -- not after every line of chat.
 
 ### Stop
 
@@ -155,8 +155,8 @@ Surface a stop suggestion, never auto-decide, when any of:
 At stop:
 
 1. Set the header **Status:** to `complete` or `paused`.
-2. Fill in **Stop signal:** with the reason (e.g. "all necessary nodes resolved", "user paused — resume on auth threading").
-3. Leave `open` nodes in a real, useful state — not noise.
+2. Fill in **Stop signal:** with the reason (e.g. "all necessary nodes resolved", "user paused -- resume on auth threading").
+3. Leave `open` nodes in a real, useful state -- not noise.
 4. **If the user asks for a consolidation or steelman, write it into the tree file** under a `## Consolidation` heading -- not as the deliverable. This is the one synthesizing move the skill permits: a short reflective pass that draws the answered nodes together into the strongest version of the user's own position, preserving their coinages. It is still raw material handed to the downstream synthesis step, not the PRD/design/memo. Do not produce it unprompted (see "Synthesis creep" under Anti-patterns).
 5. Tell the user the file path and note that synthesis into a final artifact (PRD / design doc / ADR / memo) is a separate step.
 
@@ -167,17 +167,17 @@ Aim for a tree that is neither too deep on one branch nor too broad on one node.
 **Depth -- the thesis-movement test.** When deciding whether to add a child, ask: does this question move the overall idea forward, or only add granularity to a subset of the parent's answer?
 
 - **Clarifying chain.** Successive follow-up siblings that each advance the whole thesis -- `Q1 -> Q1.1 -> Q1.2 -> Q1.3` where every step reframes or sharpens the core idea.  This deep spine is often the single most valuable line in the interview; do not interrupt it to chase shallower seed questions or drill into an answer until the answer chain is complete.
-- **Drilling.** Follow-ups that narrow into one sub-aspect -- `Q1 -> Q1.1 -> Q1.1.1 -> Q1.1.1.1` -- each adding detail to the previous answer without moving the thesis. Drill in when an answer is multifaceted and multiple child questions are necessary will clarify it.  Don't drill in if capturing the details don't advance the goal of the interview (e.g. "nice to have" answers).
+- **Drilling.** Follow-ups that narrow into one sub-aspect -- `Q1 -> Q1.1 -> Q1.1.1 -> Q1.1.1.1` -- each adding detail to the previous answer without moving the thesis. Drill in when an answer has several parts that each need a child question.  Don't drill in if capturing the details don't advance the goal of the interview (e.g. "nice to have" answers).
 
 **Breadth -- the 3–5 rule.** A single node should not accumulate more than 3–5 direct children. Past that, the node is doing too much: introduce an intermediate grouping question that pushes some of those children down a level, or recognize the node is really several questions and split it. A flat fan of many siblings is as much a smell as an over-deep spine.
 
-**The check-in.** When a branch has absorbed sustained investment -- several questions deep, or you cannot articulate how the next child moves the thesis -- surface a check-in rather than auto-deciding: "we've gone a few levels into `<branch>`; keep pulling this thread or move on to `<next open thread>`?" Trigger the check-in on the substance signal, not on a fixed depth count. Do not auto-prune; do not auto-continue.
+**The check-in.** When a branch has taken several questions -- several questions deep, or you cannot articulate how the next child moves the thesis -- surface a check-in rather than auto-deciding: "we've gone a few levels into `<branch>`; keep pulling this thread or move on to `<next open thread>`?" Trigger the check-in on the substance signal, not on a fixed depth count. Do not auto-prune; do not auto-continue.
 
 ## Tagging guidance
 
 `necessary` means: without an answer, a downstream synthesis skill cannot produce a coherent artifact. `exploratory` means: an answer would enrich the artifact but its absence does not block it.
 
-Default to `exploratory` when uncertain. Over-tagging `necessary` defeats the stop criteria — every branch becomes mandatory and the interview runs forever. Confirm `necessary` tags with the user when the call is close: "tagging this necessary — agree, or is this nice-to-have?"
+Default to `exploratory` when uncertain. Over-tagging `necessary` defeats the stop criteria -- every branch becomes mandatory and the interview runs forever. Confirm `necessary` tags with the user when the call is close: "tagging this necessary -- agree, or is this nice-to-have?"
 
 ## Recommending answers
 
@@ -213,9 +213,9 @@ If the user produces a substantive answer, record it and move on. If they stall,
 
 ## Prior art for vocabulary
 
-- **IBIS** (Issue-Based Information Systems) — issue / position / argument / decision node typing.
-- **McKinsey issue trees / MECE** — pruning rule: if a branch's answer cannot change the parent's answer, prune it.
-- **5 Whys** — depth-control intuition, though linear; this skill branches.
+- **IBIS** (Issue-Based Information Systems) -- issue / position / argument / decision node typing.
+- **McKinsey issue trees / MECE** -- pruning rule: if a branch's answer cannot change the parent's answer, prune it.
+- **5 Whys** -- depth-control intuition, though linear; this skill branches.
 
 These are reference points, not methodology lock-in. Do not impose their notation on the user.
 
@@ -224,4 +224,4 @@ These are reference points, not methodology lock-in. Do not impose their notatio
 - Synthesizing the tree into a final artifact. Separate skill.
 - Multi-user collaboration. Single user only.
 - Diagram rendering of the tree.
-- Domain-specific methodology (Shape Up, DDD, etc.) — layer those on top in separate skills.
+- Domain-specific methodology (Shape Up, DDD, etc.) -- layer those on top in separate skills.

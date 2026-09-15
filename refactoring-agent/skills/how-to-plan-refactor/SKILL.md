@@ -6,9 +6,9 @@ user-invocable: false
 
 # Handling refactoring-planning requests
 
-Delegate to the `plan-refactor` subagent (Agent tool, `subagent_type: plan-refactor`) when the user wants *analysis* of refactoring opportunities — not execution. The subagent scans for code smells (duplication, long methods, complex conditionals, poor naming, magic values, dead code, tight coupling, data clumps) and returns a prioritized list under a strict 400-word budget.
+Delegate to the `plan-refactor` subagent (Agent tool, `subagent_type: plan-refactor`) when the user wants *analysis* of refactoring opportunities -- not execution. The subagent scans for code smells (duplication, long methods, complex conditionals, poor naming, magic values, dead code, tight coupling, data clumps) and returns a prioritized list under a strict 400-word budget.
 
-For *executing* a specific refactoring, use `refactor` instead — see `how-to-refactor`.
+For *executing* a specific refactoring, use `refactor` instead -- see `how-to-refactor`.
 
 ## When to delegate vs. handle inline
 
@@ -18,13 +18,13 @@ Delegate when:
 - The scope is large enough (a file, directory, or module) that reading inline would burn context.
 
 Handle inline (do not delegate) when:
-- The user is asking about a *specific* identified problem ("is this function too long?") — that's a single judgment, not a survey.
+- The user is asking about a *specific* identified problem ("is this function too long?") -- that's a single judgment, not a survey.
 - The scope is a short snippet already visible in conversation.
-- The user is asking for design feedback or architectural input rather than refactoring opportunities — that is conversation, not scanning.
+- The user is asking for design feedback or architectural input rather than refactoring opportunities -- that is conversation, not scanning.
 
 ## Crafting the delegation prompt
 
-State the scope. The subagent's defaults handle priority and reporting format — don't reproduce them.
+State the scope. The subagent's defaults handle priority and reporting format -- don't reproduce them.
 
 Examples:
 
@@ -37,5 +37,5 @@ Examples:
 
 - Delegating without a scope when the working set is unclear. Ask the user to point at something first.
 - Asking the subagent to *fix* what it finds. It only recommends; pass items to the `refactor` subagent for execution.
-- Expecting an exhaustive list. The subagent caps output at 10 items and 400 words — top opportunities only.
+- Expecting an exhaustive list. The subagent caps output at 10 items and 400 words -- top opportunities only.
 - Delegating for tiny scopes (a single short function). The signal-to-overhead is poor.

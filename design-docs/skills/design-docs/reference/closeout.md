@@ -17,8 +17,8 @@ choice made mid-implementation, a need the user discovered, a rule that
 turned out to be permanent. Each has a living home; closeout moves it
 there and then freezes the historical record.
 
-The value is the prompt, not the prose. Harvest is nobody's job until it is
-a step; this step exists so the author is reminded to look. A closeout
+This step exists to remind the author to move findings into living docs;
+without an explicit step, nobody does. A closeout
 that finds nothing to move is a legitimate result.
 
 ## Procedure

@@ -151,16 +151,16 @@ must stand alone.
 **State the change at one level above the diff.** The diff is authoritative
 about which lines moved; the message states what the change *is* as a single
 claim, and why it was needed. "Hold the lock across check-and-insert" is the
-right altitude. "Adds a mutex to cache.go and moves the size check" is
+right level of detail. "Adds a mutex to cache.go and moves the size check" is
 diff-level narration -- the diff already says that, more precisely.
 
-**A body earns its place by answering one or more of:** what was wrong, why this fix
+**Include a body only if it answers one or more of:** what was wrong, why this fix
 and not another, what breaks if this is reverted, or what a future reader would
 otherwise have to reconstruct. Cut sentences answering none of them.
 
 **Omit the body when the subject genuinely says everything** (typo fix,
-dependency bump, mechanical rename). Otherwise prefer a short body: a redundant
-sentence costs far less than a message that sends the reader to the diff.
+dependency bump, mechanical rename). Otherwise prefer a short body: one redundant
+sentence does less harm than a message that sends the reader to the diff.
 
 **No bullet lists** unless the commit touches genuinely independent items; then
 one line each, no sub-bullets. Prose carries causation; lists only enumerate.

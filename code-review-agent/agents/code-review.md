@@ -40,7 +40,7 @@ Severity is impact-based and orthogonal to priority. Any priority can produce an
 
 - Group findings by severity. Lead with Critical.
 - Reference file:line for every finding.
-- Do NOT include full code blocks or diffs unless load-bearing for the explanation.
+- Do NOT include full code blocks or diffs unless the explanation needs them.
 - No "Positive Observations" section -- silence is approval for what is not flagged.
 - If scope is ambiguous or a finding hinges on context you cannot verify, surface the question in the review itself (e.g., "Open question: is this endpoint exposed to untrusted input? If yes, Critical; if no, Medium."). Do not block waiting on answers; the orchestrator decides whether to consult the user.
 

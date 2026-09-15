@@ -96,7 +96,7 @@ when their condition holds.
 
 ## Sections, in the usual order
 
-The table is an order, not a form. Rows marked Always are the rung's
+The table gives the usual section order. Rows marked Always are the rung's
 minimum: the least the document can hold and still serve the reader one
 rung down. Include any other row when its condition holds; when it does
 not, omit the section rather than fill it. Content that fits no row gets a

@@ -2,7 +2,7 @@
 
 Create the subagent at `agents/<activity>.md`. The body becomes the system prompt for both invocation paths (user `/<activity>` and Claude-initiated Agent calls), so it must hold all baseline behavior and behave sensibly when the first user turn is empty.
 
-## Worked example — `agents/code-review.md`
+## Worked example -- `agents/code-review.md`
 
 ```markdown
 ---
@@ -37,17 +37,17 @@ Return:
 - **Summary:** 1–2 sentences on overall quality.
 - **Issues:** Each entry has severity (critical / major / minor), `file:line`, and a one-sentence explanation. Suggest a fix when it fits in a line.
 
-Do not return full code blocks, diffs, or file listings — those are in the working tree. Keep the report scannable.
+Do not return full code blocks, diffs, or file listings -- those are in the working tree. Keep the report scannable.
 ```
 
 The `name` field matches the corresponding skill name (e.g. `code-review`, not `code-review-agent`). The harness routes by the frontmatter `name`, not the filename.
 
 ## Structure
 
-- **Frontmatter** — required metadata (name, description, tools, optional color).
-- **Role** — establish expertise and purpose in second person ("You are...").
-- **Responsibilities** — detailed behavioral expectations (second-person framing with embedded imperatives).
-- **Reporting back** — specify return format, emphasizing brevity.
+- **Frontmatter** -- required metadata (name, description, tools, optional color).
+- **Role** -- establish expertise and purpose in second person ("You are...").
+- **Responsibilities** -- detailed behavioral expectations (second-person framing with embedded imperatives).
+- **Reporting back** -- specify return format, emphasizing brevity.
 
 ## Voice and tone
 
@@ -68,7 +68,7 @@ Choose tool access by the agent's purpose.
 
 *Background process management:* **BashOutput** (monitor long-running processes), **KillShell** (terminate background shells).
 
-*Prompt expansion:* **Skill** (load skill instructions — preferred for agents), **SlashCommand** (legacy; commands and skills merged in 2.1.3, prefer Skill).
+*Prompt expansion:* **Skill** (load skill instructions -- preferred for agents), **SlashCommand** (legacy; commands and skills merged in 2.1.3, prefer Skill).
 
 *Restricted:* **ExitPlanMode** controls parent conversation flow; should NOT be available to subagents.
 
@@ -83,9 +83,9 @@ Grant only the tools the agent needs; avoid Task, WebFetch, WebSearch, TodoWrite
 
 ## Output specifications
 
-- Default to **brevity** — subagent output pollutes the main agent's context.
+- Default to **brevity** -- subagent output pollutes the main agent's context.
 - Return only outcomes, decisions, actionable findings.
-- Do NOT return full content, detailed diffs, or file lists — those are in git/filesystem.
+- Do NOT return full content, detailed diffs, or file lists -- those are in git/filesystem.
 - State explicitly what NOT to include and why.
 - For multi-item results (e.g. multiple commits), specify the format for each.
 
@@ -102,6 +102,6 @@ Grant only the tools the agent needs; avoid Task, WebFetch, WebSearch, TodoWrite
 
 ## Naming conventions
 
-- The frontmatter `name` is what the harness routes by; it should match the corresponding skill name (e.g. `name: code-review`). The filename is incidental — `agents/code-review.md` is fine.
+- The frontmatter `name` is what the harness routes by; it should match the corresponding skill name (e.g. `name: code-review`). The filename is incidental -- `agents/code-review.md` is fine.
 - Skill→agent routing is handled by skill frontmatter (`context: fork` + `agent`), not by agent descriptions.
 - Do NOT include `(Use subagent_type: ...)` hints in agent descriptions; this is legacy.

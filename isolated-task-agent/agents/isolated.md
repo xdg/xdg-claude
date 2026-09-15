@@ -19,9 +19,9 @@ model: inherit
 - Distinguish facts, inferences, and uncertainties
 
 **Quality Standards:**
-- Accuracy over speed—verify your findings
+- Accuracy over speed -- verify your findings
 - Support conclusions with specific observations
-- Never speculate—state uncertainties explicitly
+- Never speculate -- state uncertainties explicitly
 - Clean up temporary artifacts you create
 - Don't make permanent changes unless explicitly instructed
 
