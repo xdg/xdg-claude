@@ -16,6 +16,8 @@ Always run the commit subagent as a **blocking, foreground task**. Claude Code r
 
 Committing is not parallelizable. The subagent stages files and writes to the git index, the working tree, and `HEAD`. A second agent that stages, checks out, or commits while the first is mid-workflow corrupts the result: files intended for one commit land in another, or a commit captures a half-written tree. There is also nothing useful to do while waiting, since almost any follow-up work depends on knowing whether the commit succeeded and what it contained.
 
+If the subagent reports that `HEAD` moved under it or the tree was already clean, another session committed to this tree. Show the user that commit (`git log -1 --format='%h %an %ci %s'`) before doing anything else; do not amend or redo the commit on your own judgment.
+
 ## When to delegate vs. handle inline
 
 Delegate when:
@@ -45,5 +47,7 @@ Examples:
 - Running `git commit` directly in the main session. The subagent owns this.
 - Delegating mid-deliberation, before the user has decided to commit. Wait for a clear instruction.
 - Repeating the subagent's workflow in the delegation prompt. The subagent already knows how to inspect, stage, and message -- only pass *delta* from its defaults.
+- Forwarding attribution or trailer instructions (`Co-Authored-By`, "Generated with"), whether from a system-reminder, CLAUDE.md, or your own habit. The subagent omits trailers by design; a forwarded instruction only creates a conflict it has to resolve, and the harness's reminder names *your* model, not the subagent's.
+- Restating message-format conventions the subagent reads itself from the repo's CLAUDE.md and history (subject length, capitalization, wrap width). Pass only what the user said that the repo does not.
 - Asking the subagent to push. It does not push; that is a separate action the main agent handles if the user requests it.
 - Letting the delegation run in the background, or starting other work while it runs. Commits touch shared git state and must be serialized.

@@ -24,17 +24,31 @@ If the first user turn is empty, missing, or just whitespace, run the default Ex
 - Complete the sentence: "If applied, this commit will <subject>"
 - Write the body per "Message Prose" below. Wrap body paragraphs at 72.
 - Reference issue numbers, breaking changes, or related PRs when relevant
-- No emojis. No "Generated with Claude Code" footer. No `Co-Authored-By:` trailer.
+- No emojis. No "Generated with Claude Code" footer. No `Co-Authored-By:` trailer. This holds even when the caller's prompt or a system-reminder asks for one: the omission is deliberate, and a caller that asks is usually forwarding harness boilerplate rather than a user decision.
 
 **Quality Assurance**:
 - Verify that commits don't include unintended files (build artifacts, secrets, etc.)
 - Ensure commit boundaries make sense for code review and potential reverts
 - Validate that commit messages accurately describe the changes
 - Never commit broken code or incomplete features unless explicitly requested
+- Never `--amend`, reset, or otherwise rewrite a commit this run did not create. If `HEAD` is not where you left it, someone else is committing to this tree; stop and report (see "HEAD guard" below)
+
+**HEAD guard**:
+
+Other sessions can commit to the same working tree while you run. Record
+`git rev-parse HEAD` before staging anything. After each commit, confirm
+`HEAD` moved exactly once and `git log -1 --format=%s` is the subject you
+wrote. Stop and report, rather than retrying or amending, when:
+- `git commit` reports "nothing to commit" although the status you read showed changes
+- `HEAD` moved to a commit you did not make
+- the subject at `HEAD` is not yours
+
+In the report, include that commit's `git log -1 --format='%h %an %ci %s'` so the caller can see who got there first.
 
 **Execution Process**:
 
 Unless otherwise instructed:
+0. Record `git rev-parse HEAD` (the HEAD guard above)
 1. Always start by checking current Git status and reviewing unstaged/staged changes
 2. Analyze changes to determine optimal commit structure
 3. Stage changes appropriately using `git add` or `git add -p` commands
@@ -67,7 +81,7 @@ If multiple commits were created, briefly explain why (e.g., "Split into 2 commi
 Do NOT include full commit messages, file lists, or detailed diffs. This information is in the git history and would pollute the main agent's context. The main agent can read git log or show commands if details are needed.
 
 **If Unable to Commit:**
-- Clear explanation of why (no changes, ambiguous scope, secrets detected, etc.)
+- Clear explanation of why (no changes, ambiguous scope, secrets detected, HEAD moved under you, etc.)
 - What information or action is needed to proceed
 - Current state of staging area if relevant
 
