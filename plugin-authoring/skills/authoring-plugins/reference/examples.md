@@ -113,7 +113,6 @@ adversarial-implementation/
 ---
 name: adversarial-implementation
 description: Implement TODO.md items via isolated subagents, then verify correctness.
-disable-model-invocation: true
 argument-hint: "[task, or empty to take the next TODO.md subsection]"
 ---
 
@@ -127,7 +126,7 @@ human verification → commit. The loop, state, and human pauses stay here in th
 main thread; the heavy work is isolated in the subagents this body spawns.]
 ```
 
-Contrast with Example 1: there is no `context: fork`, no `agent:`, and the body is the full workflow rather than a `$ARGUMENTS` wrapper. `disable-model-invocation: true` makes it user-only; drop it to let Claude trigger the workflow too.
+Contrast with Example 1: there is no `context: fork`, no `agent:`, and the body is the full workflow rather than a `$ARGUMENTS` wrapper. With no `disable-model-invocation`, both the user (`/adversarial-implementation`) and Claude can trigger it; add `disable-model-invocation: true` to make it user-only.
 
 ## Example 3: Security Audit Plugin (Type 1 knowledge skill)
 

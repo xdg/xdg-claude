@@ -133,7 +133,7 @@
       "name": "plugin-authoring",
       "source": "./plugin-authoring",
       "description": "Reference skill for authoring Claude Code plugins: component types, the three skill patterns, frontmatter, agents, hooks, manifests, and worked examples",
-      "version": "0.1.1",
+      "version": "0.1.2",
       "category": "development",
       "tags": ["plugins", "authoring", "skills", "meta", "documentation"]
     },
