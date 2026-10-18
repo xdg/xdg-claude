@@ -34,8 +34,8 @@ instruct otherwise.
 ```
 
 Run with no argument to take the next incomplete subsection of `TODO.md`, or pass a
-specific task. The skill is user-invoked only — Claude will not launch this autonomous
-loop on its own.
+specific task. Claude can also invoke the skill itself when you ask it to implement or
+work through a `TODO.md` plan, and an orchestrating agent can call it the same way.
 
 Pairs with the [todo-planner](../todo-planner/README.md) plugin, which produces plans in
 the expected format.

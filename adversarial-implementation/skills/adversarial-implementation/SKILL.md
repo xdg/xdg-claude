@@ -1,7 +1,6 @@
 ---
 name: adversarial-implementation
-description: Implement TODO.md items via isolated subagents, then adversarially verify correctness. Drives a phased loop that implements one checkbox at a time, runs independent lint/test/review subagents, handles human verification, and commits per subsection.
-disable-model-invocation: true
+description: Implement TODO.md items via isolated subagents, then adversarially verify correctness. Drives a phased loop that implements one checkbox at a time, runs independent lint/test/review subagents, handles human verification, and commits per subsection. Use when the user asks to implement, execute, or work through a TODO.md plan or its next subsection, or asks for adversarial or verified implementation of a planned task. Not for one-off edits outside a plan.
 argument-hint: "[task, or empty to take the next TODO.md subsection]"
 ---
 
