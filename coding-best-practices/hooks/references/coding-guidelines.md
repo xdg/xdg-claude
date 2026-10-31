@@ -20,15 +20,22 @@
 
 **Pull complexity downward:** Make module implementers work harder so users work less. The reverse pushes complexity onto every caller.
 
+**Simple interface over simple implementation:** Absorb the special case inside the module; don't add a parameter or a second method to keep the implementation easy.
+
+**Design for the common case:** Callers shouldn't need to know rare options to use the usual path.
+
 **Different layer, different abstraction:** Pass-through methods/variables are red flags. Each layer should add value.
 
-**Avoid leaky abstractions:** No exceptions for normal control flow; no getters/setters that expose internal structure.
+**Separate special-purpose from general-purpose code:** No caller-specific branches inside a general function.
 
 **Design it twice:** Always consider multiple approaches. First idea is rarely best.
 
 **General-purpose > special-case:** Fewer, more flexible methods > many specialized ones.
 
 **Define errors out of existence:** Design APIs so errors can't happen vs detecting/handling them.
+
+### Red Flags
+Information leakage (one design decision known to two modules). Temporal decomposition (structure follows execution order, not information hiding). Conjoined methods (can't understand one without the other). Repetition of nontrivial code. Hard to describe (a correct docstring would have to be long). Vague names.
 
 ## The Art of Readable Code (Boswell & Foucher)
 
