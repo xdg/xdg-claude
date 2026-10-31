@@ -43,11 +43,12 @@
 - **Longer names for larger scopes.** Loop iterator `i` is fine; class member needs context.
 
 ### Comments
-- **Don't describe what code does.** Describe why and non-obvious consequences.
-- **Record your thought process:** "Tried X, didn't work because Y"
-- **Document flaws:** `TODO`, `FIXME`, `HACK`, `XXX`
-- **Comment constants:** Why this number? Why not another?
-- **"Big picture" comments:** High-level intent before implementation details.
+- **Default to none.** A comment amplifies something a reader would otherwise miss. Test: would deleting it cost the next reader anything? If not, delete it.
+- **Never narrate.** No comments that restate the next line, label sections of a function, or paraphrase a signature. If code needs narration, rename or extract instead.
+- **Worth a comment:** why (not what), non-obvious consequences, magic constants, big-picture intent above a block, `TODO`/`FIXME`/`HACK`.
+- **Warn off the obvious alternative in one line** when it breaks: `// not sync.Map: iteration order matters here`. State why it fails, not the history of trying it.
+- **Public APIs get a docstring;** private code only when the test above passes. Say what the caller needs: contract, units, errors, a corner-case example (`Strip("") == ""`). Omit anything the signature already says.
+- **High information-to-space ratio.** Compact, information-dense words, no ambiguous "it"/"this". `// retry on 5xx only` beats `// this handles the case where it fails`.
 
 ### Aesthetics & Structure
 - **Consistent style > "correct" style.** Pick one, stick to it.
