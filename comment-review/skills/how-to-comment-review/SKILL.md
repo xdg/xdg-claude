@@ -21,12 +21,15 @@ Handle inline (do not delegate) when:
 
 ## Crafting the delegation prompt
 
-The default target is uncommitted changes (staged, unstaged, and untracked). Name a target only when the user does. Mention clarity or terminology when the user asks about them: the terminology census is skipped on small diffs unless requested.
+The default target is the current branch: the working tree, committed and uncommitted changes alike, against the merge base with the default branch. On a clean default branch that target is empty, so name one whenever the user means something else. Name a target only when the user does.
 
-- "review the comments in my changes" → empty prompt; the default handles it.
+- "review the comments in my changes" or "check this branch" → empty prompt; the default handles it.
 - "tighten the comments in session.go" → "Review the comments in session.go."
 - "are the comments in pkg/auth consistent?" → "Review the comments in pkg/auth, including the terminology census."
-- "check comments on this branch" → "Review comments in the diff from the merge base with main to HEAD."
+- "review the comments in the last commit" → "Review comments in the diff HEAD~1..HEAD."
+- "review PR #42's comments" → "Review comments in PR #42."
+
+When the target is a PR or a branch that is not checked out, the report's Old text matches that revision, not the working tree. Check out that revision before applying, or expect every replacement to fail.
 
 ## Applying the report
 

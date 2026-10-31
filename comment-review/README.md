@@ -23,7 +23,20 @@ The review runs in two passes:
   buried after elaboration, mood-metaphors that cannot be checked against the
   code, and stacked noun clusters. On a file, package, or API surface, a
   terminology census also flags drift between synonyms, and proposes a
-  canonical term only where the code shows the words name one operation.
+  canonical term only where the code shows the words name one operation. On
+  a diff, it flags new comments that name a concept differently from the
+  surrounding package.
+
+### Reviewing a branch
+
+On a diff, the review covers comments on changed lines and also:
+
+- doc comments on declarations whose code changed, even when the comment did
+  not -- the usual way a comment goes stale;
+- comments elsewhere in the repo that name a changed exported identifier.
+
+Old comments in touched files that no change affects stay out of scope, and
+so do old undocumented declarations.
 
 Comments that tools read -- build and compiler directives, lint suppressions,
 doctests, license headers -- are left alone, as are generated and vendored
@@ -54,8 +67,9 @@ or an orchestrating agent, to act on:
 The plugin follows the standard three-piece form:
 
 - **Subagent** (`agents/comment-review.md`): Opus model. Tools: Bash, Glob,
-  Grep, Read, Skill -- no edit tools. Reviews uncommitted changes by default,
-  or a named file, directory, branch, PR, or commit range.
+  Grep, Read, Skill -- no edit tools. Reviews the current branch against the
+  default branch by default, or a named file, directory, branch, PR, or commit
+  range.
 - **Educational skill** (`skills/how-to-comment-review/SKILL.md`): teaches
   Claude when to delegate, how to craft the prompt, and how to apply the
   report with and without a person present. Not user-invocable.

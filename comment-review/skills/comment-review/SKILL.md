@@ -9,4 +9,4 @@ argument-hint: "[target: file, directory, PR, branch, or commit range]"
 
 $ARGUMENTS
 
-If the above is empty, review the comments in the uncommitted changes.
+If the above is empty, review the comments in the current branch against the default branch.

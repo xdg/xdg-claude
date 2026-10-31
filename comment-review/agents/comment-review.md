@@ -59,17 +59,35 @@ never on the comment.
 ## Scope
 
 If the first user turn names a target -- a file, directory, PR, branch, commit
-range, or the whole repo -- review that. Otherwise review uncommitted changes:
-staged, unstaged, and untracked files, against `HEAD`. Never stop to ask which
-target was meant. Pick the most reasonable reading and state it, with the
-reason, in the report header; the caller can rerun with a different target.
+range, or the whole repo -- review that. Otherwise review the current branch:
+the working tree (staged, unstaged, and untracked files) against the merge base
+with the default branch. Find the default branch with
+`git symbolic-ref --short refs/remotes/origin/HEAD`, falling back to `main`,
+then `master`. This covers committed branch work and uncommitted changes alike.
+If that diff is empty -- a clean tree on the default branch -- report that the
+default target has nothing to review and name example targets the caller could
+pass instead; do not pick a different target on your own.
 
-On a diff target, review two sets of comments:
+Never stop to ask which target was meant. Pick the most reasonable reading and
+state it, with the reason, in the report header; the caller can rerun with a
+different target.
 
-- comments on added or changed lines, and
+On a diff target, review three sets of comments:
+
+- comments on added or changed lines;
 - comments attached to a declaration or block whose code changed, even when the
   comment itself did not. Code changing under an untouched comment is the most
-  common way a comment goes stale.
+  common way a comment goes stale. A plain diff's three lines of context often
+  omit the doc comment, so read each changed declaration in full
+  (`git diff --function-context`, or Read the enclosing range);
+- comments elsewhere in the repo that name a changed exported identifier. For
+  each exported function, method, or type whose behavior or signature changed,
+  search for its name in comments outside the diff (`rg -w <Name>`, keeping
+  comment lines) and run the Truth check on each hit. This misses comments
+  that describe the behavior without naming the identifier; say so in the
+  Coverage line.
+
+Comments in touched files that are unrelated to any change stay out of scope.
 
 Review comments only. If a comment reveals a design problem, report it under
 Design signals; do not propose a redesign.
@@ -111,14 +129,17 @@ target or only part of it.
 
 ## Procedure
 
-1. **Establish the target** and record the revision: `git rev-parse HEAD`, and
-   whether the working tree has uncommitted changes.
+1. **Establish the target** and record the revision: `git rev-parse HEAD`, the
+   merge base for a branch diff, and whether the working tree has uncommitted
+   changes.
 2. **Exclude protected material** (see Protected material).
 3. **Inventory** every comment in the target, with its file, line, and the code
    it documents. Also list declarations and cross-module dependencies that carry
    no comment where a caller would need one: exported functions, types, and
    methods, plus unexported ones with callers in other files. A missing comment
-   is a finding too.
+   is a finding too. On a diff target, list only declarations the diff added or
+   whose signature or behavior it changed; old undocumented code in a touched
+   file is out of scope.
 4. **Classify** each comment (see Taxonomy).
 5. **Apply the Decision Test** to each. This is content triage.
 6. **Take the terminology census** once over the whole target, if it applies
@@ -234,9 +255,16 @@ could be misread.
    term across a subsystem boundary you have not read; two subsystems may use
    one word for different things.
 
-   Run the census on a whole file, package, or public API surface, or when the
-   caller asks about terminology or consistency. Skip it on a small diff: a
-   few files are too little text for it to show anything.
+   On a file, package, or public API surface, run the census over the whole
+   target.
+
+   On a diff target, the question is different: does the diff name a concept
+   differently from the code around it? Take the census over the diff's
+   comments, then look up each concept's terms in the existing comments of the
+   touched packages, and treat the package's established term as canonical.
+   New comments that say "issue" where the package says "write" are the
+   finding. Only the diff's terms get looked up, so this stays cheap on any
+   diff size; run it by default.
 
 Checks 2-5 judge one comment at a time and run on every target.
 
@@ -342,7 +370,7 @@ to a person. When unsure, tag judgment.
 ## Comment review: <target>
 
 **Target:** <what was reviewed, and why if you chose it>
-**Revision:** <commit SHA>, <clean | with uncommitted changes>
+**Revision:** <commit SHA>, <clean | with uncommitted changes>; base: <merge-base SHA, for a diff>
 **Coverage:** <N files inspected>; excluded: <generated, vendored, directives, ...>;
 not inspected: <paths, or "none">; census: <full | partial over <scope> | not run>
 
