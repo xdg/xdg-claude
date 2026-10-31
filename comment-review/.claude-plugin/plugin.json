@@ -1,0 +1,9 @@
+{
+  "name": "comment-review",
+  "version": "0.1.0",
+  "description": "Audit code comments for information content and clarity against Philosophy of Software Design and The Art of Readable Code, returning exact patches tagged mechanical or judgment for the caller to apply",
+  "author": {
+    "name": "David Golden",
+    "email": "xdg@xdg.me"
+  }
+}

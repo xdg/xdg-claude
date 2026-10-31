@@ -160,6 +160,14 @@
       "version": "0.1.2",
       "category": "development",
       "tags": ["prd", "design", "specification", "documentation", "workflow"]
+    },
+    {
+      "name": "comment-review",
+      "source": "./comment-review",
+      "description": "Audit code comments for information content and clarity against Philosophy of Software Design and The Art of Readable Code, returning exact patches tagged mechanical or judgment for the caller to apply",
+      "version": "0.1.0",
+      "category": "development",
+      "tags": ["comments", "code-review", "readability", "documentation"]
     }
   ]
 }
