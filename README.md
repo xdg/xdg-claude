@@ -59,6 +59,7 @@ Foundational plugins that shape how Claude operates across all other skills and 
 | Plugin | Knowledge skill | Main-agent task | Subagent task | Slash command | Description |
 |--------|:---------------:|:---------------:|:-------------:|:-------------:|-------------|
 | [**adversarial-implementation**](adversarial-implementation/README.md) | | ✓ | | ✓ | Execute a TODO.md plan one checkbox at a time via isolated subagents, with adversarial lint/test/review verification, human-in-the-loop checks, and per-subsection commits |
+| [**ask-codex**](ask-codex/README.md) | | ✓ | | ✓ | Get an independent review of a doc, plan, diff, or code from OpenAI Codex (headless, read-only), then reconcile its findings with Claude's own view; triggers only when you name codex |
 | [**code-review-agent**](code-review-agent/README.md) | | | ✓ | ✓ | Analyze code quality, security, performance, and maintainability (Opus) |
 | [**comment-review**](comment-review/README.md) | | | ✓ | ✓ | Audit code comments for information content and clarity, returning exact patches tagged mechanical or judgment so a person or orchestrator decides what to apply (Opus) |
 | [**context-efficient-tools**](context-efficient-tools/README.md) | ✓ | | | | CLI tools that minimize context usage through targeted extraction instead of reading entire files (ripgrep, ast-grep, jq, yq, code-structure) |

@@ -168,6 +168,14 @@
       "version": "0.1.1",
       "category": "development",
       "tags": ["comments", "code-review", "readability", "documentation"]
+    },
+    {
+      "name": "ask-codex",
+      "source": "./ask-codex",
+      "description": "Consult OpenAI Codex headlessly for an independent review of a doc, plan, diff, or code, then reconcile its findings with Claude's own view",
+      "version": "0.1.0",
+      "category": "development",
+      "tags": ["codex", "review", "second-opinion", "openai"]
     }
   ]
 }
