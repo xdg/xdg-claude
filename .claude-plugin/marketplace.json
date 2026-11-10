@@ -69,7 +69,7 @@
       "name": "avoid-ai-tells",
       "source": "./avoid-ai-tells",
       "description": "Injects writing style guidance at session start to avoid common AI writing patterns",
-      "version": "0.1.3",
+      "version": "0.1.4",
       "category": "writing",
       "tags": ["writing", "style", "ai-tells", "communication"]
     },
@@ -149,7 +149,7 @@
       "name": "decision-log",
       "source": "./decision-log",
       "description": "Record durable engineering decisions in an append-only decision log, with a fixed entry template and consent before creating the log in an unfamiliar repo",
-      "version": "0.1.1",
+      "version": "0.1.2",
       "category": "development",
       "tags": ["documentation", "decisions", "adr", "workflow"]
     },

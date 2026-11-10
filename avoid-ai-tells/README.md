@@ -19,6 +19,21 @@ The guidance names mechanisms, not model-specific phrases, so it applies across 
 
 The plugin ships no skills or agents. It is style-guidance only.
 
+## Evals
+
+`evals/` holds a `claude plugin eval` suite. Each case asks for prose in a genre
+that invites AI tells, then grades the reply with regex checks (em-dashes, the
+stock vocabulary list) and a short LLM rubric (contrastive reframes, significance
+labels, closing slogans, verdict headers).
+
+```bash
+cd avoid-ai-tells
+claude plugin eval . --no-publish
+```
+
+See [docs/evals.md](../docs/evals.md) for how to read the results and add cases.
+
+
 ## Installation
 
 ```bash

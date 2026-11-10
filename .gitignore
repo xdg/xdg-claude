@@ -12,3 +12,6 @@ Thumbs.db
 *.swp
 *.swo
 *~
+
+# Plugin eval run output (claude plugin eval)
+evals/results/
