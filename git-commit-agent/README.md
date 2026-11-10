@@ -12,6 +12,27 @@ The plugin follows the standard three-piece form:
 - **Educational skill** (`skills/how-to-commit/SKILL.md`): teaches Claude when to delegate to the subagent versus handle the request inline, and how to craft the delegation prompt. Also directs Claude to run the subagent in the foreground, since commits write to shared git state and must not overlap with other agents. Not user-invocable.
 - **Slash command** (`skills/commit/SKILL.md`): `/commit [subject hint or scope]` forks into the subagent. With no argument, the subagent runs its default workflow.
 
+## Evals
+
+`evals/` holds a `claude plugin eval` suite of three cases: derive a
+`JIRA-<n> <type>:` subject from history and the branch name, keep an untracked
+`.env` out of the index, and hold off committing while the user is still
+deciding. Each case seeds a git repo with a fixture script and needs Bash:
+
+```bash
+cd git-commit-agent
+claude plugin eval . --no-publish --scaffold --allow-tools Bash
+```
+
+The eval sandbox mounts the workspace's git directory read-only, so no commit
+lands. The graders check the `git add` and `git commit` commands the agent
+issues, which carry the staging choice and the full message. Behavior that
+depends on a commit succeeding (splitting into several commits, the HEAD guard)
+is not covered. Granting Bash requires `bubblewrap` and `socat` on Linux.
+
+See [docs/evals.md](../docs/evals.md) for how to read the results and add cases.
+
+
 ## Installation
 
 ```bash

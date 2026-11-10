@@ -45,7 +45,7 @@
       "name": "git-commit-agent",
       "source": "./git-commit-agent",
       "description": "Git commit agent with intelligent change analysis and commit message conventions",
-      "version": "0.7.2",
+      "version": "0.7.3",
       "category": "development",
       "tags": ["git", "commit", "agent", "version-control"]
     },
@@ -85,7 +85,7 @@
       "name": "prioritize-skills",
       "source": "./prioritize-skills",
       "description": "Injects a directive at session and subagent start that requires checking for and invoking applicable skills before responding or acting",
-      "version": "0.1.1",
+      "version": "0.1.2",
       "category": "productivity",
       "tags": ["skills", "workflow", "prioritization"]
     },

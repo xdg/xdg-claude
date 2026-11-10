@@ -14,6 +14,31 @@ On `SessionStart` and `SubagentStart`, the plugin's hook reads `hooks/references
 
 The plugin ships no skills of its own. It is the prioritization layer; install whatever skills you actually want alongside it.
 
+## Evals
+
+`evals/` holds a `claude plugin eval` suite. The plugin only matters when other
+skills are installed, so each case loads a one-skill fixture plugin from its own
+directory. `soft-trigger` loads the fixture with this plugin;
+`soft-trigger-control` loads the fixture alone. The plugin's effect is the first
+score minus the second. `no-skill-applies` checks that the directive causes no
+spurious skill call.
+
+```bash
+cd prioritize-skills
+claude plugin eval . --no-publish --ablation none --runs 10
+```
+
+`--ablation none` turns off the built-in no-plugin arm, which would also remove
+the fixture skill and so measure nothing.
+
+As of 0.1.2 the suite shows no effect in the main conversation: both cases
+invoke the fixture skill in 10 of 10 runs. Two other probe prompts, where the
+fixture skill fit only loosely, scored 0 of 5 with and without the plugin. The
+SubagentStart path is untested.
+
+See [docs/evals.md](../docs/evals.md) for how to read the results and add cases.
+
+
 ## Installation
 
 ```bash

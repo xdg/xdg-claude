@@ -13,8 +13,13 @@ Suites live in `<plugin>/evals/` and run with `claude plugin eval` (Claude Code
 |---|---|---|
 | `avoid-ai-tells` | 2 | `claude plugin eval . --no-publish` |
 | `decision-log` | 4 | `claude plugin eval . --no-publish --scaffold --allow-tools Write Edit` |
+| `git-commit-agent` | 3 | `claude plugin eval . --no-publish --scaffold --allow-tools Bash` |
+| `prioritize-skills` | 3 | `claude plugin eval . --no-publish --ablation none --runs 10` |
 
-A full run of either costs under $1 and takes under a minute with `-j 8`.
+A full run of any one costs about $1 and takes under a minute with `-j 8`.
+
+Granting Bash (`git-commit-agent`) requires a sandbox backend. On Linux, install
+`bubblewrap` and `socat`; without them every run is refused.
 
 ## Vocabulary
 
@@ -103,5 +108,25 @@ is the model to copy.
 - The baseline arm changes with the model. A case that separates the arms today
   can stop doing so after a model upgrade; that means the plugin's guidance has
   become redundant for that behavior, which is worth knowing.
-- Each run loads only the plugin under test. Interactions between plugins need a
-  case that lists several under `plugins:` in its frontmatter.
+- The sandbox mounts the workspace's git directory read-only, wherever it is
+  stored. A case can read history but cannot commit. Grade the command the agent
+  issues with `tool_used` and `input_match` instead of the resulting history, as
+  `git-commit-agent/evals` does.
+- A `tool_used` grader sees subagent tool calls as well as the main agent's, and
+  cannot tell them apart.
+
+## Plugins that only matter alongside other plugins
+
+Each run loads only the plugin under test, and the built-in baseline arm removes
+every plugin. A plugin like `prioritize-skills`, whose effect is on other
+plugins' skills, needs a different comparison:
+
+1. Put a small fixture plugin in its own subdirectory of the case. A `plugins:`
+   entry cannot point outside the plugin under test or at a directory shared
+   between cases.
+2. Write the case twice: one lists `plugins: ["../..", "<fixture>"]`, the
+   control lists `plugins: ["<fixture>"]`.
+3. Run with `--ablation none` and subtract the control's score.
+
+`prioritize-skills/evals/soft-trigger` and `soft-trigger-control` are the pair
+to copy.

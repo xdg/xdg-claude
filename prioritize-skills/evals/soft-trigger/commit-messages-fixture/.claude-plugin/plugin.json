@@ -1,0 +1,5 @@
+{
+  "name": "commit-messages-fixture",
+  "version": "0.0.1",
+  "description": "Eval fixture: one skill with a soft trigger, used to measure whether prioritize-skills raises skill invocation."
+}
