@@ -20,6 +20,10 @@ The core (`SKILL.md`) states what every mode shares:
   it binds more than one thing below.
 - **The tiers**: living, historical (frozen on completion), ephemeral (deleted
   when done), independent of rung.
+- **Explain before you specify**: each decision opens in plain English for a
+  reader who knows the rung above but not the code, with code names after as
+  pointers; a before/after example shows the difference. Every milestone
+  design opens with an "In plain terms" walkthrough of one concrete case.
 
 The references, loaded one per invocation:
 

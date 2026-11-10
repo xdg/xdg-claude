@@ -16,7 +16,7 @@ present, even when two rungs share a file.
 | Label | Needs | Shape | Behavior | Steps |
 | Question | What must the product do, for whom, and why? | What does this milestone deliver, and how is the system composed to deliver it? | What must this increment observably do, precisely enough to test? | In what order, in which files? |
 | Unit | The product | One milestone: a complete slice, either a capability its consumer can use or an experiment that resolves a question | One inchstone: one tangible, independently acceptable increment | One inchstone |
-| States | Users, goals, non-goals, vocabulary, numbered requirements with reasons, constraints, open questions, future possibilities | Scope thesis, in/out with destinations, components and ownership, data flow, enforcement points, mechanisms with losing alternatives, inchstone list, exit criteria | Boundary, go/no-go discovery, continuity, forced changes to existing code, data and API in general terms, numbered acceptance criteria | Tasks, files, types, signatures, test names, sequence |
+| States | Users, goals, non-goals, vocabulary, numbered requirements with reasons, constraints, open questions, future possibilities | Scope thesis, a plain-terms walkthrough of one case, in/out with destinations, components and ownership, data flow, enforcement points, mechanisms with losing alternatives, inchstone list, exit criteria | Boundary, go/no-go discovery, continuity, forced changes to existing code, data and API in general terms, numbered acceptance criteria | Tasks, files, types, signatures, test names, sequence |
 | Omits | Any mechanism, mode, layout, field, or owner of upkeep | Behavior detail (errors, edges, defaults), acceptance criteria, field names, endpoint contracts | Structure (inherited from the design), construction | Re-deciding anything above |
 | Reader | Spec author ("required or invented?"); user ("does it do X?") | Spec author ("what is in, what shape?"); anyone ("why not X?") | Implementer, acceptor, reviewer a year on | Implementer, today |
 
@@ -92,17 +92,69 @@ Each rung reference carries its north star, detail line, obligations,
 section order, procedure, handoffs, anti-patterns, and rules, plus which
 living docs it reads on entry and feeds on exit.
 
+## Explain before you specify
+
+Write for a reader who knows the rung above and has not read the code.
+
+- **Open each decision in plain English:** the problem, the idea, and
+  why it beats the obvious alternative, as you would explain it at a
+  whiteboard. Title it by what it does for the reader, not by its
+  mechanism. Mechanism and code names follow as pointers.
+- **Ground abstractions in a case.** Walk one concrete scenario through
+  a rule before stating it generally. When a decision plays out
+  differently across a few cases, a small table shows it at a glance.
+- **Define a term before you lean on it.** Name things by where the
+  reader meets them (the album page), not by internal names (the
+  masonry).
+- **Read back.** Read only each decision's opening paragraph, in order.
+  Someone who knows the rung above should be able to retell the design
+  from them. Rewrite any opening that needs the body or the code.
+
+Before, told in the code's vocabulary:
+
+> ### D3. One mutation changes the current image and the shape together
+>
+> Every change of a photo's current image writes its `shape` in the same
+> transaction, so the masonry, the slideshow's fit, and the stacks never
+> show one image at another's proportions.
+>
+> - **`AddImage` can make its image current.** An edited image (D4) is
+>   added and shown as one operation: one version step, one operation
+>   record, one outcome. The flag joins the operation's fingerprint.
+
+After, in plain English:
+
+> ### D3. Changing the shown image updates the photo's shape
+>
+> A photo stores the width and height of its shown (current) image, its
+> **shape**, so the album page, the slideshow, and the album stacks can
+> lay it out without opening the image. Every change of the shown image
+> writes the new shape in the same step, so no page draws one image in
+> another's box.
+>
+> - **Adding an image always shows it.** `AddImage` makes its image
+>   current, with no option to add without showing. Every caller wants
+>   this: an editor who uploads a retouched version means it to show,
+>   and the older images stay a click away in the image list.
+
+The title states the outcome; "shape" is defined at first use; the reader
+meets the album page, not "the masonry"; each bullet leads with behavior
+and names the function after.
+
 ## Rules for every mode
 
 - **Short docs.** Length follows the number of decisions, not the amount of
   thought. A section that dwarfs its siblings has absorbed the rung below.
-- **Sections follow content.** Each rung has a minimum of two or three
+- **Sections follow content.** Each rung has a minimum of two to four
   sections; every other section exists only when its condition holds. An
   absent condition means an absent section, never an invented constraint,
   non-goal, or open question. Content that fits no listed section gets its
   own.
-- **Prose with reasons.** The reason beside the choice is the durable part;
-  a choice without one gets reopened.
+- **Reasons beside choices.** The reason is the durable part; a choice
+  without one gets reopened.
+- **Verify claims about what exists.** Check every statement about
+  current code, data, or another document against its source, and cite
+  it. Reviewers trust a fluent claim and judge the design built on it.
 - **Never invent a requirement.** Silence in the document above is a triage
   question or a flagged assumption, not a guess.
 - **Propose, then wait,** for any change outside the document being

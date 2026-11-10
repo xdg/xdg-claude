@@ -186,7 +186,8 @@ coherent statement of current intent.
 
 - Length follows the number of distinct needs, not the amount of thought
   behind them.
-- Prose with reasons; every requirement can be read alone.
+- Prose with reasons, in the users' words; every requirement can be read
+  alone.
 - Match the project's existing voice and numbering over anything here.
 - Never invent a requirement. If the user has not said it and it matters,
   it is a question or a flagged default.

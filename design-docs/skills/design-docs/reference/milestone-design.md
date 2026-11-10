@@ -60,19 +60,24 @@ way without changing the shape, is left to that inchstone's spec.
 
 ## Obligations
 
-The first three are the minimum; a design with only those still tells a
-spec author what is in, what is out, and what comes first. The rest apply
-when their condition holds.
+The first four are the minimum; a design with only those still tells a
+spec author what is in, what is out, how it works, and what comes first.
+The rest apply when their condition holds.
 
 1. **Scope thesis.** One paragraph: who this milestone serves, whether it is
    a capability or an experiment, who can use what at the end or what
    question gets answered, and why this slice first. Early dogfooding beats
    completeness.
-2. **In and out of scope, per requirement.** In: citing the PRD section,
+2. **In plain terms.** Two or three paragraphs of prose, before any
+   decision, telling how the milestone works through one concrete case:
+   what a user does, what happens, and how the pieces fit. No code names.
+   A reader who stops here should be able to explain the milestone to
+   someone else.
+3. **In and out of scope, per requirement.** In: citing the PRD section,
    with this milestone's reading of it and the structural decisions it
    forces. Out: each with its destination and its reason. Out is empty only
    when the milestone ships the whole PRD.
-3. **Inchstones.** Tangible, incremental, independently acceptable,
+4. **Inchstones.** Tangible, incremental, independently acceptable,
    testable steps, ordered so early ones de-risk later ones. Independently
    acceptable means the increment's criteria can be checked without waiting
    on a sibling; its consumer may be an end user, an API client, an
@@ -80,15 +85,16 @@ when their condition holds.
    slice defined by labor rather than by behavior is what this rules out. A
    standing constraint that every inchstone must honor is stated once here,
    not as a numbered step.
-4. **Structural decisions with rationale**, when a choice is expensive to
+5. **Structural decisions with rationale**, when a choice is expensive to
    reverse or binds more than one inchstone. Argued in place, with the
-   losing alternative. When an Architecture doc exists, cite the current
-   structure and state only what this milestone changes. A milestone with
-   no such choice says nothing here.
-5. **Constraints carried forward**, when the PRD has any that bind this
+   losing alternative, each opening in plain English (`SKILL.md`,
+   "Explain before you specify"). When an Architecture doc exists, cite
+   the current structure and state only what this milestone changes. A
+   milestone with no such choice says nothing here.
+6. **Constraints carried forward**, when the PRD has any that bind this
    milestone, or the milestone adds one (proof methods, no one-way doors).
    Restated as they bind this milestone; never manufactured.
-6. **Exit criteria**, when done means more than every inchstone accepted:
+7. **Exit criteria**, when done means more than every inchstone accepted:
    an integrative proof across inchstones, or an experiment's reading (what
    outcome confirms, revises, or kills the requirement it tests).
    Observable, few, with the proof method for each that cannot be observed
@@ -106,6 +112,7 @@ section named for it.
 |---|---|
 | Header block: status, date with running changelog, author, source PRD | Always |
 | Scope thesis | Always |
+| In plain terms | Always |
 | In scope, by requirement | Always |
 | Out of scope | The PRD holds requirements this milestone does not fully ship |
 | Structural decisions | A choice is expensive to reverse or binds more than one inchstone; may live inside In scope when few |
@@ -138,7 +145,8 @@ section named for it.
 
 Small work sometimes skips a standalone design and goes straight to a spec.
 The design rung still exists; it just shares a file. Give the spec a
-labeled design part carrying the scope thesis, in/out with destinations,
+labeled design part carrying the scope thesis, a short plain-terms
+account, in/out with destinations,
 and any structural decision with its losing alternative, then the
 behavioral part per `inchstone-spec.md`. Keep the parts distinct: the
 design part forecloses options, the spec part states what must be true.
@@ -180,6 +188,11 @@ changelog carries the history.
   decision; a field list is a spec's implementation input.
 - **Structure without a reason.** A mechanism recorded without its losing
   alternative gets reopened by the first spec that finds it inconvenient.
+- **A decision told in the code's vocabulary.** One that names
+  functions, error kinds, and flags before saying what changes for whom
+  can be judged only with the code open. Reviewers then check the
+  mechanism and miss whether the decision is right. Lead in plain
+  words; put the code names after, as pointers.
 - **Deferral without destination.**
 - **Inchstones that are tasks.** "Add the endpoint" is a task; "Capture:
   upload API and bookmarklet end to end against live data" is an inchstone.
