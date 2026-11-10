@@ -69,7 +69,7 @@
       "name": "avoid-ai-tells",
       "source": "./avoid-ai-tells",
       "description": "Injects writing style guidance at session start to avoid common AI writing patterns",
-      "version": "0.1.2",
+      "version": "0.1.3",
       "category": "writing",
       "tags": ["writing", "style", "ai-tells", "communication"]
     },

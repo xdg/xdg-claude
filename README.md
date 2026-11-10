@@ -43,7 +43,7 @@ Foundational plugins that shape how Claude operates across all other skills and 
 
 | Plugin | Description |
 |--------|-------------|
-| [**avoid-ai-tells**](avoid-ai-tells/README.md) | Writing style guidance to avoid common AI patterns: em-dashes, puffery, uniform cadence, banned vocabulary |
+| [**avoid-ai-tells**](avoid-ai-tells/README.md) | Writing style guidance to avoid common AI patterns: staged reveals, puffery, unearned certainty, over-compression, em-dashes, banned vocabulary |
 | [**coding-best-practices**](coding-best-practices/README.md) | Coding best practices from *Philosophy of Software Design*, *The Art of Readable Code*, and other tips |
 | [**elements-of-style**](elements-of-style/README.md) | Writing style guidance from *The Elements of Style* |
 | [**pithy-communication**](pithy-communication/README.md) | Pithy communication style guidance for high signal-to-noise ratio output |

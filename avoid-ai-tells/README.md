@@ -6,10 +6,16 @@ A Claude Code plugin that injects writing-style guidance at session start to sup
 
 On `SessionStart`, the plugin's hook reads `hooks/references/writing-style.md` and injects it as `additionalContext`. The guidance covers:
 
+- A general test: state the finding instead of staging its arrival
 - Punctuation rules (no em-dashes, sparing bolding)
-- Constructions to avoid (antithetical reframes, "from X to Y" sweeps, importance puffery, uniform cadence)
+- Constructions to avoid (contrastive reframes, closing slogans, "from X to Y" sweeps, importance puffery, uniform cadence)
+- Header rules (plain labels, no verdicts or teasers)
+- Certainty that lacks evidence (adverbs, compounds, and universal negatives standing in for proof)
+- Over-compression (noun stacks, ad-hoc verbed nouns, dropped "that")
 - A vocabulary minimization list (delve, tapestry, robust, leverage, seamless, etc.)
 - A topic-swap test for cutting empty paragraphs
+
+The guidance names mechanisms, not model-specific phrases, so it applies across models and versions. Several mechanisms are adapted from [declauding](https://github.com/oaustegard/claude-skills/tree/main/declauding).
 
 The plugin ships no skills or agents. It is style-guidance only.
 
