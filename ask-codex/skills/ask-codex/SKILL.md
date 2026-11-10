@@ -1,6 +1,6 @@
 ---
 name: ask-codex
-description: Consult OpenAI Codex (headless `codex exec`) for an independent review of a design doc, spec, plan, PRD, decision, diff, or piece of code, then reconcile its findings with your own view. Use ONLY when the user explicitly names codex (e.g. "ask codex", "what would codex say", "have codex review this"). 
+description: Consult OpenAI Codex (headless `codex exec`) for an independent review of a design doc, spec, plan, PRD, decision, diff, or piece of code, then reconcile its findings with your own view. Use ONLY when the user explicitly names codex (e.g. "ask codex", "what would codex say", "have codex review this").
 ---
 
 # Ask Codex
@@ -73,11 +73,15 @@ Codex starts cold. The prompt is the whole briefing. Include:
    point to a doc (`docs/PRD.md`) rather than paraphrasing a long one.
 4. **The specific questions.** Generic "review this" gets generic output.
    Ask what you actually are unsure about, and for the artifact type:
-   - Design doc / spec: missing requirements, internal contradictions,
-     unstated assumptions, simpler alternatives, failure modes at scale,
-     what will be hard to change later.
+   - Design doc / spec / PRD: missing requirements, internal
+     contradictions, unstated assumptions, simpler alternatives, failure
+     modes at scale, what will be hard to change later. Also ask whether
+     someone who knows the document above it, but not the code, could
+     follow each decision and judge it right or wrong, and whether its
+     claims about the existing code are true (run with `-C` on the repo).
    - Plan: wrong ordering, hidden dependencies, steps that will be much
-     bigger than they look, missing verification.
+     bigger than they look, missing verification, claims about existing
+     code that the code contradicts.
    - Code / diff: correctness bugs, edge cases, concurrency, security,
      whether the change matches the stated intent, tests that are missing.
 5. **Output shape.** Ask for a ranked list of findings, each with severity,
@@ -102,6 +106,9 @@ Questions:
 1. Does the aggregation design bound memory as the collection grows?
 2. Are there race conditions between the background job and live writes?
 3. What is the simplest design that meets FR-9 and FR-10, if not this one?
+4. Could someone who knows the PRD but not the code follow each
+   decision and judge it? Quote any that only make sense with the code
+   open. Flag any claim about the current code that the repo contradicts.
 
 Output: up to 8 findings ranked by severity. For each: severity, section,
 problem, concrete suggestion, confidence (high/med/low). Mark each as

@@ -1,6 +1,6 @@
 {
   "name": "ask-codex",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Consult OpenAI Codex headlessly for an independent review of a doc, plan, diff, or code, then reconcile its findings with Claude's own view",
   "author": {
     "name": "David Golden",
