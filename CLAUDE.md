@@ -40,3 +40,9 @@ These rules govern work in this repo regardless of which plugin you touch:
    or alters a plugin's skills, agents, hooks, or behavior, update that
    plugin's own `README.md` in the same pass. Treat the README as part of the
    change, not a follow-up.
+
+6. **Run a plugin's evals when you bump its version.** If the plugin has an
+   `evals/` suite, run `make eval-<plugin>` before committing the bump, without
+   asking first. Do not run suites on other edits. Run cost is not a concern
+   (flat plan); do not trim runs, cases, or LLM graders to save money. Details:
+   `docs/evals.md`.

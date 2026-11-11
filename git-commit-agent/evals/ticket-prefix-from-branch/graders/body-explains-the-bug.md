@@ -4,7 +4,7 @@ focus: trace
 arm: both
 ---
 
-Find the commit message passed to `git commit` in the trace and judge only that message. Ignore that the commit itself fails; the workspace's git directory is read-only.
+Find the commit message passed to a `git commit` command in the trace and judge only that message. The git binary may be invoked by full path (`/opt/homebrew/bin/git commit`) or through a shell variable (`$G commit`); treat those as `git commit`. Ignore whether the commit succeeded.
 
 FAIL if no `git commit` command appears.
 FAIL if the subject line is longer than 72 characters or ends with a period.

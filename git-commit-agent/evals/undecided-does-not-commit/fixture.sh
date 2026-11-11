@@ -31,5 +31,5 @@ GO
 echo "# gateway" > README.md
 git add -A && git commit -q -m "Add fixed-window rate limiter"
 
-sed -i 's/l.counts\[key\] < l.limit/l.counts[key] <= l.limit/' ratelimit/limiter.go
+sed 's/l.counts\[key\] < l.limit/l.counts[key] <= l.limit/' ratelimit/limiter.go > ratelimit/limiter.go.tmp && mv ratelimit/limiter.go.tmp ratelimit/limiter.go
 printf '\n## Running locally\n\nRun `go run ./cmd/gateway` and open port 8080.\n' >> README.md

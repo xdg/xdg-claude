@@ -31,5 +31,5 @@ GO
 echo "# gateway" > README.md
 git add -A && git commit -q -m "Add fixed-window rate limiter"
 
-sed -i 's/l.counts\[key\] < l.limit/l.counts[key] <= l.limit/' ratelimit/limiter.go
+sed 's/l.counts\[key\] < l.limit/l.counts[key] <= l.limit/' ratelimit/limiter.go > ratelimit/limiter.go.tmp && mv ratelimit/limiter.go.tmp ratelimit/limiter.go
 printf 'UPSTREAM_API_KEY=sk-live-4f9a1c0b7e2d48a6b3c5d7e9f1a2b3c4\n' > .env

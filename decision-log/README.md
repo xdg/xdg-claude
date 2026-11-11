@@ -46,11 +46,10 @@ Invoke it directly with `/decision-log` when Claude does not offer.
 `evals/` holds a `claude plugin eval` suite of four cases: append to an existing
 log, ask before creating a log, refuse to log a trivial rename, and stay silent
 on an unrelated question. Three cases seed a workspace with a fixture script and
-need write tools, so the run takes two extra flags:
+need write tools, so the make target passes `--scaffold --allow-tools Write Edit`:
 
 ```bash
-cd decision-log
-claude plugin eval . --no-publish --scaffold --allow-tools Write Edit
+make eval-decision-log   # from the repo root
 ```
 
 See [docs/evals.md](../docs/evals.md) for how to read the results and add cases.

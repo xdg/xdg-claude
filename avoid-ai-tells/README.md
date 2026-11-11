@@ -27,8 +27,7 @@ stock vocabulary list) and a short LLM rubric (contrastive reframes, significanc
 labels, closing slogans, verdict headers).
 
 ```bash
-cd avoid-ai-tells
-claude plugin eval . --no-publish
+make eval-avoid-ai-tells   # from the repo root
 ```
 
 See [docs/evals.md](../docs/evals.md) for how to read the results and add cases.

@@ -41,4 +41,4 @@ GO
 git add -A && git commit -q -m "JIRA-1187 feat: add limiter reset"
 
 git checkout -q -b jira-1234-limiter-off-by-one
-sed -i 's/l.counts\[key\] < l.limit/l.counts[key] <= l.limit/' ratelimit/limiter.go
+sed 's/l.counts\[key\] < l.limit/l.counts[key] <= l.limit/' ratelimit/limiter.go > ratelimit/limiter.go.tmp && mv ratelimit/limiter.go.tmp ratelimit/limiter.go

@@ -17,18 +17,20 @@ The plugin follows the standard three-piece form:
 `evals/` holds a `claude plugin eval` suite of three cases: derive a
 `JIRA-<n> <type>:` subject from history and the branch name, keep an untracked
 `.env` out of the index, and hold off committing while the user is still
-deciding. Each case seeds a git repo with a fixture script and needs Bash:
+deciding. Each case seeds a git repo with a fixture script and needs Bash,
+which the make target grants:
 
 ```bash
-cd git-commit-agent
-claude plugin eval . --no-publish --scaffold --allow-tools Bash
+make eval-git-commit-agent   # from the repo root
 ```
 
-The eval sandbox mounts the workspace's git directory read-only, so no commit
-lands. The graders check the `git add` and `git commit` commands the agent
-issues, which carry the staging choice and the full message. Behavior that
-depends on a commit succeeding (splitting into several commits, the HEAD guard)
-is not covered. Granting Bash requires `bubblewrap` and `socat` on Linux.
+The graders check the `git add` and `git commit` commands the agent issues,
+which carry the staging choice and the full message, rather than the resulting
+history: commits land on macOS but the git directory was read-only on Linux.
+Behavior that depends on a commit succeeding (splitting into several commits,
+the HEAD guard) is not covered. Granting Bash requires `bubblewrap` and `socat`
+on Linux. On macOS the suite needs Homebrew git at `/opt/homebrew/bin/git`,
+because the Xcode `/usr/bin/git` shim fails inside the eval sandbox.
 
 See [docs/evals.md](../docs/evals.md) for how to read the results and add cases.
 
