@@ -1,0 +1,4 @@
+schema_version: "1.1"
+name: before-read-targeted-question
+context:
+  scaffold_script: outline-fixture/seed-workspace.sh

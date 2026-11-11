@@ -17,24 +17,62 @@ The plugin ships no skills of its own. It is the prioritization layer; install w
 ## Evals
 
 `evals/` holds a `claude plugin eval` suite. The plugin only matters when other
-skills are installed, so each case loads a one-skill fixture plugin from its own
-directory. `soft-trigger` loads the fixture with this plugin;
-`soft-trigger-control` loads the fixture alone. The plugin's effect is the first
-score minus the second. `no-skill-applies` checks that the directive causes no
-spurious skill call.
+skills are installed, so every case loads a fixture plugin, and every case has a
+control twin that loads the same fixtures without this plugin. The plugin's
+effect on a case is its pass rate minus its control's.
 
 ```bash
-cd prioritize-skills
-claude plugin eval . --no-publish --ablation none --runs 10
+make eval-prioritize-skills   # from the repo root
 ```
 
-`--ablation none` turns off the built-in no-plugin arm, which would also remove
-the fixture skill and so measure nothing.
+The target runs three steps:
 
-As of 0.1.2 the suite shows no effect in the main conversation: both cases
-invoke the fixture skill in 10 of 10 runs. Two other probe prompts, where the
-fixture skill fit only loosely, scored 0 of 5 with and without the plugin. The
-SubagentStart path is untested.
+1. `evals/build-cases.sh` copies the fixture plugins from `evals/fixtures/` into
+   each case that lists them in `plugins:` and generates a `<case>-control` twin
+   of every case. Both are gitignored. A fixture must sit inside its case
+   directory, so the copies cannot be avoided.
+2. `claude plugin eval ./prioritize-skills --ablation none --scaffold --threshold 0`.
+   `--ablation none` turns off the built-in no-plugin arm, which would also
+   remove the fixture skills. Controls fail the canary grader by design, so the
+   suite measures an effect and does not gate on a threshold.
+3. `evals/pair-deltas.sh` prints each grader's pass rate with the plugin, in the
+   control, and the difference.
+
+### Cases
+
+| Cases | Fixtures | Question |
+|---|---|---|
+| `fit-1` to `fit-5` | `commit-messages` skill | How often is the skill invoked as the prompt moves from "write the commit message" to "describe that in Slack"? |
+| `crowded-fit-1` to `crowded-fit-5` | The same skill, 28 distractor skills, and 16 KB of rules injected at session start | The same ladder in a session that resembles a real one |
+| `before-read-explain-file`, `before-read-targeted-question` | `outline-file` skill and a seeded Go repo | Is the skill consulted before the first `Read`? Graded with `tool_order`. |
+| `no-skill-applies` | `commit-messages` skill | Does the directive cause a spurious skill call on `17 * 23`? |
+
+`fit-2-one-line-summary` also carries two canary graders. `directive-in-trace`
+passes when the hook's output appears in the trace; it must score 10/10 with the
+plugin and 0/10 in the control, or the hook is not firing and no other number
+means anything. `announces-skill` checks for the "Using [skill] to [purpose]"
+line the directive asks for.
+
+### Results for 0.1.3 on claude-opus-5-5
+
+| Case | With | Control | Δ |
+|---|---|---|---|
+| `fit-1`, `fit-2` (both sessions) | 10/10 | 10/10 | 0 |
+| `fit-3-pr-title` | 50/50 | 43/50 | +0.14 |
+| `crowded-fit-3-pr-title` | 49/50 | 9/50 | +0.80 |
+| `fit-4`, `fit-5` (both sessions) | 0/10 | 0/10 | 0 |
+| `before-read-targeted-question` | 10/10 | 0/10 | +1.00 |
+| `before-read-explain-file` | 10/10 | 9/10 | +0.10 |
+| `no-skill-applies` | 10/10 clean | 10/10 clean | 0 |
+
+The directive has no effect where the skill plainly fits or plainly does not.
+It has a large effect on a borderline prompt in a crowded session, where the
+baseline drops from 86% to 18%, and on a narrow question about a file, where
+the baseline never consults the skill and reads the file directly.
+`announces-skill` scored 0/10: the model invokes the skill without announcing it.
+
+Not covered: the SubagentStart path, false positives on prompts that share a
+skill's vocabulary, and any model other than the default.
 
 See [docs/evals.md](../docs/evals.md) for how to read the results and add cases.
 

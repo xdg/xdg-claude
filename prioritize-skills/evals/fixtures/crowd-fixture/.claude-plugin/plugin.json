@@ -1,0 +1,5 @@
+{
+  "name": "crowd-fixture",
+  "version": "0.0.1",
+  "description": "Eval fixture: 28 distractor skills and a SessionStart rules injection, to imitate a session with many plugins installed."
+}

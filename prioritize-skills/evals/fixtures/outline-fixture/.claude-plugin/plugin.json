@@ -1,0 +1,5 @@
+{
+  "name": "outline-fixture",
+  "version": "0.0.1",
+  "description": "Eval fixture: one skill meant to be consulted before reading a file, used to measure whether prioritize-skills makes Claude check skills before acting."
+}
