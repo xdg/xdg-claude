@@ -176,6 +176,14 @@
       "version": "0.1.1",
       "category": "development",
       "tags": ["codex", "review", "second-opinion", "openai"]
+    },
+    {
+      "name": "ask-opencode",
+      "source": "./ask-opencode",
+      "description": "Consult any opencode-configured model headlessly for an independent review of a doc, plan, diff, or code, resolving short model names like 'astra', then reconcile its findings with Claude's own view",
+      "version": "0.1.0",
+      "category": "development",
+      "tags": ["opencode", "review", "second-opinion", "multi-model"]
     }
   ]
 }

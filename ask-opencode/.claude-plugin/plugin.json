@@ -1,0 +1,9 @@
+{
+  "name": "ask-opencode",
+  "version": "0.1.0",
+  "description": "Consult any opencode-configured model headlessly for an independent review of a doc, plan, diff, or code, resolving short model names like 'astra', then reconcile its findings with Claude's own view",
+  "author": {
+    "name": "David Golden",
+    "email": "xdg@xdg.me"
+  }
+}
